@@ -52,7 +52,7 @@ namespace IAFollowUp
 
             byte[] HashPass = Encrypt(txtNewPassword.Text);
 
-            if (LastThreePasswords.Exists(i => i.Pass == HashPass))//LastThreePasswords
+            if (LastThreePasswords.Exists(i => i.Pass.SequenceEqual(HashPass)))//LastThreePasswords
             {
                 MessageBox.Show("New Password must be different than your last 3 passwords!");
                 return;

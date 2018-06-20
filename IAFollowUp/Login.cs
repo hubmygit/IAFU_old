@@ -325,7 +325,7 @@ namespace IAFollowUp
                     {
                         Id = Convert.ToInt32(reader["Id"].ToString()),
                         UsersId = Convert.ToInt32(reader["UsersId"].ToString()),
-                        Password = reader["Password"].ToString(),
+                        //Password = reader["Password"].ToString(),
                         Pass = (byte[])reader["Password"],
                         PassUpdDate = Convert.ToDateTime(reader["PassUpdDate"].ToString()),
                         IsCurrent = Convert.ToBoolean(reader["IsCurrent"].ToString())
@@ -383,7 +383,7 @@ namespace IAFollowUp
     {
         public int Id { get; set; }
         public int UsersId { get; set; }
-        public string Password { get; set; }
+        //public string Password { get; set; }
         public byte[] Pass { get; set; }
         public DateTime PassUpdDate { get; set; }
         public bool IsCurrent { get; set; }
