@@ -31,16 +31,6 @@ namespace IAFollowUp
         public Role role = new Role();
         UserAuthorization UserAuth = new UserAuthorization();
 
-        private void testToolStripMenuItem_Click(object sender, EventArgs e)
-        {
-            MessageBox.Show("auditorsToolStripMenuItem");
-        }
-
-        private void testToolStripMenuItem1_Click(object sender, EventArgs e)
-        {
-            MessageBox.Show("auditeesToolStripMenuItem");
-        }
-
         private void changePasswordToolStripMenuItem_Click(object sender, EventArgs e)
         {
             ChangePassword frmChangePass = new ChangePassword(user);
@@ -50,6 +40,13 @@ namespace IAFollowUp
             {
                 return;
             }
+        }
+
+        private void auditViewToolStripMenuItem_Click(object sender, EventArgs e)
+        {
+            Auditor_AuditView frmAuditorAuditView = new Auditor_AuditView();
+            frmAuditorAuditView.ShowDialog();
+
         }
     }
 

@@ -31,6 +31,8 @@ namespace IAFollowUp
 
         private void btnLogin_Click(object sender, EventArgs e)
         {
+            RunOn_TxtUserName_Leave();
+
             if (UserInfo.checkPassword(txtUserName.Text, txtPassword.Text))
             {
                 UserInfo.roleDetails = UserInfo.get_roleDetails(UserInfo.userDetails.RolesId);
@@ -74,9 +76,31 @@ namespace IAFollowUp
 
         private void txtUserName_Leave(object sender, EventArgs e)
         {
-            UserInfo.userDetails = UserInfo.get_userDetails(txtUserName.Text);
+            //UserInfo.userDetails = UserInfo.get_userDetails(txtUserName.Text);
 
-            if (UserInfo.userDetails.FullName == "")
+            //if (UserInfo.userDetails.FullName == "")
+            //{
+            //    lblFullName.Text = "";
+            //    toolStripMess.ForeColor = Color.Red;
+            //    toolStripMess.Text = "Not authorized user!";
+
+            //    UserInfo.IsAuthorized = false;
+            //}
+            //else
+            //{
+            //    lblFullName.Text = UserInfo.userDetails.FullName;
+            //    toolStripMess.Text = "";
+
+            //    UserInfo.IsAuthorized = true;
+            //}
+            RunOn_TxtUserName_Leave();
+        }
+
+        private void RunOn_TxtUserName_Leave()
+        {
+           UserInfo.userDetails = UserInfo.get_userDetails(txtUserName.Text);
+
+            if (UserInfo.userDetails.FullName is null || UserInfo.userDetails.FullName == "")
             {
                 lblFullName.Text = "";
                 toolStripMess.ForeColor = Color.Red;
@@ -92,8 +116,6 @@ namespace IAFollowUp
                 UserInfo.IsAuthorized = true;
             }
         }
-
-        
     }
 
     public static class UserInfo
@@ -117,13 +139,13 @@ namespace IAFollowUp
             {
                 WindowsUser = Environment.UserName;
 
-                EmailAddress = UserPrincipal.Current.EmailAddress;
+                //EmailAddress = UserPrincipal.Current.EmailAddress;
                 if (EmailAddress == null) //if domain infos not found
                 {
                     EmailAddress = "";
                 }
 
-                userDetails.FullName = UserPrincipal.Current.DisplayName;
+                //userDetails.FullName = UserPrincipal.Current.DisplayName;
                 if (userDetails.FullName == null) //if domain infos not found
                 {
                     userDetails.FullName = "";

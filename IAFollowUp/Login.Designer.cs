@@ -68,6 +68,7 @@
             this.txtPassword.PasswordChar = '*';
             this.txtPassword.Size = new System.Drawing.Size(164, 22);
             this.txtPassword.TabIndex = 2;
+            this.txtPassword.Text = "12345QWERTY!";
             // 
             // btnLogin
             // 
@@ -87,6 +88,7 @@
             this.txtUserName.Name = "txtUserName";
             this.txtUserName.Size = new System.Drawing.Size(164, 22);
             this.txtUserName.TabIndex = 1;
+            this.txtUserName.Text = "hkylidis";
             this.txtUserName.Leave += new System.EventHandler(this.txtUserName_Leave);
             // 
             // lblFullName
@@ -102,7 +104,7 @@
             // 
             this.statusStrip1.Items.AddRange(new System.Windows.Forms.ToolStripItem[] {
             this.toolStripMess});
-            this.statusStrip1.Location = new System.Drawing.Point(0, 198);
+            this.statusStrip1.Location = new System.Drawing.Point(0, 200);
             this.statusStrip1.Name = "statusStrip1";
             this.statusStrip1.Size = new System.Drawing.Size(414, 22);
             this.statusStrip1.TabIndex = 10;
@@ -119,7 +121,7 @@
             this.AcceptButton = this.btnLogin;
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
-            this.ClientSize = new System.Drawing.Size(414, 220);
+            this.ClientSize = new System.Drawing.Size(414, 222);
             this.Controls.Add(this.statusStrip1);
             this.Controls.Add(this.lblFullName);
             this.Controls.Add(this.txtUserName);
@@ -128,6 +130,8 @@
             this.Controls.Add(this.lblPassword);
             this.Controls.Add(this.lblUserName);
             this.Icon = ((System.Drawing.Icon)(resources.GetObject("$this.Icon")));
+            this.MaximumSize = new System.Drawing.Size(430, 260);
+            this.MinimumSize = new System.Drawing.Size(430, 260);
             this.Name = "Login";
             this.StartPosition = System.Windows.Forms.FormStartPosition.CenterScreen;
             this.Text = "IA Follow Up Application";
