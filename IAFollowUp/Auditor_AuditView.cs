@@ -16,6 +16,15 @@ namespace IAFollowUp
         {
             InitializeComponent();
 
+            //string hex = "2AB26A9EBDBA39AAE9D1A5C1EA8203228CDC7E4DA8C4A1A85DE3ABC1B64DEEAA03BD9566FE4771D1E36BE15CB14027B19F93A49788B734BB89C08DEDC5CC2264";
+            //byte[] test = Enumerable.Range(0, hex.Length)
+            //         .Where(x => x % 2 == 0)
+            //         .Select(x => Convert.ToByte(hex.Substring(x, 2), 16))
+            //         .ToArray();
+
+            //byte[] data = System.Text.Encoding.ASCII.GetBytes("QWERTY12345!");
+            //data = new System.Security.Cryptography.SHA256Managed().ComputeHash(data);
+            //String hash = System.Text.Encoding.ASCII.GetString(data);
 
             auditList = SelectAudit();
         }
@@ -89,9 +98,9 @@ namespace IAFollowUp
                 dgvDictList.Add(new dgvDictionary() { dbfield = thisRecord.AuditType.Name, dgvColumnHeader = "AuditType" });
                 dgvDictList.Add(new dgvDictionary() { dbfield = thisRecord.Title, dgvColumnHeader = "Title" });
                 dgvDictList.Add(new dgvDictionary() { dbfield = thisRecord.ReportDt.ToString("dd.MM.yyyy"), dgvColumnHeader = "ReportDt" });
-                dgvDictList.Add(new dgvDictionary() { dbfield = thisRecord.Auditor1.UserName, dgvColumnHeader = "Auditor1" });
-                dgvDictList.Add(new dgvDictionary() { dbfield = thisRecord.Auditor2.UserName, dgvColumnHeader = "Auditor2" });
-                dgvDictList.Add(new dgvDictionary() { dbfield = thisRecord.Supervisor.UserName, dgvColumnHeader = "Supervisor" });
+                dgvDictList.Add(new dgvDictionary() { dbfield = thisRecord.Auditor1.FullName, dgvColumnHeader = "Auditor1" });
+                dgvDictList.Add(new dgvDictionary() { dbfield = thisRecord.Auditor2.FullName, dgvColumnHeader = "Auditor2" });
+                dgvDictList.Add(new dgvDictionary() { dbfield = thisRecord.Supervisor.FullName, dgvColumnHeader = "Supervisor" });
                 dgvDictList.Add(new dgvDictionary() { dbfield = thisRecord.IsCompleted, dgvColumnHeader = "IsCompleted" });
                 dgvDictList.Add(new dgvDictionary() { dbfield = thisRecord.AuditNumber, dgvColumnHeader = "AuditNumber" });
                 dgvDictList.Add(new dgvDictionary() { dbfield = thisRecord.IASentNumber, dgvColumnHeader = "IASentNumber" });
@@ -158,6 +167,9 @@ namespace IAFollowUp
         public string Name { get; set; }
         public string NameShort { get; set; }
 
+        public Companies()
+        {
+        }
         public Companies(int Id)
         {
             SqlConnection sqlConn = new SqlConnection(SqlDBInfo.connectionString);
@@ -182,13 +194,60 @@ namespace IAFollowUp
                 MessageBox.Show("The following error occurred: " + ex.Message);
             }
         }
+
+        public static List<Companies> GetSqlCompaniesList()
+        {
+            List<Companies> ret = new List<Companies>();
+
+            SqlConnection sqlConn = new SqlConnection(SqlDBInfo.connectionString);
+            string SelectSt = "SELECT [Id], [Name], [NameShort] " +
+                              "FROM [dbo].[Companies] ";
+            SqlCommand cmd = new SqlCommand(SelectSt, sqlConn);
+            try
+            {
+                sqlConn.Open();
+                SqlDataReader reader = cmd.ExecuteReader();
+                while (reader.Read())
+                {
+                    ret.Add(new Companies() { Id = Convert.ToInt32(reader["Id"].ToString()), Name = reader["Name"].ToString(), NameShort = reader["NameShort"].ToString()});
+                }
+                reader.Close();
+                sqlConn.Close();
+            }
+            catch (Exception ex)
+            {
+                MessageBox.Show("The following error occurred: " + ex.Message);
+            }
+
+            return ret;
+        }
+
+
+        public static List<ComboboxItem> GetCompaniesComboboxItemsList(List<Companies> Companies)
+        {
+            List<ComboboxItem> ret = new List<ComboboxItem>();
+
+            foreach (Companies c in Companies)
+            {
+                ret.Add(new ComboboxItem() { Value = c, Text = c.Name });
+            }
+
+            return ret;
+        }
+
+
     }
+
 
     public class AuditTypes
     {
         public int Id { get; set; }
         public string Name { get; set; }
         public string NameShort { get; set; }
+
+        public AuditTypes()
+        {
+        }
 
         public AuditTypes(int Id)
         {
@@ -214,13 +273,55 @@ namespace IAFollowUp
                 MessageBox.Show("The following error occurred: " + ex.Message);
             }
         }
+        public static List<AuditTypes> GetSqlAuditTypesList()
+        {
+            List<AuditTypes> ret = new List<AuditTypes>();
+
+            SqlConnection sqlConn = new SqlConnection(SqlDBInfo.connectionString);
+            string SelectSt = "SELECT [Id], [Name], [NameShort] " +
+                              "FROM [dbo].[AuditTypes] ";
+            SqlCommand cmd = new SqlCommand(SelectSt, sqlConn);
+            try
+            {
+                sqlConn.Open();
+                SqlDataReader reader = cmd.ExecuteReader();
+                while (reader.Read())
+                {
+                    ret.Add(new AuditTypes() { Id = Convert.ToInt32(reader["Id"].ToString()), Name = reader["Name"].ToString(), NameShort = reader["NameShort"].ToString() });
+                }
+                reader.Close();
+                sqlConn.Close();
+            }
+            catch (Exception ex)
+            {
+                MessageBox.Show("The following error occurred: " + ex.Message);
+            }
+
+            return ret;
+        }
+
+        public static List<ComboboxItem> GetAuditTypesComboboxItemsList(List<AuditTypes> AuditTypes)
+        {
+            List<ComboboxItem> ret = new List<ComboboxItem>();
+
+            foreach (AuditTypes c in AuditTypes)
+            {
+                ret.Add(new ComboboxItem() { Value = c, Text = c.Name });
+            }
+
+            return ret;
+        }
+
     }
 
     public class Users
     {
         public int Id { get; set; }
-        public string UserName { get; set; }
+        public string FullName { get; set; }
 
+        public Users()
+        {
+        }
         public Users(int Id)
         {
             SqlConnection sqlConn = new SqlConnection(SqlDBInfo.connectionString);
@@ -238,7 +339,7 @@ namespace IAFollowUp
                 while (reader.Read())
                 {
                     Id = Convert.ToInt32(reader["Id"].ToString());
-                    UserName = reader["FullName"].ToString();
+                    FullName = reader["FullName"].ToString();
                 }
                 reader.Close();
             }
@@ -246,6 +347,45 @@ namespace IAFollowUp
             {
                 MessageBox.Show("The following error occurred: " + ex.Message);
             }
+        }
+        public static List<Users> GetSqlUsersList()
+        {
+            List<Users> ret = new List<Users>();
+
+            SqlConnection sqlConn = new SqlConnection(SqlDBInfo.connectionString);
+            string SelectSt = "SELECT [Id], CONVERT(varchar, DECRYPTBYPASSPHRASE( @passPhrase , [FullName])) as FullName " +
+                              "FROM [dbo].[Users] ";
+            SqlCommand cmd = new SqlCommand(SelectSt, sqlConn);
+            try
+            {
+                sqlConn.Open();
+                cmd.Parameters.AddWithValue("@passPhrase", SqlDBInfo.passPhrase);
+                SqlDataReader reader = cmd.ExecuteReader();
+                while (reader.Read())
+                {
+                    ret.Add(new Users() { Id = Convert.ToInt32(reader["Id"].ToString()), FullName = reader["FullName"].ToString()});
+                }
+                reader.Close();
+                sqlConn.Close();
+            }
+            catch (Exception ex)
+            {
+                MessageBox.Show("The following error occurred: " + ex.Message);
+            }
+
+            return ret;
+        }
+
+        public static List<ComboboxItem> GetUsersComboboxItemsList(List<Users> Users)
+        {
+            List<ComboboxItem> ret = new List<ComboboxItem>();
+
+            foreach (Users c in Users)
+            {
+                ret.Add(new ComboboxItem() { Value = c, Text = c.FullName });
+            }
+
+            return ret;
         }
     }
 

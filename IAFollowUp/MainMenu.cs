@@ -48,6 +48,12 @@ namespace IAFollowUp
             frmAuditorAuditView.ShowDialog();
 
         }
+
+        private void insertNewAuditToolStripMenuItem_Click(object sender, EventArgs e)
+        {
+            InsertNewAudit frmInsertNewAudit = new InsertNewAudit();
+            frmInsertNewAudit.ShowDialog();
+        }
     }
 
     public class UserAuthorization
