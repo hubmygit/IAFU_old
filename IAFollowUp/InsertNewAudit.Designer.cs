@@ -38,7 +38,7 @@
             this.cbAuditTypes = new System.Windows.Forms.ComboBox();
             this.txtIASentNumber = new System.Windows.Forms.TextBox();
             this.lblIASentNumber = new System.Windows.Forms.Label();
-            this.textBox1 = new System.Windows.Forms.TextBox();
+            this.txtTitle = new System.Windows.Forms.TextBox();
             this.lblTitle = new System.Windows.Forms.Label();
             this.lblReportDate = new System.Windows.Forms.Label();
             this.dtpReportDate = new System.Windows.Forms.DateTimePicker();
@@ -62,8 +62,8 @@
             this.dtpYear.Location = new System.Drawing.Point(144, 115);
             this.dtpYear.Name = "dtpYear";
             this.dtpYear.ShowUpDown = true;
-            this.dtpYear.Size = new System.Drawing.Size(63, 22);
-            this.dtpYear.TabIndex = 1;
+            this.dtpYear.Size = new System.Drawing.Size(184, 22);
+            this.dtpYear.TabIndex = 2;
             // 
             // lblCompany
             // 
@@ -101,8 +101,8 @@
             this.txtAuditNumber.Location = new System.Drawing.Point(144, 226);
             this.txtAuditNumber.MaxLength = 3;
             this.txtAuditNumber.Name = "txtAuditNumber";
-            this.txtAuditNumber.Size = new System.Drawing.Size(144, 22);
-            this.txtAuditNumber.TabIndex = 5;
+            this.txtAuditNumber.Size = new System.Drawing.Size(184, 22);
+            this.txtAuditNumber.TabIndex = 4;
             // 
             // lblAuditType
             // 
@@ -122,7 +122,7 @@
             this.cbAuditTypes.Location = new System.Drawing.Point(144, 286);
             this.cbAuditTypes.Name = "cbAuditTypes";
             this.cbAuditTypes.Size = new System.Drawing.Size(184, 24);
-            this.cbAuditTypes.TabIndex = 7;
+            this.cbAuditTypes.TabIndex = 5;
             // 
             // txtIASentNumber
             // 
@@ -130,8 +130,8 @@
             this.txtIASentNumber.Location = new System.Drawing.Point(144, 341);
             this.txtIASentNumber.MaxLength = 3;
             this.txtIASentNumber.Name = "txtIASentNumber";
-            this.txtIASentNumber.Size = new System.Drawing.Size(144, 22);
-            this.txtIASentNumber.TabIndex = 9;
+            this.txtIASentNumber.Size = new System.Drawing.Size(184, 22);
+            this.txtIASentNumber.TabIndex = 6;
             // 
             // lblIASentNumber
             // 
@@ -143,14 +143,14 @@
             this.lblIASentNumber.TabIndex = 8;
             this.lblIASentNumber.Text = "IA Sent Number";
             // 
-            // textBox1
+            // txtTitle
             // 
-            this.textBox1.Font = new System.Drawing.Font("Microsoft Sans Serif", 12F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(161)));
-            this.textBox1.Location = new System.Drawing.Point(205, 33);
-            this.textBox1.MaxLength = 500;
-            this.textBox1.Name = "textBox1";
-            this.textBox1.Size = new System.Drawing.Size(468, 26);
-            this.textBox1.TabIndex = 11;
+            this.txtTitle.Font = new System.Drawing.Font("Microsoft Sans Serif", 12F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(161)));
+            this.txtTitle.Location = new System.Drawing.Point(205, 33);
+            this.txtTitle.MaxLength = 500;
+            this.txtTitle.Name = "txtTitle";
+            this.txtTitle.Size = new System.Drawing.Size(468, 26);
+            this.txtTitle.TabIndex = 1;
             // 
             // lblTitle
             // 
@@ -180,8 +180,8 @@
             this.dtpReportDate.Format = System.Windows.Forms.DateTimePickerFormat.Custom;
             this.dtpReportDate.Location = new System.Drawing.Point(529, 115);
             this.dtpReportDate.Name = "dtpReportDate";
-            this.dtpReportDate.Size = new System.Drawing.Size(200, 22);
-            this.dtpReportDate.TabIndex = 13;
+            this.dtpReportDate.Size = new System.Drawing.Size(184, 22);
+            this.dtpReportDate.TabIndex = 7;
             // 
             // lblYear
             // 
@@ -211,7 +211,7 @@
             this.cbAuditor1.Location = new System.Drawing.Point(529, 163);
             this.cbAuditor1.Name = "cbAuditor1";
             this.cbAuditor1.Size = new System.Drawing.Size(184, 24);
-            this.cbAuditor1.TabIndex = 15;
+            this.cbAuditor1.TabIndex = 8;
             // 
             // lblAuditor2
             // 
@@ -231,7 +231,7 @@
             this.cbAuditor2.Location = new System.Drawing.Point(529, 226);
             this.cbAuditor2.Name = "cbAuditor2";
             this.cbAuditor2.Size = new System.Drawing.Size(184, 24);
-            this.cbAuditor2.TabIndex = 17;
+            this.cbAuditor2.TabIndex = 9;
             // 
             // lblSupervisor
             // 
@@ -251,7 +251,7 @@
             this.cbSupervisor.Location = new System.Drawing.Point(529, 286);
             this.cbSupervisor.Name = "cbSupervisor";
             this.cbSupervisor.Size = new System.Drawing.Size(184, 24);
-            this.cbSupervisor.TabIndex = 19;
+            this.cbSupervisor.TabIndex = 10;
             // 
             // btnEraseAuditor2
             // 
@@ -288,9 +288,11 @@
             this.btnSave.Text = "Save";
             this.btnSave.TextAlign = System.Drawing.ContentAlignment.MiddleRight;
             this.btnSave.UseVisualStyleBackColor = true;
+            this.btnSave.Click += new System.EventHandler(this.btnSave_Click);
             // 
             // InsertNewAudit
             // 
+            this.AcceptButton = this.btnSave;
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
             this.ClientSize = new System.Drawing.Size(823, 508);
@@ -305,7 +307,7 @@
             this.Controls.Add(this.lblAuditor1);
             this.Controls.Add(this.dtpReportDate);
             this.Controls.Add(this.lblReportDate);
-            this.Controls.Add(this.textBox1);
+            this.Controls.Add(this.txtTitle);
             this.Controls.Add(this.lblTitle);
             this.Controls.Add(this.txtIASentNumber);
             this.Controls.Add(this.lblIASentNumber);
@@ -335,7 +337,7 @@
         private System.Windows.Forms.ComboBox cbAuditTypes;
         private System.Windows.Forms.TextBox txtIASentNumber;
         private System.Windows.Forms.Label lblIASentNumber;
-        private System.Windows.Forms.TextBox textBox1;
+        private System.Windows.Forms.TextBox txtTitle;
         private System.Windows.Forms.Label lblTitle;
         private System.Windows.Forms.Label lblReportDate;
         private System.Windows.Forms.DateTimePicker dtpReportDate;

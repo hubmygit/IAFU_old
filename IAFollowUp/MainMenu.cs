@@ -51,7 +51,7 @@ namespace IAFollowUp
 
         private void insertNewAuditToolStripMenuItem_Click(object sender, EventArgs e)
         {
-            InsertNewAudit frmInsertNewAudit = new InsertNewAudit();
+            InsertNewAudit frmInsertNewAudit = new InsertNewAudit(user);
             frmInsertNewAudit.ShowDialog();
         }
     }

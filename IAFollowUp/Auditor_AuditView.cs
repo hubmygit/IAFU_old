@@ -152,9 +152,9 @@ namespace IAFollowUp
         public DateTime ReportDt { get; set; }
         public int Auditor1ID { get; set; }
         public Users Auditor1 { get; set; }
-        public int Auditor2ID { get; set; }
+        public int? Auditor2ID { get; set; }
         public Users Auditor2 { get; set; }
-        public int SupervisorID { get; set; }
+        public int? SupervisorID { get; set; }
         public Users Supervisor { get; set; }
         public bool IsCompleted { get; set; }
         public string AuditNumber { get; set; }
