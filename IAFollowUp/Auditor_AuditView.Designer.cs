@@ -28,6 +28,7 @@
         /// </summary>
         private void InitializeComponent()
         {
+            this.components = new System.ComponentModel.Container();
             System.Windows.Forms.DataGridViewCellStyle dataGridViewCellStyle1 = new System.Windows.Forms.DataGridViewCellStyle();
             System.Windows.Forms.DataGridViewCellStyle dataGridViewCellStyle2 = new System.Windows.Forms.DataGridViewCellStyle();
             System.Windows.Forms.DataGridViewCellStyle dataGridViewCellStyle3 = new System.Windows.Forms.DataGridViewCellStyle();
@@ -45,7 +46,12 @@
             this.Auditor2 = new System.Windows.Forms.DataGridViewTextBoxColumn();
             this.Supervisor = new System.Windows.Forms.DataGridViewTextBoxColumn();
             this.IsCompleted = new System.Windows.Forms.DataGridViewCheckBoxColumn();
+            this.cmsOnGrid = new System.Windows.Forms.ContextMenuStrip(this.components);
+            this.MIupdate = new System.Windows.Forms.ToolStripMenuItem();
+            this.MIshowFindings = new System.Windows.Forms.ToolStripMenuItem();
+            this.MIattachments = new System.Windows.Forms.ToolStripMenuItem();
             ((System.ComponentModel.ISupportInitialize)(this.dgvAuditView)).BeginInit();
+            this.cmsOnGrid.SuspendLayout();
             this.SuspendLayout();
             // 
             // dgvAuditView
@@ -101,6 +107,8 @@
             this.dgvAuditView.SelectionMode = System.Windows.Forms.DataGridViewSelectionMode.FullRowSelect;
             this.dgvAuditView.Size = new System.Drawing.Size(1198, 549);
             this.dgvAuditView.TabIndex = 12;
+            this.dgvAuditView.CellMouseClick += new System.Windows.Forms.DataGridViewCellMouseEventHandler(this.dgvAuditView_CellMouseClick);
+            this.dgvAuditView.MouseDown += new System.Windows.Forms.MouseEventHandler(this.dgvAuditView_MouseDown);
             // 
             // Id
             // 
@@ -183,6 +191,37 @@
             this.IsCompleted.Resizable = System.Windows.Forms.DataGridViewTriState.True;
             this.IsCompleted.SortMode = System.Windows.Forms.DataGridViewColumnSortMode.Automatic;
             // 
+            // cmsOnGrid
+            // 
+            this.cmsOnGrid.Items.AddRange(new System.Windows.Forms.ToolStripItem[] {
+            this.MIupdate,
+            this.MIshowFindings,
+            this.MIattachments});
+            this.cmsOnGrid.Name = "cmsOnGrid";
+            this.cmsOnGrid.Size = new System.Drawing.Size(175, 70);
+            this.cmsOnGrid.Opening += new System.ComponentModel.CancelEventHandler(this.cmsOnGrid_Opening);
+            // 
+            // MIupdate
+            // 
+            this.MIupdate.Name = "MIupdate";
+            this.MIupdate.Size = new System.Drawing.Size(174, 22);
+            this.MIupdate.Text = "Edit";
+            this.MIupdate.Click += new System.EventHandler(this.MIupdate_Click);
+            // 
+            // MIshowFindings
+            // 
+            this.MIshowFindings.Name = "MIshowFindings";
+            this.MIshowFindings.Size = new System.Drawing.Size(174, 22);
+            this.MIshowFindings.Text = "Show Findings";
+            this.MIshowFindings.Click += new System.EventHandler(this.MIshowFindings_Click);
+            // 
+            // MIattachments
+            // 
+            this.MIattachments.Name = "MIattachments";
+            this.MIattachments.Size = new System.Drawing.Size(174, 22);
+            this.MIattachments.Text = "Show Attachments";
+            this.MIattachments.Click += new System.EventHandler(this.MIattachments_Click);
+            // 
             // Auditor_AuditView
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
@@ -195,6 +234,7 @@
             this.Text = "Audit View";
             this.Load += new System.EventHandler(this.Auditor_AuditView_Load);
             ((System.ComponentModel.ISupportInitialize)(this.dgvAuditView)).EndInit();
+            this.cmsOnGrid.ResumeLayout(false);
             this.ResumeLayout(false);
 
         }
@@ -214,5 +254,9 @@
         private System.Windows.Forms.DataGridViewTextBoxColumn Auditor2;
         private System.Windows.Forms.DataGridViewTextBoxColumn Supervisor;
         private System.Windows.Forms.DataGridViewCheckBoxColumn IsCompleted;
+        private System.Windows.Forms.ContextMenuStrip cmsOnGrid;
+        private System.Windows.Forms.ToolStripMenuItem MIupdate;
+        private System.Windows.Forms.ToolStripMenuItem MIshowFindings;
+        private System.Windows.Forms.ToolStripMenuItem MIattachments;
     }
 }

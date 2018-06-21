@@ -321,6 +321,7 @@
             this.Controls.Add(this.lblYear);
             this.Icon = ((System.Drawing.Icon)(resources.GetObject("$this.Icon")));
             this.Name = "InsertNewAudit";
+            this.StartPosition = System.Windows.Forms.FormStartPosition.CenterParent;
             this.Text = "New Audit";
             this.ResumeLayout(false);
             this.PerformLayout();
@@ -328,28 +329,28 @@
         }
 
         #endregion
-        private System.Windows.Forms.DateTimePicker dtpYear;
         private System.Windows.Forms.Label lblCompany;
-        private System.Windows.Forms.ComboBox cbCompanies;
         private System.Windows.Forms.Label lblAuditNumber;
-        private System.Windows.Forms.TextBox txtAuditNumber;
         private System.Windows.Forms.Label lblAuditType;
-        private System.Windows.Forms.ComboBox cbAuditTypes;
-        private System.Windows.Forms.TextBox txtIASentNumber;
         private System.Windows.Forms.Label lblIASentNumber;
-        private System.Windows.Forms.TextBox txtTitle;
         private System.Windows.Forms.Label lblTitle;
         private System.Windows.Forms.Label lblReportDate;
-        private System.Windows.Forms.DateTimePicker dtpReportDate;
         private System.Windows.Forms.Label lblYear;
         private System.Windows.Forms.Label lblAuditor1;
-        private System.Windows.Forms.ComboBox cbAuditor1;
         private System.Windows.Forms.Label lblAuditor2;
-        private System.Windows.Forms.ComboBox cbAuditor2;
         private System.Windows.Forms.Label lblSupervisor;
-        private System.Windows.Forms.ComboBox cbSupervisor;
         private System.Windows.Forms.Button btnEraseAuditor2;
         private System.Windows.Forms.Button btnEraseSupervisor;
         public System.Windows.Forms.Button btnSave;
+        public System.Windows.Forms.DateTimePicker dtpYear;
+        public System.Windows.Forms.ComboBox cbCompanies;
+        public System.Windows.Forms.TextBox txtAuditNumber;
+        public System.Windows.Forms.ComboBox cbAuditTypes;
+        public System.Windows.Forms.TextBox txtIASentNumber;
+        public System.Windows.Forms.TextBox txtTitle;
+        public System.Windows.Forms.DateTimePicker dtpReportDate;
+        public System.Windows.Forms.ComboBox cbAuditor1;
+        public System.Windows.Forms.ComboBox cbAuditor2;
+        public System.Windows.Forms.ComboBox cbSupervisor;
     }
 }

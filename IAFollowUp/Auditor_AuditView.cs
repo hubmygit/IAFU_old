@@ -29,6 +29,8 @@ namespace IAFollowUp
             auditList = SelectAudit();
         }
 
+        public int dgvIndex = 0;
+
         private void Auditor_AuditView_Load(object sender, EventArgs e)
         {
             FillDataGridView(dgvAuditView, auditList);
@@ -137,7 +139,64 @@ namespace IAFollowUp
 
         }
 
-        
+        private void MIupdate_Click(object sender, EventArgs e)
+        {
+            //int Id = Convert.ToInt32(((DataGridView)((ToolStripMenuItem)sender).SourceControl).SelectedRows[0].Cells["Id"].Value.ToString());
+            //Audit thisAudit = auditList.Where(i => i.Id == Id).First();
+
+            //int Id = dgvIndex;
+
+            int Id= Convert.ToInt32(dgvAuditView.SelectedRows[0].Cells["Id"].Value.ToString());
+            Audit thisAudit = auditList.Where(i => i.Id == Id).First();
+
+            InsertNewAudit frmUpdateAudit = new InsertNewAudit();
+
+           frmUpdateAudit.ShowDialog();
+        }
+
+        private void MIshowFindings_Click(object sender, EventArgs e)
+        {
+
+        }
+
+        private void MIattachments_Click(object sender, EventArgs e)
+        {
+           
+        }
+
+        private void cmsOnGrid_Opening(object sender, CancelEventArgs e)
+        {
+
+            //((DataGridView)cmsOnGrid.SourceControl)
+            //dgvAuditView.ClearSelection();
+            //dataGrid.Rows[index].Selected = true;
+        }
+
+        private void dgvAuditView_CellMouseClick(object sender, DataGridViewCellMouseEventArgs e)
+        {
+            if (e.RowIndex != -1 && e.Button == MouseButtons.Right)
+            {
+                dgvAuditView.Rows[e.RowIndex].Selected = true;
+            }
+
+            DataGridView.HitTestInfo hit = dgvAuditView.HitTest(e.X, e.Y);
+
+            cmsOnGrid.Show(dgvAuditView, new Point(e.X, e.Y));
+
+            int a = 0;
+
+
+         dgvIndex = e.RowIndex;
+
+    }
+
+    private void dgvAuditView_MouseDown(object sender, MouseEventArgs e)
+        {
+            //if (e.RowIndex != -1 && e.Button == MouseButtons.Right)
+            //{
+            //    dgvAuditView.Rows[e.RowIndex].Selected = true;
+            //}
+        }
     }
 
     public class Audit
