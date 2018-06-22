@@ -119,9 +119,12 @@ namespace IAFollowUp
 
             newAuditRecord = new Audit()
             {
-                AuditNumber = txtAuditNumber.Text,
+                AuditNumber = txtAuditNumber.Text, 
+                Auditor1 = getComboboxItem<Users>(cbAuditor1),
                 Auditor1ID = getComboboxItem<Users>(cbAuditor1).Id,
+                Company = getComboboxItem<Companies>(cbCompanies),
                 CompanyId = getComboboxItem<Companies>(cbCompanies).Id,
+                AuditType = getComboboxItem<AuditTypes>(cbAuditTypes),
                 AuditTypeId = getComboboxItem<AuditTypes>(cbAuditTypes).Id,
                 IASentNumber = txtIASentNumber.Text,
                 Title = txtTitle.Text,
@@ -132,13 +135,24 @@ namespace IAFollowUp
                 Id = AuditUpdId //only on update
             };
 
-            if(cbAuditor2.SelectedIndex > -1)
+            if (cbAuditor2.SelectedIndex > -1)
             {
+                newAuditRecord.Auditor2 = getComboboxItem<Users>(cbAuditor2);
                 newAuditRecord.Auditor2ID = getComboboxItem<Users>(cbAuditor2).Id;
             }
+            else
+            {
+                newAuditRecord.Auditor2 = new Users();
+            }
+
             if (cbSupervisor.SelectedIndex > -1)
             {
+                newAuditRecord.Supervisor = getComboboxItem<Users>(cbSupervisor);
                 newAuditRecord.SupervisorID = getComboboxItem<Users>(cbSupervisor).Id;
+            }
+            else
+            {
+                newAuditRecord.Supervisor = new Users();
             }
 
             if (isInsert)
