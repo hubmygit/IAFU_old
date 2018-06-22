@@ -29,7 +29,7 @@ namespace IAFollowUp
             auditList = SelectAudit();
         }
 
-        public int dgvIndex = 0;
+        //public int dgvIndex = 0;
 
         private void Auditor_AuditView_Load(object sender, EventArgs e)
         {
@@ -43,9 +43,9 @@ namespace IAFollowUp
             List<Audit> ret = new List<Audit>();
 
             SqlConnection sqlConn = new SqlConnection(SqlDBInfo.connectionString);
-            string SelectSt = "SELECT [Id], [Year], [CompanyId], [AuditTypeId], [Title], [ReportDt], " + 
+            string SelectSt = "SELECT [Id], [Year], [CompanyId], [AuditTypeId], [Title], [ReportDt], " +
                               "[Auditor1Id], isnull([Auditor2Id], 0) as Auditor2Id, isnull([SupervisorId], 0) as SupervisorId, " +
-                              "[IsCompleted], [AuditNumber], [IASentNumber] " + 
+                              "[IsCompleted], [AuditNumber], [IASentNumber], [RevNo] " +
                               "FROM [dbo].[Audit] " +
                               "ORDER BY Id "; //ToDo
             SqlCommand cmd = new SqlCommand(SelectSt, sqlConn);
@@ -73,7 +73,8 @@ namespace IAFollowUp
                         Supervisor = new Users(Convert.ToInt32(reader["SupervisorId"].ToString())),
                         IsCompleted = Convert.ToBoolean(reader["IsCompleted"].ToString()),
                         AuditNumber = reader["AuditNumber"].ToString(),
-                        IASentNumber = reader["IASentNumber"].ToString()
+                        IASentNumber = reader["IASentNumber"].ToString(),
+                        RevNo = Convert.ToInt32(reader["RevNo"].ToString())
                     });
                 }
                 reader.Close();
@@ -89,7 +90,7 @@ namespace IAFollowUp
         public void FillDataGridView(DataGridView dgv, List<Audit> AuditList)
         {
             dgv.Rows.Clear();
-                        
+
             foreach (Audit thisRecord in AuditList)
             {
                 List<dgvDictionary> dgvDictList = new List<dgvDictionary>();
@@ -110,7 +111,7 @@ namespace IAFollowUp
                 string aaaa = thisRecord.Year.ToString() + "." + thisRecord.Company.NameShort + "." + thisRecord.AuditNumber + "." + thisRecord.AuditType.NameShort + "-" + thisRecord.IASentNumber;
 
                 object[] obj = new object[dgv.Columns.Count];
-                
+
                 for (int i = 0; i < dgv.Columns.Count; i++)
                 {
                     obj[i] = dgvDictList.Where(z => z.dgvColumnHeader == dgv.Columns[i].Name).First().dbfield;
@@ -145,15 +146,28 @@ namespace IAFollowUp
             //Audit thisAudit = auditList.Where(i => i.Id == Id).First();
 
             //int Id = dgvIndex;
+            if (dgvAuditView.SelectedRows.Count > 0)
+            {
+                int Id = Convert.ToInt32(dgvAuditView.SelectedRows[0].Cells["Id"].Value.ToString());
+                Audit thisAudit = auditList.Where(i => i.Id == Id).First();
 
-            int Id= Convert.ToInt32(dgvAuditView.SelectedRows[0].Cells["Id"].Value.ToString());
-            Audit thisAudit = auditList.Where(i => i.Id == Id).First();
+                InsertNewAudit frmUpdateAudit = new InsertNewAudit(thisAudit);
+                frmUpdateAudit.ShowDialog();
 
-            InsertNewAudit frmUpdateAudit = new InsertNewAudit();
+                if (frmUpdateAudit.success)
+                {
+                    //refresh
 
-           frmUpdateAudit.ShowDialog();
+                    auditList = SelectAudit();
+                    FillDataGridView(dgvAuditView, auditList);
+                    //dgvAuditView.SelectedRows[0].Cells[""]
+
+                    //frmUpdateAudit.newAuditRecord
+                }
+
+
+            }
         }
-
         private void MIshowFindings_Click(object sender, EventArgs e)
         {
 
@@ -161,19 +175,26 @@ namespace IAFollowUp
 
         private void MIattachments_Click(object sender, EventArgs e)
         {
-           
+
         }
 
         private void cmsOnGrid_Opening(object sender, CancelEventArgs e)
         {
-
+            //Point aaa = ((ContextMenuStrip)sender).SourceControl.Location;
             //((DataGridView)cmsOnGrid.SourceControl)
             //dgvAuditView.ClearSelection();
             //dataGrid.Rows[index].Selected = true;
+
+            if (dgvAuditView.SelectedRows.Count <= 0)
+            {
+                e.Cancel = true;
+            }
         }
+
 
         private void dgvAuditView_CellMouseClick(object sender, DataGridViewCellMouseEventArgs e)
         {
+            /*
             if (e.RowIndex != -1 && e.Button == MouseButtons.Right)
             {
                 dgvAuditView.Rows[e.RowIndex].Selected = true;
@@ -186,17 +207,23 @@ namespace IAFollowUp
             int a = 0;
 
 
-         dgvIndex = e.RowIndex;
+            dgvIndex = e.RowIndex;
+            */
+        }
 
-    }
-
-    private void dgvAuditView_MouseDown(object sender, MouseEventArgs e)
+        private void dgvAuditView_MouseDown(object sender, MouseEventArgs e)
         {
             //if (e.RowIndex != -1 && e.Button == MouseButtons.Right)
             //{
             //    dgvAuditView.Rows[e.RowIndex].Selected = true;
             //}
         }
+
+        private void cmsOnGrid_Opened(object sender, EventArgs e)
+        {
+           //Point aa=  ((Control)sender).Location;
+        }
+
     }
 
     public class Audit
@@ -217,7 +244,8 @@ namespace IAFollowUp
         public Users Supervisor { get; set; }
         public bool IsCompleted { get; set; }
         public string AuditNumber { get; set; }
-        public string IASentNumber { get; set; }
+        public string IASentNumber { get; set; }        
+        public int RevNo { get; set; }
     }
 
     public class Companies

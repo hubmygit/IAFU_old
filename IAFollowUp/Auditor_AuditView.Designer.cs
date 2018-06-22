@@ -84,6 +84,7 @@
             this.Auditor2,
             this.Supervisor,
             this.IsCompleted});
+            this.dgvAuditView.ContextMenuStrip = this.cmsOnGrid;
             dataGridViewCellStyle2.Alignment = System.Windows.Forms.DataGridViewContentAlignment.MiddleLeft;
             dataGridViewCellStyle2.BackColor = System.Drawing.SystemColors.Window;
             dataGridViewCellStyle2.Font = new System.Drawing.Font("Microsoft Sans Serif", 12F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(161)));
@@ -200,6 +201,7 @@
             this.cmsOnGrid.Name = "cmsOnGrid";
             this.cmsOnGrid.Size = new System.Drawing.Size(175, 70);
             this.cmsOnGrid.Opening += new System.ComponentModel.CancelEventHandler(this.cmsOnGrid_Opening);
+            this.cmsOnGrid.Opened += new System.EventHandler(this.cmsOnGrid_Opened);
             // 
             // MIupdate
             // 

@@ -341,16 +341,16 @@
         private System.Windows.Forms.Label lblSupervisor;
         private System.Windows.Forms.Button btnEraseAuditor2;
         private System.Windows.Forms.Button btnEraseSupervisor;
-        public System.Windows.Forms.Button btnSave;
-        public System.Windows.Forms.DateTimePicker dtpYear;
-        public System.Windows.Forms.ComboBox cbCompanies;
-        public System.Windows.Forms.TextBox txtAuditNumber;
-        public System.Windows.Forms.ComboBox cbAuditTypes;
-        public System.Windows.Forms.TextBox txtIASentNumber;
-        public System.Windows.Forms.TextBox txtTitle;
-        public System.Windows.Forms.DateTimePicker dtpReportDate;
-        public System.Windows.Forms.ComboBox cbAuditor1;
-        public System.Windows.Forms.ComboBox cbAuditor2;
-        public System.Windows.Forms.ComboBox cbSupervisor;
+        private System.Windows.Forms.Button btnSave;
+        private System.Windows.Forms.DateTimePicker dtpYear;
+        private System.Windows.Forms.ComboBox cbCompanies;
+        private System.Windows.Forms.TextBox txtAuditNumber;
+        private System.Windows.Forms.ComboBox cbAuditTypes;
+        private System.Windows.Forms.TextBox txtIASentNumber;
+        private System.Windows.Forms.TextBox txtTitle;
+        private System.Windows.Forms.DateTimePicker dtpReportDate;
+        private System.Windows.Forms.ComboBox cbAuditor1;
+        private System.Windows.Forms.ComboBox cbAuditor2;
+        private System.Windows.Forms.ComboBox cbSupervisor;
     }
 }
