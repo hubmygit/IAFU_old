@@ -17,3 +17,12 @@ private void mydgv_MouseDown(object sender, MouseEventArgs e)
 //  mydgv.Rows[n].Cells[i].Value = dr[i].ToString();  
 //}
 
+//-------------------------------------------
+
+dgv.Rows[dgvIndex].SetValues(obj); 
+
+--> to be replaced with -->
+--> into previous 'for'
+
+dgv.Rows[dgvIndex].Cells[i].Value = obj[i];
+
