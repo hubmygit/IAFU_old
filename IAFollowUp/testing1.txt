@@ -1,0 +1,8 @@
+private void mydgv_MouseDown(object sender, MouseEventArgs e)
+{
+    if (e.Button == MouseButtons.Right)
+    {
+        var hti = mydgv.HitTest(e.X, e.Y);
+        mydgv.Rows[hti.RowIndex].Selected = true;
+    }
+}
