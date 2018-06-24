@@ -1,3 +1,6 @@
+
+//-------------------------------------------
+
 private void mydgv_MouseDown(object sender, MouseEventArgs e)
 {
     if (e.Button == MouseButtons.Right)
@@ -6,3 +9,11 @@ private void mydgv_MouseDown(object sender, MouseEventArgs e)
         mydgv.Rows[hti.RowIndex].Selected = true;
     }
 }
+
+//-------------------------------------------
+
+//for(int i=0, i < 12, i++)
+//{
+//  mydgv.Rows[n].Cells[i].Value = dr[i].ToString();  
+//}
+
