@@ -25,6 +25,8 @@ namespace IAFollowUp
             InitializeComponent();
             Init();
             isInsert = false;
+
+            oldAuditRecord = audit;
             AuditUpdId = audit.Id;
 
             txtTitle.Text = audit.Title;
@@ -71,6 +73,7 @@ namespace IAFollowUp
         public int AuditUpdId = 0;
         public bool success = false;
 
+        public Audit oldAuditRecord = new Audit();
         public Audit newAuditRecord = new Audit();
         private void button1_Click(object sender, EventArgs e)
         {
@@ -132,7 +135,9 @@ namespace IAFollowUp
                 ReportDt = dtpReportDate.Value.Date,
                 IsCompleted = false,
 
-                Id = AuditUpdId //only on update
+                Id = AuditUpdId, //only on update
+                RevNo = oldAuditRecord.RevNo
+
             };
 
             if (cbAuditor2.SelectedIndex > -1)
@@ -172,6 +177,12 @@ namespace IAFollowUp
             {
                 if (UpdateTable_Audit(newAuditRecord))
                 {
+
+                    if(oldAuditRecord.Equals(newAuditRecord)) //if (oldAuditRecord == newAuditRecord)
+                    {
+
+                    }
+
                     MessageBox.Show("Audit updated successfully!");
                     success = true;
                     Close();
@@ -252,8 +263,9 @@ namespace IAFollowUp
             bool ret = false;
 
             SqlConnection sqlConn = new SqlConnection(SqlDBInfo.connectionString);
-            string InsSt = "UPDATE [dbo].[Audit] SET [Year]= @Year,[CompanyID]= @CompanyID,[AuditTypeID]= @AuditTypeID,[Title]=@Title,[ReportDt]= @ReportDt," +
-                "[Auditor1ID]=@Auditor1ID,[Auditor2ID]=@Auditor2ID,[SupervisorID]=@SupervisorID,[IsCompleted]=@IsCompleted,[AuditNumber]=@AuditNumber,[IASentNumber]=@IASentNumber,[UpdUserID]=@UpdUserID,[UpdDt]=getDate(), [RevNo]= RevNo+1 WHERE id=@id";
+            string InsSt = "UPDATE [dbo].[Audit] SET [Year]= @Year,[CompanyID]= @CompanyID,[AuditTypeID]= @AuditTypeID,[Title]=@Title,[ReportDt]= @ReportDt, " +
+                "[Auditor1ID]=@Auditor1ID,[Auditor2ID]=@Auditor2ID,[SupervisorID]=@SupervisorID,[IsCompleted]=@IsCompleted,[AuditNumber]=@AuditNumber, " +
+                "[IASentNumber]=@IASentNumber,[UpdUserID]=@UpdUserID,[UpdDt]=getDate(), [RevNo]= RevNo+1, [UseUpdTrigger]=1 WHERE id=@id";
             try
             {
                 sqlConn.Open();

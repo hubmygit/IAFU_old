@@ -34,6 +34,16 @@ namespace IAFollowUp
         private void Auditor_AuditView_Load(object sender, EventArgs e)
         {
             FillDataGridView(dgvAuditView, auditList);
+
+
+            Companies com1 = new Companies() { Id = 1, Name = "100", NameShort = "1" };
+            Companies com2 = new Companies() { Id = 1, Name = "100", NameShort = "1" };
+            Companies com3 = new Companies() { Id = 2, Name = "200", NameShort = "2" };
+
+            bool test1 = com1.Equals(com2); //true
+
+            bool test2 = com1.Equals(com3); //false
+
         }
 
         public List<Audit> auditList = new List<Audit>();
@@ -44,7 +54,7 @@ namespace IAFollowUp
 
             SqlConnection sqlConn = new SqlConnection(SqlDBInfo.connectionString);
             string SelectSt = "SELECT [Id], [Year], [CompanyId], [AuditTypeId], [Title], [ReportDt], " +
-                              "[Auditor1Id], isnull([Auditor2Id], 0) as Auditor2Id, isnull([SupervisorId], 0) as SupervisorId, " +
+                              "[Auditor1Id], [Auditor2Id], [SupervisorId], " +
                               "[IsCompleted], [AuditNumber], [IASentNumber], [RevNo] " +
                               "FROM [dbo].[Audit] " +
                               "ORDER BY Id "; //ToDo
@@ -55,6 +65,29 @@ namespace IAFollowUp
                 SqlDataReader reader = cmd.ExecuteReader();
                 while (reader.Read())
                 {
+                    int? Auditor2_Id, Supervisor_Id;
+                    Users Auditor2_User, Supervisor_User;
+                    if (reader["Auditor2Id"] == System.DBNull.Value)
+                    {
+                        Auditor2_Id = null;
+                        Auditor2_User = new Users();
+                    }
+                    else
+                    {
+                        Auditor2_Id = Convert.ToInt32(reader["Auditor2Id"].ToString());
+                        Auditor2_User = new Users(Convert.ToInt32(reader["Auditor2Id"].ToString()));
+                    }
+                    if (reader["SupervisorId"] == System.DBNull.Value)
+                    {
+                        Supervisor_Id = null;
+                        Supervisor_User = new Users();
+                    }
+                    else
+                    {
+                        Supervisor_Id = Convert.ToInt32(reader["SupervisorId"].ToString());
+                        Supervisor_User = new Users(Convert.ToInt32(reader["SupervisorId"].ToString()));
+                    }
+
                     ret.Add(new Audit()
                     {
                         Id = Convert.ToInt32(reader["Id"].ToString()),
@@ -67,10 +100,13 @@ namespace IAFollowUp
                         ReportDt = Convert.ToDateTime(reader["ReportDt"].ToString()),
                         Auditor1ID = Convert.ToInt32(reader["Auditor1Id"].ToString()),
                         Auditor1 = new Users(Convert.ToInt32(reader["Auditor1Id"].ToString())),
-                        Auditor2ID = Convert.ToInt32(reader["Auditor2Id"].ToString()),
-                        Auditor2 = new Users(Convert.ToInt32(reader["Auditor2Id"].ToString())),
-                        SupervisorID = Convert.ToInt32(reader["SupervisorId"].ToString()),
-                        Supervisor = new Users(Convert.ToInt32(reader["SupervisorId"].ToString())),
+
+                        Auditor2ID = Auditor2_Id, //Convert.ToInt32(reader["Auditor2Id"].ToString()),
+                        Auditor2 = Auditor2_User, //new Users(Convert.ToInt32(reader["Auditor2Id"].ToString())),
+
+                        SupervisorID = Supervisor_Id, //Convert.ToInt32(reader["SupervisorId"].ToString()),
+                        Supervisor = Supervisor_User, //new Users(Convert.ToInt32(reader["SupervisorId"].ToString())),
+
                         IsCompleted = Convert.ToBoolean(reader["IsCompleted"].ToString()),
                         AuditNumber = reader["AuditNumber"].ToString(),
                         IASentNumber = reader["IASentNumber"].ToString(),
@@ -166,12 +202,14 @@ namespace IAFollowUp
             for (int i = 0; i < dgv.Columns.Count; i++)
             {
                 obj[i] = dgvDictList.Where(z => z.dgvColumnHeader == dgv.Columns[i].Name).First().dbfield;
+
+                dgv.Rows[dgvIndex].Cells[i].Value = obj[i];
             }
             //dgv.Rows.Add(obj);
             //dgv.Rows[dgvIndex]
 
             //DataGridViewRow dgvr = new DataGridViewRow();
-            dgv.Rows[dgvIndex].SetValues(obj);
+            //dgv.Rows[dgvIndex].SetValues(obj);
 
             //dgv.Rows.Insert(dgvIndex, )
 
@@ -198,13 +236,12 @@ namespace IAFollowUp
                 if (frmUpdateAudit.success)
                 {
                     //refresh
-
                     //auditList = SelectAudit();
                     auditList[auditList.FindIndex(w => w.Id == Id)] = frmUpdateAudit.newAuditRecord;
 
                     //FillDataGridView(dgvAuditView, auditList);
                     //dgvAuditView.SelectedRows[0].Cells[""]
-                    FillDataGridView(dgvAuditView, thisAudit, dgvIndex);
+                    FillDataGridView(dgvAuditView, frmUpdateAudit.newAuditRecord, dgvIndex);
                 }
 
 
@@ -219,51 +256,23 @@ namespace IAFollowUp
         {
 
         }
-
-        private void cmsOnGrid_Opening(object sender, CancelEventArgs e)
-        {
-            //Point aaa = ((ContextMenuStrip)sender).SourceControl.Location;
-            //((DataGridView)cmsOnGrid.SourceControl)
-            //dgvAuditView.ClearSelection();
-            //dataGrid.Rows[index].Selected = true;
-
-            if (dgvAuditView.SelectedRows.Count <= 0)
-            {
-                e.Cancel = true;
-            }
-        }
-
-
-        private void dgvAuditView_CellMouseClick(object sender, DataGridViewCellMouseEventArgs e)
-        {
-            /*
-            if (e.RowIndex != -1 && e.Button == MouseButtons.Right)
-            {
-                dgvAuditView.Rows[e.RowIndex].Selected = true;
-            }
-
-            DataGridView.HitTestInfo hit = dgvAuditView.HitTest(e.X, e.Y);
-
-            cmsOnGrid.Show(dgvAuditView, new Point(e.X, e.Y));
-
-            int a = 0;
-
-
-            dgvIndex = e.RowIndex;
-            */
-        }
-
+                
         private void dgvAuditView_MouseDown(object sender, MouseEventArgs e)
         {
-            //if (e.RowIndex != -1 && e.Button == MouseButtons.Right)
-            //{
-            //    dgvAuditView.Rows[e.RowIndex].Selected = true;
-            //}
-        }
+            if (e.Button == MouseButtons.Right)
+            {
+                var hti = dgvAuditView.HitTest(e.X, e.Y);
+                dgvAuditView.Rows[hti.RowIndex].Selected = true;
 
-        private void cmsOnGrid_Opened(object sender, EventArgs e)
-        {
-           //Point aa=  ((Control)sender).Location;
+                if (Convert.ToBoolean(dgvAuditView.SelectedRows[0].Cells["IsCompleted"].Value) == true)
+                {
+                    MIupdate.Enabled = false;
+                }
+                else
+                {
+                    MIupdate.Enabled = true;
+                }
+            }
         }
 
     }
@@ -288,6 +297,19 @@ namespace IAFollowUp
         public string AuditNumber { get; set; }
         public string IASentNumber { get; set; }        
         public int RevNo { get; set; }
+
+        //public override bool Equals(object obj)
+        //{
+        //    if (obj == null || GetType() != obj.GetType())
+        //        return false;
+
+        //    return base.Equals(obj);
+        //}
+
+        //public override int GetHashCode()
+        //{
+        //    return this.GetHashCode();
+        //}
     }
 
     public class Companies
@@ -299,12 +321,12 @@ namespace IAFollowUp
         public Companies()
         {
         }
-        public Companies(int Id)
+        public Companies(int givenId)
         {
             SqlConnection sqlConn = new SqlConnection(SqlDBInfo.connectionString);
             string SelectSt = "SELECT [Id], [Name], [NameShort] " +
                               "FROM [dbo].[Companies] " +
-                              "WHERE Id = " + Id.ToString();
+                              "WHERE Id = " + givenId.ToString();
             SqlCommand cmd = new SqlCommand(SelectSt, sqlConn);
             try
             {
@@ -323,6 +345,19 @@ namespace IAFollowUp
                 MessageBox.Show("The following error occurred: " + ex.Message);
             }
         }
+
+        //public override bool Equals(object obj)
+        //{
+        //    if (obj == null || GetType() != obj.GetType())
+        //        return false;
+
+        //    return base.Equals(obj as Companies);
+        //}
+
+        //public override int GetHashCode()
+        //{
+        //    return this.GetHashCode();
+        //}
 
         public static List<Companies> GetSqlCompaniesList()
         {
@@ -378,12 +413,12 @@ namespace IAFollowUp
         {
         }
 
-        public AuditTypes(int Id)
+        public AuditTypes(int givenId)
         {
             SqlConnection sqlConn = new SqlConnection(SqlDBInfo.connectionString);
             string SelectSt = "SELECT [Id], [Name], [NameShort] " +
                               "FROM [dbo].[AuditTypes] " +
-                              "WHERE Id = " + Id.ToString();
+                              "WHERE Id = " + givenId.ToString();
             SqlCommand cmd = new SqlCommand(SelectSt, sqlConn);
             try
             {
@@ -451,12 +486,12 @@ namespace IAFollowUp
         public Users()
         {
         }
-        public Users(int Id)
+        public Users(int givenId)
         {
             SqlConnection sqlConn = new SqlConnection(SqlDBInfo.connectionString);
             string SelectSt = "SELECT [Id], CONVERT(varchar, DECRYPTBYPASSPHRASE( @passPhrase , [FullName])) as FullName " +
                               "FROM [dbo].[Users] " +
-                              "WHERE Id = " + Id.ToString();
+                              "WHERE Id = " + givenId.ToString();
             SqlCommand cmd = new SqlCommand(SelectSt, sqlConn);
             try
             {

@@ -108,7 +108,6 @@
             this.dgvAuditView.SelectionMode = System.Windows.Forms.DataGridViewSelectionMode.FullRowSelect;
             this.dgvAuditView.Size = new System.Drawing.Size(1198, 549);
             this.dgvAuditView.TabIndex = 12;
-            this.dgvAuditView.CellMouseClick += new System.Windows.Forms.DataGridViewCellMouseEventHandler(this.dgvAuditView_CellMouseClick);
             this.dgvAuditView.MouseDown += new System.Windows.Forms.MouseEventHandler(this.dgvAuditView_MouseDown);
             // 
             // Id
@@ -199,28 +198,26 @@
             this.MIshowFindings,
             this.MIattachments});
             this.cmsOnGrid.Name = "cmsOnGrid";
-            this.cmsOnGrid.Size = new System.Drawing.Size(175, 70);
-            this.cmsOnGrid.Opening += new System.ComponentModel.CancelEventHandler(this.cmsOnGrid_Opening);
-            this.cmsOnGrid.Opened += new System.EventHandler(this.cmsOnGrid_Opened);
+            this.cmsOnGrid.Size = new System.Drawing.Size(181, 92);
             // 
             // MIupdate
             // 
             this.MIupdate.Name = "MIupdate";
-            this.MIupdate.Size = new System.Drawing.Size(174, 22);
+            this.MIupdate.Size = new System.Drawing.Size(180, 22);
             this.MIupdate.Text = "Edit";
             this.MIupdate.Click += new System.EventHandler(this.MIupdate_Click);
             // 
             // MIshowFindings
             // 
             this.MIshowFindings.Name = "MIshowFindings";
-            this.MIshowFindings.Size = new System.Drawing.Size(174, 22);
+            this.MIshowFindings.Size = new System.Drawing.Size(180, 22);
             this.MIshowFindings.Text = "Show Findings";
             this.MIshowFindings.Click += new System.EventHandler(this.MIshowFindings_Click);
             // 
             // MIattachments
             // 
             this.MIattachments.Name = "MIattachments";
-            this.MIattachments.Size = new System.Drawing.Size(174, 22);
+            this.MIattachments.Size = new System.Drawing.Size(180, 22);
             this.MIattachments.Text = "Show Attachments";
             this.MIattachments.Click += new System.EventHandler(this.MIattachments_Click);
             // 
