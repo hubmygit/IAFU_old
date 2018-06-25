@@ -33,7 +33,14 @@ namespace IAFollowUp
 
         private void Auditor_AuditView_Load(object sender, EventArgs e)
         {
+            DateTime dtToday = DateTime.Now.Date;
+            dtFrom.Value = new DateTime(dtToday.Year, 1, 1).AddYears(-1);
+
+
+
             FillDataGridView(dgvAuditView, auditList);
+
+            
 
 
             Companies com1 = new Companies() { Id = 1, Name = "100", NameShort = "1" };
@@ -48,12 +55,33 @@ namespace IAFollowUp
 
         public List<Audit> auditList = new List<Audit>();
 
+        public void ApplyFilters()
+        {
+            List<Audit> filteredLines = new List<Audit>();
+
+            //dtFrom & dtTo
+            //filteredLines = filteredLines.Where(i => i.ReportDt >= dtFrom.Value.Date && i.ReportDt < dtTo.Value.Date.AddDays(1)).ToList();
+            filteredLines = auditList.Where(i => i.ReportDt >= dtFrom.Value.Date && i.ReportDt < dtTo.Value.Date.AddDays(1)).ToList();
+
+
+            FillDataGridView(dgvAuditView, filteredLines);
+
+            //List<object[]> ObjRows = GridViewUtils.DBDataToGridViewRowList(filteredLines);
+            //GridViewUtils.ShowDataToDataGridView(dgvReceiptData, ObjRows);
+
+            //RowsForeColorFromVolDiff(dgvReceiptData);
+            //dgvReceiptData.ClearSelection();
+            toolStripCounter.Text = "Records: " + filteredLines.Count.ToString();
+        }
+
         public List<Audit> SelectAudit()
         {
             List<Audit> ret = new List<Audit>();
 
             SqlConnection sqlConn = new SqlConnection(SqlDBInfo.connectionString);
-            string SelectSt = "SELECT [Id], [Year], [CompanyId], [AuditTypeId], [Title], [ReportDt], " +
+            string SelectSt = "SELECT [Id], [Year], [CompanyId], [AuditTypeId], " +
+                              "CONVERT(varchar, DECRYPTBYPASSPHRASE( @passPhrase , [Title])) as Title, " + 
+                              "[ReportDt], " +
                               "[Auditor1Id], [Auditor2Id], [SupervisorId], " +
                               "[IsCompleted], [AuditNumber], [IASentNumber], [RevNo] " +
                               "FROM [dbo].[Audit] " +
@@ -62,6 +90,7 @@ namespace IAFollowUp
             try
             {
                 sqlConn.Open();
+                cmd.Parameters.AddWithValue("@passPhrase", SqlDBInfo.passPhrase);
                 SqlDataReader reader = cmd.ExecuteReader();
                 while (reader.Read())
                 {
@@ -275,6 +304,15 @@ namespace IAFollowUp
             }
         }
 
+        private void dtFrom_ValueChanged(object sender, EventArgs e)
+        {
+            ApplyFilters();
+        }
+
+        private void dtTo_ValueChanged(object sender, EventArgs e)
+        {
+            ApplyFilters();
+        }
     }
 
     public class Audit

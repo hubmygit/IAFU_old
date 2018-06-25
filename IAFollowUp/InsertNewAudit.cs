@@ -204,7 +204,9 @@ namespace IAFollowUp
             SqlConnection sqlConn = new SqlConnection(SqlDBInfo.connectionString);
             string InsSt = "INSERT INTO [dbo].[Audit] ([Year],[CompanyID],[AuditTypeID],[Title],[ReportDt] ," +
                 "[Auditor1ID],[Auditor2ID],[SupervisorID],[IsCompleted],[AuditNumber],[IASentNumber],[InsUserID],[InsDt], [RevNo]) VALUES " +
-                           "(@Year, @CompanyID, @AuditTypeID, @Title, @ReportDt, @Auditor1ID, @Auditor2ID, @SupervisorID, @IsCompleted, @AuditNumber, @IASentNumber, @InsUserID, getDate(), 1 ) ";
+                           "(@Year, @CompanyID, @AuditTypeID, " +
+                           "encryptByPassPhrase(@passPhrase, convert(varchar, @Title)), " + 
+                           "@ReportDt, @Auditor1ID, @Auditor2ID, @SupervisorID, @IsCompleted, @AuditNumber, @IASentNumber, @InsUserID, getDate(), 1 ) ";
             try
             {
                 sqlConn.Open();
@@ -263,13 +265,19 @@ namespace IAFollowUp
             bool ret = false;
 
             SqlConnection sqlConn = new SqlConnection(SqlDBInfo.connectionString);
-            string InsSt = "UPDATE [dbo].[Audit] SET [Year]= @Year,[CompanyID]= @CompanyID,[AuditTypeID]= @AuditTypeID,[Title]=@Title,[ReportDt]= @ReportDt, " +
-                "[Auditor1ID]=@Auditor1ID,[Auditor2ID]=@Auditor2ID,[SupervisorID]=@SupervisorID,[IsCompleted]=@IsCompleted,[AuditNumber]=@AuditNumber, " +
-                "[IASentNumber]=@IASentNumber,[UpdUserID]=@UpdUserID,[UpdDt]=getDate(), [RevNo]= RevNo+1, [UseUpdTrigger]=1 WHERE id=@id";
+            string InsSt = "UPDATE [dbo].[Audit] SET [Year] = @Year, [CompanyID] = @CompanyID, [AuditTypeID] = @AuditTypeID, " +
+                "[Title] = encryptByPassPhrase(@passPhrase, convert(varchar, @Title))," + 
+                "[ReportDt] = @ReportDt, " +
+                "[Auditor1ID] = @Auditor1ID, [Auditor2ID] = @Auditor2ID, [SupervisorID] = @SupervisorID, [IsCompleted] = @IsCompleted, [AuditNumber] = @AuditNumber, " +
+                "[IASentNumber] = @IASentNumber, [UpdUserID] = @UpdUserID, [UpdDt] = getDate(), [RevNo] = RevNo+1, [UseUpdTrigger] = 1 " + 
+                "WHERE id=@id";
             try
             {
                 sqlConn.Open();
+                
                 SqlCommand cmd = new SqlCommand(InsSt, sqlConn);
+
+                cmd.Parameters.AddWithValue("@passPhrase", SqlDBInfo.passPhrase);
 
                 cmd.Parameters.AddWithValue("@id", audit.Id);
                 cmd.Parameters.AddWithValue("@Year", audit.Year);

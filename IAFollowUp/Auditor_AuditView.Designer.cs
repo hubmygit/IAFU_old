@@ -50,8 +50,15 @@
             this.MIupdate = new System.Windows.Forms.ToolStripMenuItem();
             this.MIshowFindings = new System.Windows.Forms.ToolStripMenuItem();
             this.MIattachments = new System.Windows.Forms.ToolStripMenuItem();
+            this.lblDtTo = new System.Windows.Forms.Label();
+            this.lblDtFrom = new System.Windows.Forms.Label();
+            this.dtTo = new System.Windows.Forms.DateTimePicker();
+            this.dtFrom = new System.Windows.Forms.DateTimePicker();
+            this.statusStrip1 = new System.Windows.Forms.StatusStrip();
+            this.toolStripCounter = new System.Windows.Forms.ToolStripStatusLabel();
             ((System.ComponentModel.ISupportInitialize)(this.dgvAuditView)).BeginInit();
             this.cmsOnGrid.SuspendLayout();
+            this.statusStrip1.SuspendLayout();
             this.SuspendLayout();
             // 
             // dgvAuditView
@@ -198,34 +205,96 @@
             this.MIshowFindings,
             this.MIattachments});
             this.cmsOnGrid.Name = "cmsOnGrid";
-            this.cmsOnGrid.Size = new System.Drawing.Size(181, 92);
+            this.cmsOnGrid.Size = new System.Drawing.Size(175, 70);
             // 
             // MIupdate
             // 
             this.MIupdate.Name = "MIupdate";
-            this.MIupdate.Size = new System.Drawing.Size(180, 22);
+            this.MIupdate.Size = new System.Drawing.Size(174, 22);
             this.MIupdate.Text = "Edit";
             this.MIupdate.Click += new System.EventHandler(this.MIupdate_Click);
             // 
             // MIshowFindings
             // 
             this.MIshowFindings.Name = "MIshowFindings";
-            this.MIshowFindings.Size = new System.Drawing.Size(180, 22);
+            this.MIshowFindings.Size = new System.Drawing.Size(174, 22);
             this.MIshowFindings.Text = "Show Findings";
             this.MIshowFindings.Click += new System.EventHandler(this.MIshowFindings_Click);
             // 
             // MIattachments
             // 
             this.MIattachments.Name = "MIattachments";
-            this.MIattachments.Size = new System.Drawing.Size(180, 22);
+            this.MIattachments.Size = new System.Drawing.Size(174, 22);
             this.MIattachments.Text = "Show Attachments";
             this.MIattachments.Click += new System.EventHandler(this.MIattachments_Click);
+            // 
+            // lblDtTo
+            // 
+            this.lblDtTo.AutoSize = true;
+            this.lblDtTo.Font = new System.Drawing.Font("Microsoft Sans Serif", 9.75F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(161)));
+            this.lblDtTo.Location = new System.Drawing.Point(213, 25);
+            this.lblDtTo.Name = "lblDtTo";
+            this.lblDtTo.Size = new System.Drawing.Size(25, 16);
+            this.lblDtTo.TabIndex = 42;
+            this.lblDtTo.Text = "To";
+            // 
+            // lblDtFrom
+            // 
+            this.lblDtFrom.AutoSize = true;
+            this.lblDtFrom.Font = new System.Drawing.Font("Microsoft Sans Serif", 9.75F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(161)));
+            this.lblDtFrom.Location = new System.Drawing.Point(18, 25);
+            this.lblDtFrom.Name = "lblDtFrom";
+            this.lblDtFrom.Size = new System.Drawing.Size(39, 16);
+            this.lblDtFrom.TabIndex = 41;
+            this.lblDtFrom.Text = "From";
+            // 
+            // dtTo
+            // 
+            this.dtTo.Font = new System.Drawing.Font("Microsoft Sans Serif", 9.75F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(161)));
+            this.dtTo.Format = System.Windows.Forms.DateTimePickerFormat.Short;
+            this.dtTo.Location = new System.Drawing.Point(244, 20);
+            this.dtTo.Name = "dtTo";
+            this.dtTo.Size = new System.Drawing.Size(123, 22);
+            this.dtTo.TabIndex = 40;
+            this.dtTo.ValueChanged += new System.EventHandler(this.dtTo_ValueChanged);
+            // 
+            // dtFrom
+            // 
+            this.dtFrom.Font = new System.Drawing.Font("Microsoft Sans Serif", 9.75F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(161)));
+            this.dtFrom.Format = System.Windows.Forms.DateTimePickerFormat.Short;
+            this.dtFrom.Location = new System.Drawing.Point(63, 20);
+            this.dtFrom.Name = "dtFrom";
+            this.dtFrom.Size = new System.Drawing.Size(123, 22);
+            this.dtFrom.TabIndex = 39;
+            this.dtFrom.Value = new System.DateTime(2015, 1, 1, 0, 0, 0, 0);
+            this.dtFrom.ValueChanged += new System.EventHandler(this.dtFrom_ValueChanged);
+            // 
+            // statusStrip1
+            // 
+            this.statusStrip1.Items.AddRange(new System.Windows.Forms.ToolStripItem[] {
+            this.toolStripCounter});
+            this.statusStrip1.Location = new System.Drawing.Point(0, 606);
+            this.statusStrip1.Name = "statusStrip1";
+            this.statusStrip1.Size = new System.Drawing.Size(1222, 22);
+            this.statusStrip1.TabIndex = 43;
+            this.statusStrip1.Text = "statusStrip1";
+            // 
+            // toolStripCounter
+            // 
+            this.toolStripCounter.Name = "toolStripCounter";
+            this.toolStripCounter.Size = new System.Drawing.Size(118, 17);
+            this.toolStripCounter.Text = "toolStripStatusLabel1";
             // 
             // Auditor_AuditView
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
             this.ClientSize = new System.Drawing.Size(1222, 628);
+            this.Controls.Add(this.statusStrip1);
+            this.Controls.Add(this.lblDtTo);
+            this.Controls.Add(this.lblDtFrom);
+            this.Controls.Add(this.dtTo);
+            this.Controls.Add(this.dtFrom);
             this.Controls.Add(this.dgvAuditView);
             this.Icon = ((System.Drawing.Icon)(resources.GetObject("$this.Icon")));
             this.Name = "Auditor_AuditView";
@@ -234,7 +303,10 @@
             this.Load += new System.EventHandler(this.Auditor_AuditView_Load);
             ((System.ComponentModel.ISupportInitialize)(this.dgvAuditView)).EndInit();
             this.cmsOnGrid.ResumeLayout(false);
+            this.statusStrip1.ResumeLayout(false);
+            this.statusStrip1.PerformLayout();
             this.ResumeLayout(false);
+            this.PerformLayout();
 
         }
 
@@ -257,5 +329,11 @@
         private System.Windows.Forms.ToolStripMenuItem MIupdate;
         private System.Windows.Forms.ToolStripMenuItem MIshowFindings;
         private System.Windows.Forms.ToolStripMenuItem MIattachments;
+        private System.Windows.Forms.Label lblDtTo;
+        private System.Windows.Forms.Label lblDtFrom;
+        public System.Windows.Forms.DateTimePicker dtTo;
+        public System.Windows.Forms.DateTimePicker dtFrom;
+        private System.Windows.Forms.StatusStrip statusStrip1;
+        private System.Windows.Forms.ToolStripStatusLabel toolStripCounter;
     }
 }
