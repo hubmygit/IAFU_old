@@ -48,14 +48,26 @@
             this.IsCompleted = new System.Windows.Forms.DataGridViewCheckBoxColumn();
             this.cmsOnGrid = new System.Windows.Forms.ContextMenuStrip(this.components);
             this.MIupdate = new System.Windows.Forms.ToolStripMenuItem();
-            this.MIshowFindings = new System.Windows.Forms.ToolStripMenuItem();
             this.MIattachments = new System.Windows.Forms.ToolStripMenuItem();
+            this.toolStripSeparator1 = new System.Windows.Forms.ToolStripSeparator();
+            this.MIshowFindings = new System.Windows.Forms.ToolStripMenuItem();
+            this.finalizeAuditToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.lblDtTo = new System.Windows.Forms.Label();
             this.lblDtFrom = new System.Windows.Forms.Label();
             this.dtTo = new System.Windows.Forms.DateTimePicker();
             this.dtFrom = new System.Windows.Forms.DateTimePicker();
             this.statusStrip1 = new System.Windows.Forms.StatusStrip();
             this.toolStripCounter = new System.Windows.Forms.ToolStripStatusLabel();
+            this.cbCompanies = new System.Windows.Forms.ComboBox();
+            this.lblCompany = new System.Windows.Forms.Label();
+            this.dtpYear = new System.Windows.Forms.DateTimePicker();
+            this.lblYear = new System.Windows.Forms.Label();
+            this.cbAuditor1 = new System.Windows.Forms.ComboBox();
+            this.lblAuditor1 = new System.Windows.Forms.Label();
+            this.chbCompleted = new System.Windows.Forms.CheckBox();
+            this.txtTitle = new System.Windows.Forms.TextBox();
+            this.lblTitle = new System.Windows.Forms.Label();
+            this.btnTitleSearch = new System.Windows.Forms.Button();
             ((System.ComponentModel.ISupportInitialize)(this.dgvAuditView)).BeginInit();
             this.cmsOnGrid.SuspendLayout();
             this.statusStrip1.SuspendLayout();
@@ -100,7 +112,7 @@
             dataGridViewCellStyle2.SelectionForeColor = System.Drawing.SystemColors.HighlightText;
             dataGridViewCellStyle2.WrapMode = System.Windows.Forms.DataGridViewTriState.False;
             this.dgvAuditView.DefaultCellStyle = dataGridViewCellStyle2;
-            this.dgvAuditView.Location = new System.Drawing.Point(12, 67);
+            this.dgvAuditView.Location = new System.Drawing.Point(12, 89);
             this.dgvAuditView.MultiSelect = false;
             this.dgvAuditView.Name = "dgvAuditView";
             this.dgvAuditView.ReadOnly = true;
@@ -113,7 +125,7 @@
             dataGridViewCellStyle3.WrapMode = System.Windows.Forms.DataGridViewTriState.True;
             this.dgvAuditView.RowHeadersDefaultCellStyle = dataGridViewCellStyle3;
             this.dgvAuditView.SelectionMode = System.Windows.Forms.DataGridViewSelectionMode.FullRowSelect;
-            this.dgvAuditView.Size = new System.Drawing.Size(1198, 549);
+            this.dgvAuditView.Size = new System.Drawing.Size(1198, 527);
             this.dgvAuditView.TabIndex = 12;
             this.dgvAuditView.MouseDown += new System.Windows.Forms.MouseEventHandler(this.dgvAuditView_MouseDown);
             // 
@@ -202,37 +214,51 @@
             // 
             this.cmsOnGrid.Items.AddRange(new System.Windows.Forms.ToolStripItem[] {
             this.MIupdate,
+            this.MIattachments,
+            this.toolStripSeparator1,
             this.MIshowFindings,
-            this.MIattachments});
+            this.finalizeAuditToolStripMenuItem});
             this.cmsOnGrid.Name = "cmsOnGrid";
-            this.cmsOnGrid.Size = new System.Drawing.Size(175, 70);
+            this.cmsOnGrid.Size = new System.Drawing.Size(146, 98);
             // 
             // MIupdate
             // 
             this.MIupdate.Name = "MIupdate";
-            this.MIupdate.Size = new System.Drawing.Size(174, 22);
+            this.MIupdate.Size = new System.Drawing.Size(145, 22);
             this.MIupdate.Text = "Edit";
             this.MIupdate.Click += new System.EventHandler(this.MIupdate_Click);
-            // 
-            // MIshowFindings
-            // 
-            this.MIshowFindings.Name = "MIshowFindings";
-            this.MIshowFindings.Size = new System.Drawing.Size(174, 22);
-            this.MIshowFindings.Text = "Show Findings";
-            this.MIshowFindings.Click += new System.EventHandler(this.MIshowFindings_Click);
             // 
             // MIattachments
             // 
             this.MIattachments.Name = "MIattachments";
-            this.MIattachments.Size = new System.Drawing.Size(174, 22);
-            this.MIattachments.Text = "Show Attachments";
+            this.MIattachments.Size = new System.Drawing.Size(145, 22);
+            this.MIattachments.Text = "Attachments";
             this.MIattachments.Click += new System.EventHandler(this.MIattachments_Click);
+            // 
+            // toolStripSeparator1
+            // 
+            this.toolStripSeparator1.Name = "toolStripSeparator1";
+            this.toolStripSeparator1.Size = new System.Drawing.Size(142, 6);
+            // 
+            // MIshowFindings
+            // 
+            this.MIshowFindings.Name = "MIshowFindings";
+            this.MIshowFindings.Size = new System.Drawing.Size(145, 22);
+            this.MIshowFindings.Text = "Findings";
+            this.MIshowFindings.Click += new System.EventHandler(this.MIshowFindings_Click);
+            // 
+            // finalizeAuditToolStripMenuItem
+            // 
+            this.finalizeAuditToolStripMenuItem.Name = "finalizeAuditToolStripMenuItem";
+            this.finalizeAuditToolStripMenuItem.Size = new System.Drawing.Size(145, 22);
+            this.finalizeAuditToolStripMenuItem.Text = "Finalize Audit";
+            this.finalizeAuditToolStripMenuItem.Click += new System.EventHandler(this.finalizeAuditToolStripMenuItem_Click);
             // 
             // lblDtTo
             // 
             this.lblDtTo.AutoSize = true;
             this.lblDtTo.Font = new System.Drawing.Font("Microsoft Sans Serif", 9.75F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(161)));
-            this.lblDtTo.Location = new System.Drawing.Point(213, 25);
+            this.lblDtTo.Location = new System.Drawing.Point(583, 21);
             this.lblDtTo.Name = "lblDtTo";
             this.lblDtTo.Size = new System.Drawing.Size(25, 16);
             this.lblDtTo.TabIndex = 42;
@@ -242,7 +268,7 @@
             // 
             this.lblDtFrom.AutoSize = true;
             this.lblDtFrom.Font = new System.Drawing.Font("Microsoft Sans Serif", 9.75F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(161)));
-            this.lblDtFrom.Location = new System.Drawing.Point(18, 25);
+            this.lblDtFrom.Location = new System.Drawing.Point(403, 21);
             this.lblDtFrom.Name = "lblDtFrom";
             this.lblDtFrom.Size = new System.Drawing.Size(39, 16);
             this.lblDtFrom.TabIndex = 41;
@@ -252,9 +278,9 @@
             // 
             this.dtTo.Font = new System.Drawing.Font("Microsoft Sans Serif", 9.75F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(161)));
             this.dtTo.Format = System.Windows.Forms.DateTimePickerFormat.Short;
-            this.dtTo.Location = new System.Drawing.Point(244, 20);
+            this.dtTo.Location = new System.Drawing.Point(614, 16);
             this.dtTo.Name = "dtTo";
-            this.dtTo.Size = new System.Drawing.Size(123, 22);
+            this.dtTo.Size = new System.Drawing.Size(103, 22);
             this.dtTo.TabIndex = 40;
             this.dtTo.ValueChanged += new System.EventHandler(this.dtTo_ValueChanged);
             // 
@@ -262,9 +288,9 @@
             // 
             this.dtFrom.Font = new System.Drawing.Font("Microsoft Sans Serif", 9.75F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(161)));
             this.dtFrom.Format = System.Windows.Forms.DateTimePickerFormat.Short;
-            this.dtFrom.Location = new System.Drawing.Point(63, 20);
+            this.dtFrom.Location = new System.Drawing.Point(448, 16);
             this.dtFrom.Name = "dtFrom";
-            this.dtFrom.Size = new System.Drawing.Size(123, 22);
+            this.dtFrom.Size = new System.Drawing.Size(103, 22);
             this.dtFrom.TabIndex = 39;
             this.dtFrom.Value = new System.DateTime(2015, 1, 1, 0, 0, 0, 0);
             this.dtFrom.ValueChanged += new System.EventHandler(this.dtFrom_ValueChanged);
@@ -285,11 +311,127 @@
             this.toolStripCounter.Size = new System.Drawing.Size(118, 17);
             this.toolStripCounter.Text = "toolStripStatusLabel1";
             // 
+            // cbCompanies
+            // 
+            this.cbCompanies.DropDownStyle = System.Windows.Forms.ComboBoxStyle.DropDownList;
+            this.cbCompanies.Font = new System.Drawing.Font("Microsoft Sans Serif", 9.75F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(161)));
+            this.cbCompanies.FormattingEnabled = true;
+            this.cbCompanies.Location = new System.Drawing.Point(218, 17);
+            this.cbCompanies.Name = "cbCompanies";
+            this.cbCompanies.Size = new System.Drawing.Size(156, 24);
+            this.cbCompanies.TabIndex = 45;
+            this.cbCompanies.SelectedIndexChanged += new System.EventHandler(this.cbCompanies_SelectedIndexChanged);
+            // 
+            // lblCompany
+            // 
+            this.lblCompany.AutoSize = true;
+            this.lblCompany.Font = new System.Drawing.Font("Microsoft Sans Serif", 9.75F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(161)));
+            this.lblCompany.Location = new System.Drawing.Point(146, 20);
+            this.lblCompany.Name = "lblCompany";
+            this.lblCompany.Size = new System.Drawing.Size(66, 16);
+            this.lblCompany.TabIndex = 44;
+            this.lblCompany.Text = "Company";
+            // 
+            // dtpYear
+            // 
+            this.dtpYear.CustomFormat = "yyyy";
+            this.dtpYear.Font = new System.Drawing.Font("Microsoft Sans Serif", 9.75F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(161)));
+            this.dtpYear.Format = System.Windows.Forms.DateTimePickerFormat.Custom;
+            this.dtpYear.Location = new System.Drawing.Point(53, 16);
+            this.dtpYear.Name = "dtpYear";
+            this.dtpYear.ShowUpDown = true;
+            this.dtpYear.Size = new System.Drawing.Size(61, 22);
+            this.dtpYear.TabIndex = 47;
+            this.dtpYear.ValueChanged += new System.EventHandler(this.dtpYear_ValueChanged);
+            // 
+            // lblYear
+            // 
+            this.lblYear.AutoSize = true;
+            this.lblYear.Font = new System.Drawing.Font("Microsoft Sans Serif", 9.75F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(161)));
+            this.lblYear.Location = new System.Drawing.Point(9, 20);
+            this.lblYear.Name = "lblYear";
+            this.lblYear.Size = new System.Drawing.Size(37, 16);
+            this.lblYear.TabIndex = 46;
+            this.lblYear.Text = "Year";
+            // 
+            // cbAuditor1
+            // 
+            this.cbAuditor1.DropDownStyle = System.Windows.Forms.ComboBoxStyle.DropDownList;
+            this.cbAuditor1.Font = new System.Drawing.Font("Microsoft Sans Serif", 9.75F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(161)));
+            this.cbAuditor1.FormattingEnabled = true;
+            this.cbAuditor1.Location = new System.Drawing.Point(881, 18);
+            this.cbAuditor1.Name = "cbAuditor1";
+            this.cbAuditor1.Size = new System.Drawing.Size(179, 24);
+            this.cbAuditor1.TabIndex = 48;
+            this.cbAuditor1.SelectedIndexChanged += new System.EventHandler(this.cbAuditor1_SelectedIndexChanged);
+            // 
+            // lblAuditor1
+            // 
+            this.lblAuditor1.AutoSize = true;
+            this.lblAuditor1.Font = new System.Drawing.Font("Microsoft Sans Serif", 9.75F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(161)));
+            this.lblAuditor1.Location = new System.Drawing.Point(815, 20);
+            this.lblAuditor1.Name = "lblAuditor1";
+            this.lblAuditor1.Size = new System.Drawing.Size(60, 16);
+            this.lblAuditor1.TabIndex = 49;
+            this.lblAuditor1.Text = "Auditor 1";
+            // 
+            // chbCompleted
+            // 
+            this.chbCompleted.AutoSize = true;
+            this.chbCompleted.Font = new System.Drawing.Font("Microsoft Sans Serif", 9.75F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(161)));
+            this.chbCompleted.Location = new System.Drawing.Point(1105, 20);
+            this.chbCompleted.Name = "chbCompleted";
+            this.chbCompleted.Size = new System.Drawing.Size(93, 20);
+            this.chbCompleted.TabIndex = 50;
+            this.chbCompleted.Text = "Completed";
+            this.chbCompleted.UseVisualStyleBackColor = true;
+            this.chbCompleted.CheckedChanged += new System.EventHandler(this.chbCompleted_CheckedChanged);
+            // 
+            // txtTitle
+            // 
+            this.txtTitle.Font = new System.Drawing.Font("Microsoft Sans Serif", 12F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(161)));
+            this.txtTitle.Location = new System.Drawing.Point(83, 57);
+            this.txtTitle.MaxLength = 500;
+            this.txtTitle.Name = "txtTitle";
+            this.txtTitle.Size = new System.Drawing.Size(405, 26);
+            this.txtTitle.TabIndex = 51;
+            // 
+            // lblTitle
+            // 
+            this.lblTitle.AutoSize = true;
+            this.lblTitle.Font = new System.Drawing.Font("Microsoft Sans Serif", 12F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(161)));
+            this.lblTitle.Location = new System.Drawing.Point(18, 60);
+            this.lblTitle.Name = "lblTitle";
+            this.lblTitle.Size = new System.Drawing.Size(38, 20);
+            this.lblTitle.TabIndex = 52;
+            this.lblTitle.Text = "Title";
+            // 
+            // btnTitleSearch
+            // 
+            this.btnTitleSearch.Location = new System.Drawing.Point(506, 60);
+            this.btnTitleSearch.Name = "btnTitleSearch";
+            this.btnTitleSearch.Size = new System.Drawing.Size(55, 23);
+            this.btnTitleSearch.TabIndex = 53;
+            this.btnTitleSearch.Text = "Search";
+            this.btnTitleSearch.UseVisualStyleBackColor = true;
+            this.btnTitleSearch.Click += new System.EventHandler(this.btnTitleSearch_Click);
+            // 
             // Auditor_AuditView
             // 
+            this.AcceptButton = this.btnTitleSearch;
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
             this.ClientSize = new System.Drawing.Size(1222, 628);
+            this.Controls.Add(this.btnTitleSearch);
+            this.Controls.Add(this.txtTitle);
+            this.Controls.Add(this.lblTitle);
+            this.Controls.Add(this.chbCompleted);
+            this.Controls.Add(this.cbAuditor1);
+            this.Controls.Add(this.lblAuditor1);
+            this.Controls.Add(this.dtpYear);
+            this.Controls.Add(this.lblYear);
+            this.Controls.Add(this.cbCompanies);
+            this.Controls.Add(this.lblCompany);
             this.Controls.Add(this.statusStrip1);
             this.Controls.Add(this.lblDtTo);
             this.Controls.Add(this.lblDtFrom);
@@ -335,5 +477,17 @@
         public System.Windows.Forms.DateTimePicker dtFrom;
         private System.Windows.Forms.StatusStrip statusStrip1;
         private System.Windows.Forms.ToolStripStatusLabel toolStripCounter;
+        private System.Windows.Forms.ToolStripSeparator toolStripSeparator1;
+        private System.Windows.Forms.ToolStripMenuItem finalizeAuditToolStripMenuItem;
+        private System.Windows.Forms.ComboBox cbCompanies;
+        private System.Windows.Forms.Label lblCompany;
+        private System.Windows.Forms.DateTimePicker dtpYear;
+        private System.Windows.Forms.Label lblYear;
+        private System.Windows.Forms.ComboBox cbAuditor1;
+        private System.Windows.Forms.Label lblAuditor1;
+        private System.Windows.Forms.CheckBox chbCompleted;
+        private System.Windows.Forms.TextBox txtTitle;
+        private System.Windows.Forms.Label lblTitle;
+        private System.Windows.Forms.Button btnTitleSearch;
     }
 }

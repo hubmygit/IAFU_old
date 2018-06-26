@@ -33,6 +33,12 @@ namespace IAFollowUp
 
         private void Auditor_AuditView_Load(object sender, EventArgs e)
         {
+            cbCompanies.Items.Add("All");
+            cbCompanies.Items.AddRange(Companies.GetCompaniesComboboxItemsList(companiesList).ToArray<ComboboxItem>());
+            cbAuditor1.Items.Add("All");
+            cbAuditor1.Items.AddRange(Users.GetUsersComboboxItemsList(usersList).ToArray<ComboboxItem>());
+
+
             DateTime dtToday = DateTime.Now.Date;
             dtFrom.Value = new DateTime(dtToday.Year, 1, 1).AddYears(-1);
 
@@ -51,9 +57,14 @@ namespace IAFollowUp
 
             bool test2 = com1.Equals(com3); //false
 
+
         }
 
         public List<Audit> auditList = new List<Audit>();
+        public List<Companies> companiesList = Companies.GetSqlCompaniesList();
+        public List<Users> usersList = Users.GetSqlUsersList();
+
+
 
         public void ApplyFilters()
         {
@@ -63,8 +74,24 @@ namespace IAFollowUp
             //filteredLines = filteredLines.Where(i => i.ReportDt >= dtFrom.Value.Date && i.ReportDt < dtTo.Value.Date.AddDays(1)).ToList();
             filteredLines = auditList.Where(i => i.ReportDt >= dtFrom.Value.Date && i.ReportDt < dtTo.Value.Date.AddDays(1)).ToList();
 
+            if (cbCompanies.SelectedIndex > 0)
+            {
+                filteredLines = filteredLines.Where(i => i.CompanyId == InsertNewAudit.getComboboxItem<Companies>(cbCompanies).Id).ToList();
+            }
+
+            if(cbAuditor1.SelectedIndex>0)
+            {
+                filteredLines = filteredLines.Where(i => i.Auditor1ID == InsertNewAudit.getComboboxItem<Users>(cbAuditor1).Id).ToList();
+            }
+            filteredLines = filteredLines.Where(i => i.Year == dtpYear.Value.Year).ToList();
+
+            filteredLines = filteredLines.Where(i => i.IsCompleted == chbCompleted.Checked).ToList();
+
+            filteredLines = filteredLines.Where(i =>
+            System.Globalization.CultureInfo.CurrentCulture.CompareInfo.IndexOf(i.Title.ToUpper(), txtTitle.Text.ToUpper(), System.Globalization.CompareOptions.IgnoreNonSpace) >= 0).ToList();
 
             FillDataGridView(dgvAuditView, filteredLines);
+
 
             //List<object[]> ObjRows = GridViewUtils.DBDataToGridViewRowList(filteredLines);
             //GridViewUtils.ShowDataToDataGridView(dgvReceiptData, ObjRows);
@@ -72,6 +99,7 @@ namespace IAFollowUp
             //RowsForeColorFromVolDiff(dgvReceiptData);
             //dgvReceiptData.ClearSelection();
             toolStripCounter.Text = "Records: " + filteredLines.Count.ToString();
+
         }
 
         public List<Audit> SelectAudit()
@@ -285,7 +313,12 @@ namespace IAFollowUp
         {
 
         }
-                
+
+        private void finalizeAuditToolStripMenuItem_Click(object sender, EventArgs e)
+        {
+
+        }
+
         private void dgvAuditView_MouseDown(object sender, MouseEventArgs e)
         {
             if (e.Button == MouseButtons.Right)
@@ -310,6 +343,32 @@ namespace IAFollowUp
         }
 
         private void dtTo_ValueChanged(object sender, EventArgs e)
+        {
+            ApplyFilters();
+        }
+
+        private void cbCompanies_SelectedIndexChanged(object sender, EventArgs e)
+        {
+            ApplyFilters();
+
+        }
+
+        private void dtpYear_ValueChanged(object sender, EventArgs e)
+        {
+            ApplyFilters();
+        }
+
+        private void cbAuditor1_SelectedIndexChanged(object sender, EventArgs e)
+        {
+            ApplyFilters();
+        }
+
+        private void chbCompleted_CheckedChanged(object sender, EventArgs e)
+        {
+            ApplyFilters();
+        }
+
+        private void btnTitleSearch_Click(object sender, EventArgs e)
         {
             ApplyFilters();
         }

@@ -211,6 +211,9 @@ namespace IAFollowUp
             {
                 sqlConn.Open();
                 SqlCommand cmd = new SqlCommand(InsSt, sqlConn);
+
+                cmd.Parameters.AddWithValue("@passPhrase", SqlDBInfo.passPhrase);
+
                 cmd.Parameters.AddWithValue("@Year", audit.Year);
                 cmd.Parameters.AddWithValue("@CompanyID", audit.CompanyId);
                 cmd.Parameters.AddWithValue("@AuditTypeID", audit.AuditTypeId);
