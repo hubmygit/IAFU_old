@@ -190,6 +190,7 @@ namespace IAFollowUp
                     ret = (byte[])reader["HashText"];                    
                 }
                 reader.Close();
+                sqlConn.Close();
             }
             catch (Exception ex)
             {

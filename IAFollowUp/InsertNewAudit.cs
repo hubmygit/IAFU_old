@@ -203,10 +203,10 @@ namespace IAFollowUp
 
             SqlConnection sqlConn = new SqlConnection(SqlDBInfo.connectionString);
             string InsSt = "INSERT INTO [dbo].[Audit] ([Year],[CompanyID],[AuditTypeID],[Title],[ReportDt] ," +
-                "[Auditor1ID],[Auditor2ID],[SupervisorID],[IsCompleted],[AuditNumber],[IASentNumber],[InsUserID],[InsDt], [RevNo]) VALUES " +
+                "[Auditor1ID],[Auditor2ID],[SupervisorID],[IsCompleted],[AuditNumber],[IASentNumber],[InsUserID],[InsDt],[UpdUserID],[UpdDt], [RevNo]) VALUES " +
                            "(@Year, @CompanyID, @AuditTypeID, " +
-                           "encryptByPassPhrase(@passPhrase, convert(varchar, @Title)), " + 
-                           "@ReportDt, @Auditor1ID, @Auditor2ID, @SupervisorID, @IsCompleted, @AuditNumber, @IASentNumber, @InsUserID, getDate(), 1 ) ";
+                           "encryptByPassPhrase(@passPhrase, convert(varchar, @Title)), " +
+                           "@ReportDt, @Auditor1ID, @Auditor2ID, @SupervisorID, @IsCompleted, @AuditNumber, @IASentNumber, @InsUserID, getDate(), @InsUserID, getDate(), 1 ) ";
             try
             {
                 sqlConn.Open();

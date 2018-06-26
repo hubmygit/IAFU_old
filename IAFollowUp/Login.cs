@@ -201,6 +201,7 @@ namespace IAFollowUp
                     ret.Email = reader["Email"].ToString();
                 }
                 reader.Close();
+                sqlConn.Close();
             }
             catch (Exception ex)
             {
@@ -231,6 +232,7 @@ namespace IAFollowUp
                     ret.PasswordPeriod = Convert.ToInt32(reader["PasswordPeriod"].ToString());
                 }
                 reader.Close();
+                sqlConn.Close();
             }
             catch (Exception ex)
             {
@@ -285,6 +287,7 @@ namespace IAFollowUp
                     Equals = Convert.ToBoolean(reader["Equality"].ToString());
                 }
                 reader.Close();
+                sqlConn.Close();
             }
             catch (Exception ex)
             {
@@ -354,6 +357,7 @@ namespace IAFollowUp
                     });
                 }
                 reader.Close();
+                sqlConn.Close();
             }
             catch (Exception ex)
             {

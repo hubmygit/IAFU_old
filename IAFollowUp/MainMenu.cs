@@ -54,6 +54,17 @@ namespace IAFollowUp
             InsertNewAudit frmInsertNewAudit = new InsertNewAudit();
             frmInsertNewAudit.ShowDialog();
         }
+
+        private void viewRevisionsToolStripMenuItem_Click(object sender, EventArgs e)
+        {
+
+            Auditor_AuditView frmAuditorAuditView_Rev = new Auditor_AuditView();
+
+            frmAuditorAuditView_Rev.cmsOnGrid.Items["RevisionsToolStripMenuItem"].Visible = true;
+
+            frmAuditorAuditView_Rev.ShowDialog();
+
+        }
     }
 
     public class UserAuthorization

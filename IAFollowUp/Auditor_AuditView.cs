@@ -171,6 +171,7 @@ namespace IAFollowUp
                     });
                 }
                 reader.Close();
+                sqlConn.Close();
             }
             catch (Exception ex)
             {
@@ -316,7 +317,66 @@ namespace IAFollowUp
 
         private void finalizeAuditToolStripMenuItem_Click(object sender, EventArgs e)
         {
+            int id = Convert.ToInt32(dgvAuditView.SelectedRows[0].Cells["Id"].Value.ToString());
+            if (dgvAuditView.SelectedRows[0].Cells["IsCompleted"].Value.ToString() == "True")
+            {
+                MessageBox.Show("The audit has already been completed");
+                return;
+            }
 
+            if (UpdateAuditCompleted(id))
+            {
+                auditList[auditList.FindIndex(w => w.Id == id)].IsCompleted = true;
+                dgvAuditView["IsCompleted", dgvAuditView.SelectedRows[0].Index].Value = true;
+
+                MessageBox.Show("The update was successful");
+            }
+            else
+            {
+                MessageBox.Show("The update was not successful");
+            }
+        }
+
+        private void RevisionsToolStripMenuItem_Click(object sender, EventArgs e)
+        {
+            AuditRevisions frmRevisions = new AuditRevisions(Convert.ToInt32(dgvAuditView.SelectedRows[0].Cells["Id"].Value.ToString()));
+            frmRevisions.ShowDialog();
+
+
+        }
+        private bool UpdateAuditCompleted(int id)
+        {
+            bool ret = false;
+
+            SqlConnection sqlConn = new SqlConnection(SqlDBInfo.connectionString);
+            string InsSt = "UPDATE [dbo].[Audit] SET [IsCompleted] = 1, [UpdUserID] = @UpdUserID, [UpdDt] = getDate(), [RevNo] = RevNo+1, [UseUpdTrigger] = 1 " +
+                "WHERE id=@id";
+            try
+            {
+                sqlConn.Open();
+
+                SqlCommand cmd = new SqlCommand(InsSt, sqlConn);
+
+                cmd.Parameters.AddWithValue("@id", id);
+
+                cmd.Parameters.AddWithValue("@UpdUserID", UserInfo.userDetails.Id);
+
+                cmd.CommandType = CommandType.Text;
+                int rowsAffected = cmd.ExecuteNonQuery();
+
+                if (rowsAffected > 0)
+                {
+                    ret = true;
+                }
+            }
+            catch (Exception ex)
+            {
+                MessageBox.Show("The following error occurred: " + ex.Message);
+
+            }
+            sqlConn.Close();
+
+            return ret;
         }
 
         private void dgvAuditView_MouseDown(object sender, MouseEventArgs e)
@@ -372,6 +432,8 @@ namespace IAFollowUp
         {
             ApplyFilters();
         }
+
+        
     }
 
     public class Audit
@@ -394,6 +456,49 @@ namespace IAFollowUp
         public string AuditNumber { get; set; }
         public string IASentNumber { get; set; }        
         public int RevNo { get; set; }
+
+        //public override bool Equals(object obj)
+        //{
+        //    if (obj == null || GetType() != obj.GetType())
+        //        return false;
+
+        //    return base.Equals(obj);
+        //}
+
+        //public override int GetHashCode()
+        //{
+        //    return this.GetHashCode();
+        //}
+    }
+
+    public class AuditRev
+    {
+        public int Id { get; set; }
+        public int AuditId { get; set; }
+        public int Year { get; set; }
+        public int CompanyId { get; set; }
+        public Companies Company { get; set; }
+        public int AuditTypeId { get; set; }
+        public AuditTypes AuditType { get; set; }
+        public string Title { get; set; }
+        public DateTime ReportDt { get; set; }
+        public int Auditor1ID { get; set; }
+        public Users Auditor1 { get; set; }
+        public int? Auditor2ID { get; set; }
+        public Users Auditor2 { get; set; }
+        public int? SupervisorID { get; set; }
+        public Users Supervisor { get; set; }
+        public bool IsCompleted { get; set; }
+        public string AuditNumber { get; set; }
+        public string IASentNumber { get; set; }
+        public int RevNo { get; set; }
+        public int InsUserId { get; set; }
+        public Users InsUser { get; set; }
+        public DateTime InsDt { get; set; }
+
+        public int? UpdUserId { get; set; }
+        public Users UpdUser { get; set; }
+        public DateTime UpdDt { get; set; }
 
         //public override bool Equals(object obj)
         //{
@@ -436,6 +541,7 @@ namespace IAFollowUp
                     NameShort = reader["NameShort"].ToString();
                 }
                 reader.Close();
+                sqlConn.Close();
             }
             catch (Exception ex)
             {
@@ -528,6 +634,7 @@ namespace IAFollowUp
                     NameShort = reader["NameShort"].ToString();
                 }
                 reader.Close();
+                sqlConn.Close();
             }
             catch (Exception ex)
             {
@@ -603,6 +710,7 @@ namespace IAFollowUp
                     FullName = reader["FullName"].ToString();
                 }
                 reader.Close();
+                sqlConn.Close();
             }
             catch (Exception ex)
             {

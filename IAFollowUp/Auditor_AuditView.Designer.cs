@@ -52,6 +52,7 @@
             this.toolStripSeparator1 = new System.Windows.Forms.ToolStripSeparator();
             this.MIshowFindings = new System.Windows.Forms.ToolStripMenuItem();
             this.finalizeAuditToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
+            this.RevisionsToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.lblDtTo = new System.Windows.Forms.Label();
             this.lblDtFrom = new System.Windows.Forms.Label();
             this.dtTo = new System.Windows.Forms.DateTimePicker();
@@ -125,7 +126,7 @@
             dataGridViewCellStyle3.WrapMode = System.Windows.Forms.DataGridViewTriState.True;
             this.dgvAuditView.RowHeadersDefaultCellStyle = dataGridViewCellStyle3;
             this.dgvAuditView.SelectionMode = System.Windows.Forms.DataGridViewSelectionMode.FullRowSelect;
-            this.dgvAuditView.Size = new System.Drawing.Size(1198, 527);
+            this.dgvAuditView.Size = new System.Drawing.Size(1198, 514);
             this.dgvAuditView.TabIndex = 12;
             this.dgvAuditView.MouseDown += new System.Windows.Forms.MouseEventHandler(this.dgvAuditView_MouseDown);
             // 
@@ -217,9 +218,10 @@
             this.MIattachments,
             this.toolStripSeparator1,
             this.MIshowFindings,
-            this.finalizeAuditToolStripMenuItem});
+            this.finalizeAuditToolStripMenuItem,
+            this.RevisionsToolStripMenuItem});
             this.cmsOnGrid.Name = "cmsOnGrid";
-            this.cmsOnGrid.Size = new System.Drawing.Size(146, 98);
+            this.cmsOnGrid.Size = new System.Drawing.Size(146, 120);
             // 
             // MIupdate
             // 
@@ -253,6 +255,14 @@
             this.finalizeAuditToolStripMenuItem.Size = new System.Drawing.Size(145, 22);
             this.finalizeAuditToolStripMenuItem.Text = "Finalize Audit";
             this.finalizeAuditToolStripMenuItem.Click += new System.EventHandler(this.finalizeAuditToolStripMenuItem_Click);
+            // 
+            // RevisionsToolStripMenuItem
+            // 
+            this.RevisionsToolStripMenuItem.Name = "RevisionsToolStripMenuItem";
+            this.RevisionsToolStripMenuItem.Size = new System.Drawing.Size(145, 22);
+            this.RevisionsToolStripMenuItem.Text = "Revisions";
+            this.RevisionsToolStripMenuItem.Visible = false;
+            this.RevisionsToolStripMenuItem.Click += new System.EventHandler(this.RevisionsToolStripMenuItem_Click);
             // 
             // lblDtTo
             // 
@@ -308,8 +318,7 @@
             // toolStripCounter
             // 
             this.toolStripCounter.Name = "toolStripCounter";
-            this.toolStripCounter.Size = new System.Drawing.Size(118, 17);
-            this.toolStripCounter.Text = "toolStripStatusLabel1";
+            this.toolStripCounter.Size = new System.Drawing.Size(0, 17);
             // 
             // cbCompanies
             // 
@@ -467,7 +476,6 @@
         private System.Windows.Forms.DataGridViewTextBoxColumn Auditor2;
         private System.Windows.Forms.DataGridViewTextBoxColumn Supervisor;
         private System.Windows.Forms.DataGridViewCheckBoxColumn IsCompleted;
-        private System.Windows.Forms.ContextMenuStrip cmsOnGrid;
         private System.Windows.Forms.ToolStripMenuItem MIupdate;
         private System.Windows.Forms.ToolStripMenuItem MIshowFindings;
         private System.Windows.Forms.ToolStripMenuItem MIattachments;
@@ -489,5 +497,7 @@
         private System.Windows.Forms.TextBox txtTitle;
         private System.Windows.Forms.Label lblTitle;
         private System.Windows.Forms.Button btnTitleSearch;
+        public System.Windows.Forms.ContextMenuStrip cmsOnGrid;
+        private System.Windows.Forms.ToolStripMenuItem RevisionsToolStripMenuItem;
     }
 }

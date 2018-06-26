@@ -32,13 +32,13 @@
             this.menuStrip = new System.Windows.Forms.MenuStrip();
             this.auditorsToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.auditViewToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
+            this.insertNewAuditToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.auditeesToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.testToolStripMenuItem1 = new System.Windows.Forms.ToolStripMenuItem();
             this.administratorToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
-            this.testToolStripMenuItem2 = new System.Windows.Forms.ToolStripMenuItem();
+            this.viewRevisionsToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.helpToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.changePasswordToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
-            this.insertNewAuditToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.menuStrip.SuspendLayout();
             this.SuspendLayout();
             // 
@@ -51,7 +51,7 @@
             this.helpToolStripMenuItem});
             this.menuStrip.Location = new System.Drawing.Point(0, 0);
             this.menuStrip.Name = "menuStrip";
-            this.menuStrip.Size = new System.Drawing.Size(584, 24);
+            this.menuStrip.Size = new System.Drawing.Size(603, 24);
             this.menuStrip.TabIndex = 1;
             this.menuStrip.Text = "menuStrip1";
             // 
@@ -69,10 +69,17 @@
             // auditViewToolStripMenuItem
             // 
             this.auditViewToolStripMenuItem.Name = "auditViewToolStripMenuItem";
-            this.auditViewToolStripMenuItem.Size = new System.Drawing.Size(180, 22);
+            this.auditViewToolStripMenuItem.Size = new System.Drawing.Size(162, 22);
             this.auditViewToolStripMenuItem.Tag = "";
             this.auditViewToolStripMenuItem.Text = "Audit View";
             this.auditViewToolStripMenuItem.Click += new System.EventHandler(this.auditViewToolStripMenuItem_Click);
+            // 
+            // insertNewAuditToolStripMenuItem
+            // 
+            this.insertNewAuditToolStripMenuItem.Name = "insertNewAuditToolStripMenuItem";
+            this.insertNewAuditToolStripMenuItem.Size = new System.Drawing.Size(162, 22);
+            this.insertNewAuditToolStripMenuItem.Text = "Insert New Audit";
+            this.insertNewAuditToolStripMenuItem.Click += new System.EventHandler(this.insertNewAuditToolStripMenuItem_Click);
             // 
             // auditeesToolStripMenuItem
             // 
@@ -94,18 +101,19 @@
             // administratorToolStripMenuItem
             // 
             this.administratorToolStripMenuItem.DropDownItems.AddRange(new System.Windows.Forms.ToolStripItem[] {
-            this.testToolStripMenuItem2});
+            this.viewRevisionsToolStripMenuItem});
             this.administratorToolStripMenuItem.Name = "administratorToolStripMenuItem";
             this.administratorToolStripMenuItem.Size = new System.Drawing.Size(92, 20);
             this.administratorToolStripMenuItem.Tag = "3";
             this.administratorToolStripMenuItem.Text = "Administrator";
             this.administratorToolStripMenuItem.Visible = false;
             // 
-            // testToolStripMenuItem2
+            // viewRevisionsToolStripMenuItem
             // 
-            this.testToolStripMenuItem2.Name = "testToolStripMenuItem2";
-            this.testToolStripMenuItem2.Size = new System.Drawing.Size(96, 22);
-            this.testToolStripMenuItem2.Text = "Test";
+            this.viewRevisionsToolStripMenuItem.Name = "viewRevisionsToolStripMenuItem";
+            this.viewRevisionsToolStripMenuItem.Size = new System.Drawing.Size(193, 22);
+            this.viewRevisionsToolStripMenuItem.Text = "View Audits/ Revisions";
+            this.viewRevisionsToolStripMenuItem.Click += new System.EventHandler(this.viewRevisionsToolStripMenuItem_Click);
             // 
             // helpToolStripMenuItem
             // 
@@ -118,22 +126,16 @@
             // changePasswordToolStripMenuItem
             // 
             this.changePasswordToolStripMenuItem.Name = "changePasswordToolStripMenuItem";
-            this.changePasswordToolStripMenuItem.Size = new System.Drawing.Size(180, 22);
+            this.changePasswordToolStripMenuItem.Size = new System.Drawing.Size(168, 22);
             this.changePasswordToolStripMenuItem.Text = "Change Password";
             this.changePasswordToolStripMenuItem.Click += new System.EventHandler(this.changePasswordToolStripMenuItem_Click);
-            // 
-            // insertNewAuditToolStripMenuItem
-            // 
-            this.insertNewAuditToolStripMenuItem.Name = "insertNewAuditToolStripMenuItem";
-            this.insertNewAuditToolStripMenuItem.Size = new System.Drawing.Size(180, 22);
-            this.insertNewAuditToolStripMenuItem.Text = "Insert New Audit";
-            this.insertNewAuditToolStripMenuItem.Click += new System.EventHandler(this.insertNewAuditToolStripMenuItem_Click);
             // 
             // MainMenu
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
-            this.ClientSize = new System.Drawing.Size(584, 362);
+            this.BackgroundImage = ((System.Drawing.Image)(resources.GetObject("$this.BackgroundImage")));
+            this.ClientSize = new System.Drawing.Size(603, 404);
             this.Controls.Add(this.menuStrip);
             this.Icon = ((System.Drawing.Icon)(resources.GetObject("$this.Icon")));
             this.MainMenuStrip = this.menuStrip;
@@ -154,10 +156,10 @@
         private System.Windows.Forms.ToolStripMenuItem auditeesToolStripMenuItem;
         private System.Windows.Forms.ToolStripMenuItem testToolStripMenuItem1;
         private System.Windows.Forms.ToolStripMenuItem administratorToolStripMenuItem;
-        private System.Windows.Forms.ToolStripMenuItem testToolStripMenuItem2;
         private System.Windows.Forms.ToolStripMenuItem helpToolStripMenuItem;
         private System.Windows.Forms.ToolStripMenuItem changePasswordToolStripMenuItem;
         private System.Windows.Forms.ToolStripMenuItem auditViewToolStripMenuItem;
         private System.Windows.Forms.ToolStripMenuItem insertNewAuditToolStripMenuItem;
+        private System.Windows.Forms.ToolStripMenuItem viewRevisionsToolStripMenuItem;
     }
 }
