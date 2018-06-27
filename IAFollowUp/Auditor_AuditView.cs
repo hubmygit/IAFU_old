@@ -298,6 +298,11 @@ namespace IAFollowUp
 
                 Attachments attachedFiles = new Attachments(auditId, revNo);
                 attachedFiles.ShowDialog();
+
+                //if ...succeeded
+                //{
+                auditList[auditList.FindIndex(w => w.Id == auditId)].RevNo += 1;
+                //}
             }
         }
 

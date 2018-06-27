@@ -339,8 +339,48 @@ namespace IAFollowUp
             return ret;
         }
 
+        private bool UpdateAuditOnAttSave(int id)
+        {
+            bool ret = false;
+
+            SqlConnection sqlConn = new SqlConnection(SqlDBInfo.connectionString);
+            string InsSt = "UPDATE [dbo].[Audit] SET [UpdUserID] = @UpdUserID, [UpdDt] = getDate(), [RevNo] = RevNo+1, [UseUpdTrigger] = 1 " +
+                "WHERE id=@id";
+            try
+            {
+                sqlConn.Open();
+
+                SqlCommand cmd = new SqlCommand(InsSt, sqlConn);
+
+                cmd.Parameters.AddWithValue("@id", id);
+
+                cmd.Parameters.AddWithValue("@UpdUserID", UserInfo.userDetails.Id);
+
+                cmd.CommandType = CommandType.Text;
+                int rowsAffected = cmd.ExecuteNonQuery();
+
+                if (rowsAffected > 0)
+                {
+                    ret = true;
+                }
+            }
+            catch (Exception ex)
+            {
+                MessageBox.Show("The following error occurred: " + ex.Message);
+
+            }
+            sqlConn.Close();
+
+            return ret;
+        }
+
         private void btnSave_Click(object sender, EventArgs e)
         {
+            //an den eixe attachments kai den exei oute twra 
+            //return;
+
+            UpdateAuditOnAttSave(AuditId);
+
             if (lvAttachedFiles.Items.Count > 0)
             {
                 List<ListViewItem> newLvItems = new List<ListViewItem>();
@@ -360,34 +400,29 @@ namespace IAFollowUp
                 }
 
                 //update old records
-                UpdateAttachments_IsCurrent(AuditId, RevNo);
+                //UpdateAttachments_IsCurrent(AuditId, RevNo);
 
                 //insert attachments into db - IsCurrent = 1
                 foreach (ListViewItem lvi in newLvItems)
                 {
                     byte[] attFileBytes = File.ReadAllBytes(lvi.SubItems[1].Text);
 
-                    if (!InertIntoTable_AttachedFiles(AuditId, RevNo, lvi.SubItems[0].Text, attFileBytes))
+                    if (!InertIntoTable_AttachedFiles(AuditId, RevNo + 1, lvi.SubItems[0].Text, attFileBytes))
                     {
                         MessageBox.Show("File save failed: " + lvi.SubItems[0].Text);
                     }
                 }
 
             }
-            else
-            {
+            //else
+            //{
                 //update old records
-                UpdateAttachments_IsCurrent(AuditId, RevNo);
-            }
+                //UpdateAttachments_IsCurrent(AuditId, RevNo);
+            //}
 
             Close();
 
-
-           
-
-
-
-
+            
         }
     }
 
