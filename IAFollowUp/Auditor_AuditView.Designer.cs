@@ -34,18 +34,6 @@
             System.Windows.Forms.DataGridViewCellStyle dataGridViewCellStyle3 = new System.Windows.Forms.DataGridViewCellStyle();
             System.ComponentModel.ComponentResourceManager resources = new System.ComponentModel.ComponentResourceManager(typeof(Auditor_AuditView));
             this.dgvAuditView = new System.Windows.Forms.DataGridView();
-            this.Id = new System.Windows.Forms.DataGridViewTextBoxColumn();
-            this.Year = new System.Windows.Forms.DataGridViewTextBoxColumn();
-            this.Company = new System.Windows.Forms.DataGridViewTextBoxColumn();
-            this.AuditNumber = new System.Windows.Forms.DataGridViewTextBoxColumn();
-            this.AuditType = new System.Windows.Forms.DataGridViewTextBoxColumn();
-            this.IASentNumber = new System.Windows.Forms.DataGridViewTextBoxColumn();
-            this.Title = new System.Windows.Forms.DataGridViewTextBoxColumn();
-            this.ReportDt = new System.Windows.Forms.DataGridViewTextBoxColumn();
-            this.Auditor1 = new System.Windows.Forms.DataGridViewTextBoxColumn();
-            this.Auditor2 = new System.Windows.Forms.DataGridViewTextBoxColumn();
-            this.Supervisor = new System.Windows.Forms.DataGridViewTextBoxColumn();
-            this.IsCompleted = new System.Windows.Forms.DataGridViewCheckBoxColumn();
             this.cmsOnGrid = new System.Windows.Forms.ContextMenuStrip(this.components);
             this.MIupdate = new System.Windows.Forms.ToolStripMenuItem();
             this.MIattachments = new System.Windows.Forms.ToolStripMenuItem();
@@ -69,6 +57,20 @@
             this.txtTitle = new System.Windows.Forms.TextBox();
             this.lblTitle = new System.Windows.Forms.Label();
             this.btnTitleSearch = new System.Windows.Forms.Button();
+            this.Id = new System.Windows.Forms.DataGridViewTextBoxColumn();
+            this.Year = new System.Windows.Forms.DataGridViewTextBoxColumn();
+            this.Company = new System.Windows.Forms.DataGridViewTextBoxColumn();
+            this.AuditNumber = new System.Windows.Forms.DataGridViewTextBoxColumn();
+            this.AuditType = new System.Windows.Forms.DataGridViewTextBoxColumn();
+            this.IASentNumber = new System.Windows.Forms.DataGridViewTextBoxColumn();
+            this.Title = new System.Windows.Forms.DataGridViewTextBoxColumn();
+            this.ReportDt = new System.Windows.Forms.DataGridViewTextBoxColumn();
+            this.Auditor1 = new System.Windows.Forms.DataGridViewTextBoxColumn();
+            this.Auditor2 = new System.Windows.Forms.DataGridViewTextBoxColumn();
+            this.Supervisor = new System.Windows.Forms.DataGridViewTextBoxColumn();
+            this.IsCompleted = new System.Windows.Forms.DataGridViewCheckBoxColumn();
+            this.RevNo = new System.Windows.Forms.DataGridViewTextBoxColumn();
+            this.AttCnt = new System.Windows.Forms.DataGridViewTextBoxColumn();
             ((System.ComponentModel.ISupportInitialize)(this.dgvAuditView)).BeginInit();
             this.cmsOnGrid.SuspendLayout();
             this.statusStrip1.SuspendLayout();
@@ -103,7 +105,9 @@
             this.Auditor1,
             this.Auditor2,
             this.Supervisor,
-            this.IsCompleted});
+            this.IsCompleted,
+            this.RevNo,
+            this.AttCnt});
             this.dgvAuditView.ContextMenuStrip = this.cmsOnGrid;
             dataGridViewCellStyle2.Alignment = System.Windows.Forms.DataGridViewContentAlignment.MiddleLeft;
             dataGridViewCellStyle2.BackColor = System.Drawing.SystemColors.Window;
@@ -129,87 +133,6 @@
             this.dgvAuditView.Size = new System.Drawing.Size(1198, 514);
             this.dgvAuditView.TabIndex = 12;
             this.dgvAuditView.MouseDown += new System.Windows.Forms.MouseEventHandler(this.dgvAuditView_MouseDown);
-            // 
-            // Id
-            // 
-            this.Id.HeaderText = "Id";
-            this.Id.Name = "Id";
-            this.Id.ReadOnly = true;
-            this.Id.Visible = false;
-            this.Id.Width = 50;
-            // 
-            // Year
-            // 
-            this.Year.HeaderText = "Year";
-            this.Year.Name = "Year";
-            this.Year.ReadOnly = true;
-            this.Year.Width = 60;
-            // 
-            // Company
-            // 
-            this.Company.HeaderText = "Company";
-            this.Company.Name = "Company";
-            this.Company.ReadOnly = true;
-            this.Company.Width = 80;
-            // 
-            // AuditNumber
-            // 
-            this.AuditNumber.HeaderText = "Audit Number";
-            this.AuditNumber.Name = "AuditNumber";
-            this.AuditNumber.ReadOnly = true;
-            this.AuditNumber.Width = 80;
-            // 
-            // AuditType
-            // 
-            this.AuditType.HeaderText = "Audit Type";
-            this.AuditType.Name = "AuditType";
-            this.AuditType.ReadOnly = true;
-            // 
-            // IASentNumber
-            // 
-            this.IASentNumber.HeaderText = "IASentNumber";
-            this.IASentNumber.Name = "IASentNumber";
-            this.IASentNumber.ReadOnly = true;
-            this.IASentNumber.Width = 120;
-            // 
-            // Title
-            // 
-            this.Title.HeaderText = "Title";
-            this.Title.Name = "Title";
-            this.Title.ReadOnly = true;
-            this.Title.Width = 200;
-            // 
-            // ReportDt
-            // 
-            this.ReportDt.HeaderText = "Report Date";
-            this.ReportDt.Name = "ReportDt";
-            this.ReportDt.ReadOnly = true;
-            // 
-            // Auditor1
-            // 
-            this.Auditor1.HeaderText = "Auditor1";
-            this.Auditor1.Name = "Auditor1";
-            this.Auditor1.ReadOnly = true;
-            // 
-            // Auditor2
-            // 
-            this.Auditor2.HeaderText = "Auditor2";
-            this.Auditor2.Name = "Auditor2";
-            this.Auditor2.ReadOnly = true;
-            // 
-            // Supervisor
-            // 
-            this.Supervisor.HeaderText = "Supervisor";
-            this.Supervisor.Name = "Supervisor";
-            this.Supervisor.ReadOnly = true;
-            // 
-            // IsCompleted
-            // 
-            this.IsCompleted.HeaderText = "Completed";
-            this.IsCompleted.Name = "IsCompleted";
-            this.IsCompleted.ReadOnly = true;
-            this.IsCompleted.Resizable = System.Windows.Forms.DataGridViewTriState.True;
-            this.IsCompleted.SortMode = System.Windows.Forms.DataGridViewColumnSortMode.Automatic;
             // 
             // cmsOnGrid
             // 
@@ -425,6 +348,99 @@
             this.btnTitleSearch.UseVisualStyleBackColor = true;
             this.btnTitleSearch.Click += new System.EventHandler(this.btnTitleSearch_Click);
             // 
+            // Id
+            // 
+            this.Id.HeaderText = "Id";
+            this.Id.Name = "Id";
+            this.Id.ReadOnly = true;
+            this.Id.Visible = false;
+            this.Id.Width = 50;
+            // 
+            // Year
+            // 
+            this.Year.HeaderText = "Year";
+            this.Year.Name = "Year";
+            this.Year.ReadOnly = true;
+            this.Year.Width = 60;
+            // 
+            // Company
+            // 
+            this.Company.HeaderText = "Company";
+            this.Company.Name = "Company";
+            this.Company.ReadOnly = true;
+            this.Company.Width = 80;
+            // 
+            // AuditNumber
+            // 
+            this.AuditNumber.HeaderText = "Audit Number";
+            this.AuditNumber.Name = "AuditNumber";
+            this.AuditNumber.ReadOnly = true;
+            this.AuditNumber.Width = 80;
+            // 
+            // AuditType
+            // 
+            this.AuditType.HeaderText = "Audit Type";
+            this.AuditType.Name = "AuditType";
+            this.AuditType.ReadOnly = true;
+            // 
+            // IASentNumber
+            // 
+            this.IASentNumber.HeaderText = "IASentNumber";
+            this.IASentNumber.Name = "IASentNumber";
+            this.IASentNumber.ReadOnly = true;
+            this.IASentNumber.Width = 120;
+            // 
+            // Title
+            // 
+            this.Title.HeaderText = "Title";
+            this.Title.Name = "Title";
+            this.Title.ReadOnly = true;
+            this.Title.Width = 200;
+            // 
+            // ReportDt
+            // 
+            this.ReportDt.HeaderText = "Report Date";
+            this.ReportDt.Name = "ReportDt";
+            this.ReportDt.ReadOnly = true;
+            // 
+            // Auditor1
+            // 
+            this.Auditor1.HeaderText = "Auditor1";
+            this.Auditor1.Name = "Auditor1";
+            this.Auditor1.ReadOnly = true;
+            // 
+            // Auditor2
+            // 
+            this.Auditor2.HeaderText = "Auditor2";
+            this.Auditor2.Name = "Auditor2";
+            this.Auditor2.ReadOnly = true;
+            // 
+            // Supervisor
+            // 
+            this.Supervisor.HeaderText = "Supervisor";
+            this.Supervisor.Name = "Supervisor";
+            this.Supervisor.ReadOnly = true;
+            // 
+            // IsCompleted
+            // 
+            this.IsCompleted.HeaderText = "Completed";
+            this.IsCompleted.Name = "IsCompleted";
+            this.IsCompleted.ReadOnly = true;
+            this.IsCompleted.Resizable = System.Windows.Forms.DataGridViewTriState.True;
+            this.IsCompleted.SortMode = System.Windows.Forms.DataGridViewColumnSortMode.Automatic;
+            // 
+            // RevNo
+            // 
+            this.RevNo.HeaderText = "Rev No";
+            this.RevNo.Name = "RevNo";
+            this.RevNo.ReadOnly = true;
+            // 
+            // AttCnt
+            // 
+            this.AttCnt.HeaderText = "Att";
+            this.AttCnt.Name = "AttCnt";
+            this.AttCnt.ReadOnly = true;
+            // 
             // Auditor_AuditView
             // 
             this.AcceptButton = this.btnTitleSearch;
@@ -464,18 +480,6 @@
         #endregion
 
         private System.Windows.Forms.DataGridView dgvAuditView;
-        private System.Windows.Forms.DataGridViewTextBoxColumn Id;
-        private System.Windows.Forms.DataGridViewTextBoxColumn Year;
-        private System.Windows.Forms.DataGridViewTextBoxColumn Company;
-        private System.Windows.Forms.DataGridViewTextBoxColumn AuditNumber;
-        private System.Windows.Forms.DataGridViewTextBoxColumn AuditType;
-        private System.Windows.Forms.DataGridViewTextBoxColumn IASentNumber;
-        private System.Windows.Forms.DataGridViewTextBoxColumn Title;
-        private System.Windows.Forms.DataGridViewTextBoxColumn ReportDt;
-        private System.Windows.Forms.DataGridViewTextBoxColumn Auditor1;
-        private System.Windows.Forms.DataGridViewTextBoxColumn Auditor2;
-        private System.Windows.Forms.DataGridViewTextBoxColumn Supervisor;
-        private System.Windows.Forms.DataGridViewCheckBoxColumn IsCompleted;
         private System.Windows.Forms.ToolStripMenuItem MIupdate;
         private System.Windows.Forms.ToolStripMenuItem MIshowFindings;
         private System.Windows.Forms.ToolStripMenuItem MIattachments;
@@ -499,5 +503,19 @@
         private System.Windows.Forms.Button btnTitleSearch;
         public System.Windows.Forms.ContextMenuStrip cmsOnGrid;
         private System.Windows.Forms.ToolStripMenuItem RevisionsToolStripMenuItem;
+        private System.Windows.Forms.DataGridViewTextBoxColumn Id;
+        private System.Windows.Forms.DataGridViewTextBoxColumn Year;
+        private System.Windows.Forms.DataGridViewTextBoxColumn Company;
+        private System.Windows.Forms.DataGridViewTextBoxColumn AuditNumber;
+        private System.Windows.Forms.DataGridViewTextBoxColumn AuditType;
+        private System.Windows.Forms.DataGridViewTextBoxColumn IASentNumber;
+        private System.Windows.Forms.DataGridViewTextBoxColumn Title;
+        private System.Windows.Forms.DataGridViewTextBoxColumn ReportDt;
+        private System.Windows.Forms.DataGridViewTextBoxColumn Auditor1;
+        private System.Windows.Forms.DataGridViewTextBoxColumn Auditor2;
+        private System.Windows.Forms.DataGridViewTextBoxColumn Supervisor;
+        private System.Windows.Forms.DataGridViewCheckBoxColumn IsCompleted;
+        private System.Windows.Forms.DataGridViewTextBoxColumn RevNo;
+        private System.Windows.Forms.DataGridViewTextBoxColumn AttCnt;
     }
 }

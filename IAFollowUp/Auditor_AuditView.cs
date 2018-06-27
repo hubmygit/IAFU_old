@@ -46,17 +46,6 @@ namespace IAFollowUp
 
             FillDataGridView(dgvAuditView, auditList);
 
-            
-
-
-            Companies com1 = new Companies() { Id = 1, Name = "100", NameShort = "1" };
-            Companies com2 = new Companies() { Id = 1, Name = "100", NameShort = "1" };
-            Companies com3 = new Companies() { Id = 2, Name = "200", NameShort = "2" };
-
-            bool test1 = com1.Equals(com2); //true
-
-            bool test2 = com1.Equals(com3); //false
-
 
         }
 
@@ -111,8 +100,9 @@ namespace IAFollowUp
                               "CONVERT(varchar, DECRYPTBYPASSPHRASE( @passPhrase , [Title])) as Title, " + 
                               "[ReportDt], " +
                               "[Auditor1Id], [Auditor2Id], [SupervisorId], " +
-                              "[IsCompleted], [AuditNumber], [IASentNumber], [RevNo] " +
-                              "FROM [dbo].[Audit] " +
+                              "[IsCompleted], [AuditNumber], [IASentNumber], [RevNo], " +
+                              "(SELECT count(*) FROM [dbo].[Attachments] T WHERE a.id = T.AuditID and A.RevNo = T.RevNo and T.IsCurrent = 1) as AttCnt " +
+                              "FROM [dbo].[Audit] A " +
                               "ORDER BY Id "; //ToDo
             SqlCommand cmd = new SqlCommand(SelectSt, sqlConn);
             try
@@ -167,7 +157,8 @@ namespace IAFollowUp
                         IsCompleted = Convert.ToBoolean(reader["IsCompleted"].ToString()),
                         AuditNumber = reader["AuditNumber"].ToString(),
                         IASentNumber = reader["IASentNumber"].ToString(),
-                        RevNo = Convert.ToInt32(reader["RevNo"].ToString())
+                        RevNo = Convert.ToInt32(reader["RevNo"].ToString()),
+                        AttCnt = Convert.ToInt32(reader["AttCnt"].ToString())
                     });
                 }
                 reader.Close();
@@ -201,6 +192,8 @@ namespace IAFollowUp
                 dgvDictList.Add(new dgvDictionary() { dbfield = thisRecord.IsCompleted, dgvColumnHeader = "IsCompleted" });
                 dgvDictList.Add(new dgvDictionary() { dbfield = thisRecord.AuditNumber, dgvColumnHeader = "AuditNumber" });
                 dgvDictList.Add(new dgvDictionary() { dbfield = thisRecord.IASentNumber, dgvColumnHeader = "IASentNumber" });
+                dgvDictList.Add(new dgvDictionary() { dbfield = thisRecord.RevNo, dgvColumnHeader = "RevNo" });
+                dgvDictList.Add(new dgvDictionary() { dbfield = thisRecord.AttCnt, dgvColumnHeader = "AttCnt" });
 
                 string aaaa = thisRecord.Year.ToString() + "." + thisRecord.Company.NameShort + "." + thisRecord.AuditNumber + "." + thisRecord.AuditType.NameShort + "-" + thisRecord.IASentNumber;
 
@@ -213,22 +206,6 @@ namespace IAFollowUp
 
                 dgv.Rows.Add(obj);
             }
-
-            //    dgv.Rows.Add(new object[]
-            //    {
-            //        thisRecord.Id,
-            //        thisRecord.Year,
-            //        thisRecord.Company.Name,
-            //        thisRecord.AuditType.Name,
-            //        thisRecord.Title,
-            //        thisRecord.ReportDt.ToString("dd.MM.yyyy"),
-            //        thisRecord.Auditor1.UserName,
-            //        thisRecord.Auditor2.UserName,
-            //        thisRecord.Supervisor.UserName,
-            //        thisRecord.IsCompleted,
-            //        thisRecord.AuditNumber,
-            //        thisRecord.IASentNumber
-            //    });
 
             dgv.ClearSelection();
 
@@ -252,6 +229,8 @@ namespace IAFollowUp
             dgvDictList.Add(new dgvDictionary() { dbfield = Audit.IsCompleted, dgvColumnHeader = "IsCompleted" });
             dgvDictList.Add(new dgvDictionary() { dbfield = Audit.AuditNumber, dgvColumnHeader = "AuditNumber" });
             dgvDictList.Add(new dgvDictionary() { dbfield = Audit.IASentNumber, dgvColumnHeader = "IASentNumber" });
+            dgvDictList.Add(new dgvDictionary() { dbfield = Audit.RevNo, dgvColumnHeader = "RevNo" });
+            dgvDictList.Add(new dgvDictionary() { dbfield = Audit.AttCnt, dgvColumnHeader = "AttCnt" });
 
             string aaaa = Audit.Year.ToString() + "." + Audit.Company.NameShort + "." + Audit.AuditNumber + "." + Audit.AuditType.NameShort + "-" + Audit.IASentNumber;
 
@@ -312,7 +291,14 @@ namespace IAFollowUp
 
         private void MIattachments_Click(object sender, EventArgs e)
         {
+            if (dgvAuditView.SelectedRows.Count > 0)
+            {
+                int auditId = Convert.ToInt32(dgvAuditView.SelectedRows[0].Cells["Id"].Value.ToString());
+                int revNo = Convert.ToInt32(dgvAuditView.SelectedRows[0].Cells["RevNo"].Value.ToString());
 
+                Attachments attachedFiles = new Attachments(auditId, revNo);
+                attachedFiles.ShowDialog();
+            }
         }
 
         private void finalizeAuditToolStripMenuItem_Click(object sender, EventArgs e)
@@ -389,10 +375,12 @@ namespace IAFollowUp
                 if (Convert.ToBoolean(dgvAuditView.SelectedRows[0].Cells["IsCompleted"].Value) == true)
                 {
                     MIupdate.Enabled = false;
+                    MIattachments.Enabled = false;
                 }
                 else
                 {
                     MIupdate.Enabled = true;
+                    MIattachments.Enabled = true;
                 }
             }
         }
@@ -456,19 +444,21 @@ namespace IAFollowUp
         public string AuditNumber { get; set; }
         public string IASentNumber { get; set; }        
         public int RevNo { get; set; }
+        public int AttCnt { get; set; }
 
-        //public override bool Equals(object obj)
-        //{
-        //    if (obj == null || GetType() != obj.GetType())
-        //        return false;
+        public static bool isEqual(Audit x, Audit y)
+        {
+            if (x.Id == y.Id && x.Year == y.Year && x.CompanyId == y.CompanyId && Companies.isEqual( x.Company , y.Company) && x.AuditTypeId == y.AuditTypeId && AuditTypes.isEqual( x.AuditType , y.AuditType) &&
+                x.Title == y.Title && x.ReportDt == y.ReportDt && x.Auditor1ID == y.Auditor1ID && Users.isEqual( x.Auditor1 , y.Auditor1) && x.Auditor2ID == y.Auditor2ID && Users.isEqual(x.Auditor2, y.Auditor2) &&
+                x.SupervisorID == y.SupervisorID && Users.isEqual(x.Supervisor, y.Supervisor) && x.IsCompleted == y.IsCompleted && x.AuditNumber == y.AuditNumber && x.IASentNumber == y.IASentNumber && x.RevNo == y.RevNo)
+                return true;
+            else
+                return false;
+        }
 
-        //    return base.Equals(obj);
-        //}
 
-        //public override int GetHashCode()
-        //{
-        //    return this.GetHashCode();
-        //}
+
+
     }
 
     public class AuditRev
@@ -499,6 +489,7 @@ namespace IAFollowUp
         public int? UpdUserId { get; set; }
         public Users UpdUser { get; set; }
         public DateTime UpdDt { get; set; }
+        public int AttCnt { get; set; }
 
         //public override bool Equals(object obj)
         //{
@@ -549,18 +540,17 @@ namespace IAFollowUp
             }
         }
 
-        //public override bool Equals(object obj)
-        //{
-        //    if (obj == null || GetType() != obj.GetType())
-        //        return false;
+        public static  bool isEqual(Companies x, Companies y)
+        {
+            if (x.Id == y.Id && x.Name == y.Name && x.NameShort == y.NameShort)
+                return true;
+            else
+                return false;
+        }
 
-        //    return base.Equals(obj as Companies);
-        //}
+     
 
-        //public override int GetHashCode()
-        //{
-        //    return this.GetHashCode();
-        //}
+
 
         public static List<Companies> GetSqlCompaniesList()
         {
@@ -640,7 +630,18 @@ namespace IAFollowUp
             {
                 MessageBox.Show("The following error occurred: " + ex.Message);
             }
+
+
+
         }
+        public static bool isEqual(AuditTypes x, AuditTypes y)
+        {
+            if (x.Id == y.Id && x.Name == y.Name && x.NameShort == y.NameShort)
+                return true;
+            else
+                return false;
+        }
+
         public static List<AuditTypes> GetSqlAuditTypesList()
         {
             List<AuditTypes> ret = new List<AuditTypes>();
@@ -717,6 +718,15 @@ namespace IAFollowUp
                 MessageBox.Show("The following error occurred: " + ex.Message);
             }
         }
+
+        public static bool isEqual(Users x, Users y)
+        {
+            if (x.Id == y.Id && x.FullName == y.FullName)
+                return true;
+            else
+                return false;
+        }
+
         public static List<Users> GetSqlUsersList()
         {
             List<Users> ret = new List<Users>();

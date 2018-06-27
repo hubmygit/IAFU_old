@@ -39,11 +39,8 @@ namespace IAFollowUp
         {
             List<AuditRev> filteredLines = new List<AuditRev>();
 
-           
             filteredLines = auditRevList.Where(i => i.UpdDt >= dtpUpdDtFrom.Value.Date && i.UpdDt < dtpUpdDtTo.Value.Date.AddDays(1)).ToList();
-
-          
-
+            
             if (cbUpdUser.SelectedIndex > 0)
             {
                 filteredLines = filteredLines.Where(i => i.UpdUserId == InsertNewAudit.getComboboxItem<Users>(cbUpdUser).Id).ToList();
@@ -52,7 +49,6 @@ namespace IAFollowUp
             FillDataGridViewRev(dgvAuditRevView, filteredLines);
 
             toolStripCounter.Text = "Records: " + filteredLines.Count.ToString();
-
         }
 
 
@@ -68,8 +64,9 @@ namespace IAFollowUp
                               "CONVERT(varchar, DECRYPTBYPASSPHRASE( @passPhrase , [Title])) as Title, " +
                               "[ReportDt], " +
                               "[Auditor1Id], [Auditor2Id], [SupervisorId], " +
-                              "[IsCompleted], [AuditNumber], [IASentNumber],[InsUserId],[UpdUserId],[InsDt], [UpdDt], [RevNo] " +
-                              "FROM [dbo].[Audit] " +
+                              "[IsCompleted], [AuditNumber], [IASentNumber],[InsUserId],[UpdUserId],[InsDt], [UpdDt], [RevNo], " +
+                              "(SELECT count(*) FROM [dbo].[Attachments] T WHERE a.id = T.AuditID and A.RevNo = T.RevNo and T.IsCurrent = 1) as AttCnt " +
+                              "FROM [dbo].[Audit] A " +
                               "WHERE Id = " + Id.ToString() + 
 
                               " UNION ALL " +
@@ -78,7 +75,8 @@ namespace IAFollowUp
                               "CONVERT(varchar, DECRYPTBYPASSPHRASE( @passPhrase , R.[Title])) as Title, " +
                               "R.[ReportDt], " +
                               "R.[Auditor1Id], R.[Auditor2Id], R.[SupervisorId], " +
-                              "R.[IsCompleted], R.[AuditNumber], R.[IASentNumber], R.[InsUserId], R.[UpdUserId], R.[InsDt], R.[UpdDt], R.[RevNo] " +
+                              "R.[IsCompleted], R.[AuditNumber], R.[IASentNumber], R.[InsUserId], R.[UpdUserId], R.[InsDt], R.[UpdDt], R.[RevNo], " +
+                              "(SELECT count(*) FROM [dbo].[Attachments] T WHERE R.id = T.AuditID and R.RevNo = T.RevNo and T.IsCurrent = 1) as AttCnt " +
                               "FROM [dbo].[AuditRev] R " +
                               "WHERE R.AuditId = " + Id.ToString() +
                               

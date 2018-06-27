@@ -175,21 +175,23 @@ namespace IAFollowUp
             }
             else
             {
-                if (UpdateTable_Audit(newAuditRecord))
+                if (Audit.isEqual(oldAuditRecord, newAuditRecord) == false)
                 {
-
-                    if(oldAuditRecord.Equals(newAuditRecord)) //if (oldAuditRecord == newAuditRecord)
+                    if (UpdateTable_Audit(newAuditRecord))
                     {
-
+                        MessageBox.Show("Audit updated successfully!");
+                        newAuditRecord.RevNo = newAuditRecord.RevNo + 1;
+                        success = true;
+                        Close();
                     }
-
-                    MessageBox.Show("Audit updated successfully!");
-                    success = true;
-                    Close();
+                    else
+                    {
+                        MessageBox.Show("The Audit has not been updated!", "Error", MessageBoxButtons.OK, MessageBoxIcon.Error);
+                    }
                 }
                 else
                 {
-                    MessageBox.Show("The Audit has not been updated!", "Error", MessageBoxButtons.OK, MessageBoxIcon.Error);
+                    Close();
                 }
             }
 
