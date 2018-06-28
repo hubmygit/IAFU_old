@@ -51,18 +51,22 @@ namespace IAFollowUp
             {
                 lvAttachedFiles.Items.Add(new ListViewItem(thisFileName));
             }
-
+            AttCnt = fileNames.Length;
         }
 
         int AuditId;
-        int RevNo;
-        
-        public string[] getSavedAttachments(int AuditId, int RevNo)
+        public int RevNo;
+
+        public int AttCnt;
+       
+        public bool success= false;
+
+        public string[] getSavedAttachments(int auditId, int revNo)
         {
             List<string> ret = new List<string>();
 
             SqlConnection sqlConn = new SqlConnection(SqlDBInfo.connectionString);
-            string SelectSt = "SELECT Name FROM [dbo].[Attachments] WHERE IsCurrent = 1 AND AuditId = " + AuditId.ToString() + " AND RevNo= " + RevNo.ToString();
+            string SelectSt = "SELECT Name FROM [dbo].[Attachments] WHERE AuditId = " + auditId.ToString() + " AND RevNo= " + revNo.ToString();
             SqlCommand cmd = new SqlCommand(SelectSt, sqlConn);
             try
             {
@@ -155,7 +159,7 @@ namespace IAFollowUp
                     }
 
                     SqlConnection sqlConn = new SqlConnection(SqlDBInfo.connectionString);
-                    string SelectSt = "SELECT [FileContents] FROM [dbo].[Attachments] WHERE IsCurrent = 1 AND AuditId = @AuditId AND RevNo = @RevNo AND Name = @Filename";
+                    string SelectSt = "SELECT [FileContents] FROM [dbo].[Attachments] WHERE AuditId = @AuditId AND RevNo = @RevNo AND Name = @Filename";
                     SqlCommand cmd = new SqlCommand(SelectSt, sqlConn);
                     try
                     {
@@ -205,34 +209,34 @@ namespace IAFollowUp
             lvAttachedFiles.Items.Clear();
         }
 
-        private bool UpdateAttachments_IsCurrent(int auditId, int revNo)
-        {
-            bool ret = false;
+        //private bool UpdateAttachments_IsCurrent(int auditId, int revNo)
+        //{
+        //    bool ret = false;
 
-            SqlConnection sqlConn = new SqlConnection(SqlDBInfo.connectionString);
-            string InsSt = "UPDATE [dbo].[Attachments] SET [IsCurrent] = 0 WHERE AuditId = @id AND RevNo = @RevNo";
-            try
-            {
-                sqlConn.Open();
+        //    SqlConnection sqlConn = new SqlConnection(SqlDBInfo.connectionString);
+        //    string InsSt = "UPDATE [dbo].[Attachments] SET [IsCurrent] = 0 WHERE AuditId = @id AND RevNo = @RevNo";
+        //    try
+        //    {
+        //        sqlConn.Open();
 
-                SqlCommand cmd = new SqlCommand(InsSt, sqlConn);
+        //        SqlCommand cmd = new SqlCommand(InsSt, sqlConn);
 
-                cmd.Parameters.AddWithValue("@id", auditId);
-                cmd.Parameters.AddWithValue("@RevNo", revNo);
+        //        cmd.Parameters.AddWithValue("@id", auditId);
+        //        cmd.Parameters.AddWithValue("@RevNo", revNo);
 
-                cmd.CommandType = CommandType.Text;
-                cmd.ExecuteNonQuery();
+        //        cmd.CommandType = CommandType.Text;
+        //        cmd.ExecuteNonQuery();
 
-                ret = true;
-            }
-            catch (Exception ex)
-            {
-                MessageBox.Show("The following error occurred: " + ex.Message);
-            }
-            sqlConn.Close();
+        //        ret = true;
+        //    }
+        //    catch (Exception ex)
+        //    {
+        //        MessageBox.Show("The following error occurred: " + ex.Message);
+        //    }
+        //    sqlConn.Close();
 
-            return ret;
-        }
+        //    return ret;
+        //}
 
         LvFileInfo saveAttachmentLocally(int AuditId, int RevNo, string Filename)
         {
@@ -253,7 +257,7 @@ namespace IAFollowUp
 
             SqlConnection sqlConn = new SqlConnection(SqlDBInfo.connectionString);
             string SelectSt = "SELECT [Name], [FileContents] FROM [dbo].[Attachments] " + 
-                " WHERE IsCurrent = 1 AND AuditId = @AuditId and RevNo = @RevNo and Name = @Filename ";
+                " WHERE AuditId = @AuditId and RevNo = @RevNo and Name = @Filename ";
             SqlCommand cmd = new SqlCommand(SelectSt, sqlConn);
             try
             {
@@ -311,8 +315,8 @@ namespace IAFollowUp
             if (AuditId > 0 && RevNo > 0 && fileName.Trim().Length > 0)
             {
                 SqlConnection sqlConn = new SqlConnection(SqlDBInfo.connectionString);
-                string InsSt = "INSERT INTO [dbo].[Attachments] (Name, FileContents, AuditId, RevNo, IsCurrent, UsersId, InsDate) VALUES " +
-                    "(@Filename, @FileCont, @AuditId, @RevNo, 1, @UsersId, getdate() ) ";
+                string InsSt = "INSERT INTO [dbo].[Attachments] (Name, FileContents, AuditId, RevNo, UsersId, InsDate) VALUES " +
+                    "(@Filename, @FileCont, @AuditId, @RevNo, @UsersId, getdate() ) ";
                 try
                 {
                     sqlConn.Open();
@@ -376,10 +380,17 @@ namespace IAFollowUp
 
         private void btnSave_Click(object sender, EventArgs e)
         {
-            //an den eixe attachments kai den exei oute twra 
-            //return;
+            if (AttCnt == 0 && lvAttachedFiles.Items.Count == 0)
+            {
+                Close();
+                return;
+            }
 
-            UpdateAuditOnAttSave(AuditId);
+            if (UpdateAuditOnAttSave(AuditId) == false)
+            {
+                MessageBox.Show("Error: No files attached!");
+                return;
+            }
 
             if (lvAttachedFiles.Items.Count > 0)
             {
@@ -401,13 +412,13 @@ namespace IAFollowUp
 
                 //update old records
                 //UpdateAttachments_IsCurrent(AuditId, RevNo);
-
+                RevNo += 1;
                 //insert attachments into db - IsCurrent = 1
                 foreach (ListViewItem lvi in newLvItems)
                 {
                     byte[] attFileBytes = File.ReadAllBytes(lvi.SubItems[1].Text);
 
-                    if (!InertIntoTable_AttachedFiles(AuditId, RevNo + 1, lvi.SubItems[0].Text, attFileBytes))
+                    if (!InertIntoTable_AttachedFiles(AuditId, RevNo, lvi.SubItems[0].Text, attFileBytes))
                     {
                         MessageBox.Show("File save failed: " + lvi.SubItems[0].Text);
                     }
@@ -416,13 +427,19 @@ namespace IAFollowUp
             }
             //else
             //{
-                //update old records
-                //UpdateAttachments_IsCurrent(AuditId, RevNo);
+            //update old records
+            //UpdateAttachments_IsCurrent(AuditId, RevNo);
             //}
 
-            Close();
+            success = true;
+           
+            AttCnt = lvAttachedFiles.Items.Count;
+            if (AttCnt > 0)
+            {
+                MessageBox.Show("File(s) attached successfully!");
+            }
 
-            
+            Close();
         }
     }
 

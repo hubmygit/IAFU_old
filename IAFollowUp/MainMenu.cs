@@ -60,7 +60,7 @@ namespace IAFollowUp
 
             Auditor_AuditView frmAuditorAuditView_Rev = new Auditor_AuditView();
 
-            frmAuditorAuditView_Rev.cmsOnGrid.Items["RevisionsToolStripMenuItem"].Visible = true;
+            frmAuditorAuditView_Rev.cmsOnGrid.Items["MIRevisions"].Visible = true;
 
             frmAuditorAuditView_Rev.ShowDialog();
 

@@ -28,6 +28,7 @@
         /// </summary>
         private void InitializeComponent()
         {
+            this.components = new System.ComponentModel.Container();
             System.Windows.Forms.DataGridViewCellStyle dataGridViewCellStyle1 = new System.Windows.Forms.DataGridViewCellStyle();
             System.Windows.Forms.DataGridViewCellStyle dataGridViewCellStyle2 = new System.Windows.Forms.DataGridViewCellStyle();
             System.Windows.Forms.DataGridViewCellStyle dataGridViewCellStyle3 = new System.Windows.Forms.DataGridViewCellStyle();
@@ -55,10 +56,14 @@
             this.Auditor2 = new System.Windows.Forms.DataGridViewTextBoxColumn();
             this.Supervisor = new System.Windows.Forms.DataGridViewTextBoxColumn();
             this.IsCompleted = new System.Windows.Forms.DataGridViewCheckBoxColumn();
+            this.AttCnt = new System.Windows.Forms.DataGridViewTextBoxColumn();
             this.UpdUser = new System.Windows.Forms.DataGridViewTextBoxColumn();
             this.UpdDt = new System.Windows.Forms.DataGridViewTextBoxColumn();
+            this.cmsOnGrid = new System.Windows.Forms.ContextMenuStrip(this.components);
+            this.MIattachments = new System.Windows.Forms.ToolStripMenuItem();
             ((System.ComponentModel.ISupportInitialize)(this.dgvAuditRevView)).BeginInit();
             this.statusStrip1.SuspendLayout();
+            this.cmsOnGrid.SuspendLayout();
             this.SuspendLayout();
             // 
             // dgvAuditRevView
@@ -93,8 +98,10 @@
             this.Auditor2,
             this.Supervisor,
             this.IsCompleted,
+            this.AttCnt,
             this.UpdUser,
             this.UpdDt});
+            this.dgvAuditRevView.ContextMenuStrip = this.cmsOnGrid;
             dataGridViewCellStyle2.Alignment = System.Windows.Forms.DataGridViewContentAlignment.MiddleLeft;
             dataGridViewCellStyle2.BackColor = System.Drawing.Color.LightSteelBlue;
             dataGridViewCellStyle2.Font = new System.Drawing.Font("Microsoft Sans Serif", 12F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(161)));
@@ -118,6 +125,7 @@
             this.dgvAuditRevView.SelectionMode = System.Windows.Forms.DataGridViewSelectionMode.FullRowSelect;
             this.dgvAuditRevView.Size = new System.Drawing.Size(1209, 500);
             this.dgvAuditRevView.TabIndex = 13;
+            this.dgvAuditRevView.MouseDown += new System.Windows.Forms.MouseEventHandler(this.dgvAuditRevView_MouseDown);
             // 
             // statusStrip1
             // 
@@ -290,6 +298,12 @@
             this.IsCompleted.Resizable = System.Windows.Forms.DataGridViewTriState.True;
             this.IsCompleted.SortMode = System.Windows.Forms.DataGridViewColumnSortMode.Automatic;
             // 
+            // AttCnt
+            // 
+            this.AttCnt.HeaderText = "Att";
+            this.AttCnt.Name = "AttCnt";
+            this.AttCnt.ReadOnly = true;
+            // 
             // UpdUser
             // 
             this.UpdUser.HeaderText = "Upd User";
@@ -301,6 +315,20 @@
             this.UpdDt.HeaderText = "Upd Date";
             this.UpdDt.Name = "UpdDt";
             this.UpdDt.ReadOnly = true;
+            // 
+            // cmsOnGrid
+            // 
+            this.cmsOnGrid.Items.AddRange(new System.Windows.Forms.ToolStripItem[] {
+            this.MIattachments});
+            this.cmsOnGrid.Name = "cmsOnGrid";
+            this.cmsOnGrid.Size = new System.Drawing.Size(143, 26);
+            // 
+            // MIattachments
+            // 
+            this.MIattachments.Name = "MIattachments";
+            this.MIattachments.Size = new System.Drawing.Size(142, 22);
+            this.MIattachments.Text = "Attachments";
+            this.MIattachments.Click += new System.EventHandler(this.MIattachments_Click);
             // 
             // AuditRevisions
             // 
@@ -323,6 +351,7 @@
             ((System.ComponentModel.ISupportInitialize)(this.dgvAuditRevView)).EndInit();
             this.statusStrip1.ResumeLayout(false);
             this.statusStrip1.PerformLayout();
+            this.cmsOnGrid.ResumeLayout(false);
             this.ResumeLayout(false);
             this.PerformLayout();
 
@@ -353,7 +382,10 @@
         private System.Windows.Forms.DataGridViewTextBoxColumn Auditor2;
         private System.Windows.Forms.DataGridViewTextBoxColumn Supervisor;
         private System.Windows.Forms.DataGridViewCheckBoxColumn IsCompleted;
+        private System.Windows.Forms.DataGridViewTextBoxColumn AttCnt;
         private System.Windows.Forms.DataGridViewTextBoxColumn UpdUser;
         private System.Windows.Forms.DataGridViewTextBoxColumn UpdDt;
+        public System.Windows.Forms.ContextMenuStrip cmsOnGrid;
+        private System.Windows.Forms.ToolStripMenuItem MIattachments;
     }
 }

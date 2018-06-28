@@ -65,7 +65,7 @@ namespace IAFollowUp
                               "[ReportDt], " +
                               "[Auditor1Id], [Auditor2Id], [SupervisorId], " +
                               "[IsCompleted], [AuditNumber], [IASentNumber],[InsUserId],[UpdUserId],[InsDt], [UpdDt], [RevNo], " +
-                              "(SELECT count(*) FROM [dbo].[Attachments] T WHERE a.id = T.AuditID and A.RevNo = T.RevNo and T.IsCurrent = 1) as AttCnt " +
+                              "(SELECT count(*) FROM [dbo].[Attachments] T WHERE a.id = T.AuditID and A.RevNo = T.RevNo) as AttCnt " +
                               "FROM [dbo].[Audit] A " +
                               "WHERE Id = " + Id.ToString() + 
 
@@ -76,7 +76,7 @@ namespace IAFollowUp
                               "R.[ReportDt], " +
                               "R.[Auditor1Id], R.[Auditor2Id], R.[SupervisorId], " +
                               "R.[IsCompleted], R.[AuditNumber], R.[IASentNumber], R.[InsUserId], R.[UpdUserId], R.[InsDt], R.[UpdDt], R.[RevNo], " +
-                              "(SELECT count(*) FROM [dbo].[Attachments] T WHERE R.id = T.AuditID and R.RevNo = T.RevNo and T.IsCurrent = 1) as AttCnt " +
+                              "(SELECT count(*) FROM [dbo].[Attachments] T WHERE R.AuditId = T.AuditID and R.RevNo = T.RevNo) as AttCnt " +
                               "FROM [dbo].[AuditRev] R " +
                               "WHERE R.AuditId = " + Id.ToString() +
                               
@@ -161,7 +161,8 @@ namespace IAFollowUp
                         //UpdUser = UpdUser_User,
                         //UpdDt = UpdateDt,
 
-                        RevNo = Convert.ToInt32(reader["RevNo"].ToString())
+                        RevNo = Convert.ToInt32(reader["RevNo"].ToString()),
+                        AttCnt = Convert.ToInt32(reader["AttCnt"].ToString())
                     });
                 }
                 reader.Close();
@@ -214,6 +215,7 @@ namespace IAFollowUp
                 dgvDictList.Add(new dgvDictionary() { dbfield = thisRecord.AuditNumber, dgvColumnHeader = "AuditNumber" });
                 dgvDictList.Add(new dgvDictionary() { dbfield = thisRecord.IASentNumber, dgvColumnHeader = "IASentNumber" });
                 dgvDictList.Add(new dgvDictionary() { dbfield = thisRecord.RevNo, dgvColumnHeader = "RevNo" });
+                dgvDictList.Add(new dgvDictionary() { dbfield = thisRecord.AttCnt, dgvColumnHeader = "AttCnt" });
 
 
                 string aaaa = thisRecord.Year.ToString() + "." + thisRecord.Company.NameShort + "." + thisRecord.AuditNumber + "." + thisRecord.AuditType.NameShort + "-" + thisRecord.IASentNumber;
@@ -226,13 +228,18 @@ namespace IAFollowUp
                 }
 
                 dgv.Rows.Add(obj);
-                                
+
+                if (thisRecord.Id == 0)
+                {
+                    dgv.Rows[dgv.Rows.Count - 1].DefaultCellStyle.BackColor = Color.White;
+                }
+
             }
 
-            if (AuditRevList.Count > 0)
-            {
-                dgv.Rows[0].DefaultCellStyle.BackColor = Color.White;
-            }
+            //if (AuditRevList.Count > 0)
+            //{
+            //    dgv.Rows[0].DefaultCellStyle.BackColor = Color.White;
+            //}
 
             dgv.ClearSelection();
 
@@ -251,6 +258,43 @@ namespace IAFollowUp
         private void dtUpdDtTo_ValueChanged(object sender, EventArgs e)
         {
             ApplyFilters();
+        }
+
+        private void MIattachments_Click(object sender, EventArgs e)
+        {
+            if (dgvAuditRevView.SelectedRows.Count > 0)
+            {
+                if (Convert.ToInt32(dgvAuditRevView.SelectedRows[0].Cells["AttCnt"].Value.ToString()) > 0)
+                {
+                    int auditId = Convert.ToInt32(dgvAuditRevView.SelectedRows[0].Cells["AuditID"].Value.ToString());
+                    int revNo = Convert.ToInt32(dgvAuditRevView.SelectedRows[0].Cells["RevNo"].Value.ToString());
+
+                    Attachments attachedFiles = new Attachments(auditId, revNo);
+                    attachedFiles.btnAddFiles.Enabled = false;
+                    attachedFiles.btnRemoveAll.Enabled = false;
+                    attachedFiles.btnRemoveFile.Enabled = false;
+                    attachedFiles.btnSave.Enabled = false;
+
+                    attachedFiles.ShowDialog();
+                }
+                else
+                {
+                    MessageBox.Show("No attached files found!");
+                }
+            }
+        }
+
+        private void dgvAuditRevView_MouseDown(object sender, MouseEventArgs e)
+        {
+            if (e.Button == MouseButtons.Right)
+            {
+                var hti = dgvAuditRevView.HitTest(e.X, e.Y);
+                if (hti.RowIndex < 0)
+                {
+                    return;
+                }
+                dgvAuditRevView.Rows[hti.RowIndex].Selected = true;
+            }
         }
     }
 }

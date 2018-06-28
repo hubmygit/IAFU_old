@@ -74,7 +74,10 @@ namespace IAFollowUp
             }
             filteredLines = filteredLines.Where(i => i.Year == dtpYear.Value.Year).ToList();
 
-            filteredLines = filteredLines.Where(i => i.IsCompleted == chbCompleted.Checked).ToList();
+            if (chbCompleted.CheckState != CheckState.Indeterminate)
+            {
+                filteredLines = filteredLines.Where(i => i.IsCompleted == chbCompleted.Checked).ToList();
+            }
 
             filteredLines = filteredLines.Where(i =>
             System.Globalization.CultureInfo.CurrentCulture.CompareInfo.IndexOf(i.Title.ToUpper(), txtTitle.Text.ToUpper(), System.Globalization.CompareOptions.IgnoreNonSpace) >= 0).ToList();
@@ -101,7 +104,7 @@ namespace IAFollowUp
                               "[ReportDt], " +
                               "[Auditor1Id], [Auditor2Id], [SupervisorId], " +
                               "[IsCompleted], [AuditNumber], [IASentNumber], [RevNo], " +
-                              "(SELECT count(*) FROM [dbo].[Attachments] T WHERE a.id = T.AuditID and A.RevNo = T.RevNo and T.IsCurrent = 1) as AttCnt " +
+                              "(SELECT count(*) FROM [dbo].[Attachments] T WHERE a.id = T.AuditID and A.RevNo = T.RevNo) as AttCnt " +
                               "FROM [dbo].[Audit] A " +
                               "ORDER BY Id "; //ToDo
             SqlCommand cmd = new SqlCommand(SelectSt, sqlConn);
@@ -297,16 +300,28 @@ namespace IAFollowUp
                 int revNo = Convert.ToInt32(dgvAuditView.SelectedRows[0].Cells["RevNo"].Value.ToString());
 
                 Attachments attachedFiles = new Attachments(auditId, revNo);
+
+                if (Convert.ToBoolean(dgvAuditView.SelectedRows[0].Cells["IsCompleted"].Value.ToString()) == true)
+                {
+                    attachedFiles.btnAddFiles.Enabled = false;
+                    attachedFiles.btnRemoveAll.Enabled = false;
+                    attachedFiles.btnRemoveFile.Enabled = false;
+                    attachedFiles.btnSave.Enabled = false;
+                }
                 attachedFiles.ShowDialog();
 
-                //if ...succeeded
-                //{
-                auditList[auditList.FindIndex(w => w.Id == auditId)].RevNo += 1;
-                //}
+                int dgvIndex = dgvAuditView.SelectedRows[0].Index;
+                if (attachedFiles.success)
+                {
+                    auditList[auditList.FindIndex(w => w.Id == auditId)].RevNo = attachedFiles.RevNo;
+                    auditList[auditList.FindIndex(w => w.Id == auditId)].AttCnt = attachedFiles.AttCnt;
+                    FillDataGridView(dgvAuditView, auditList[auditList.FindIndex(w => w.Id == auditId)], dgvIndex);
+                }
+
             }
         }
 
-        private void finalizeAuditToolStripMenuItem_Click(object sender, EventArgs e)
+        private void MIfinalizeAudit_Click(object sender, EventArgs e)
         {
             int id = Convert.ToInt32(dgvAuditView.SelectedRows[0].Cells["Id"].Value.ToString());
             if (dgvAuditView.SelectedRows[0].Cells["IsCompleted"].Value.ToString() == "True")
@@ -320,7 +335,23 @@ namespace IAFollowUp
                 auditList[auditList.FindIndex(w => w.Id == id)].IsCompleted = true;
                 dgvAuditView["IsCompleted", dgvAuditView.SelectedRows[0].Index].Value = true;
 
-                MessageBox.Show("The update was successful");
+                int rev = auditList[auditList.FindIndex(w => w.Id == id)].RevNo;
+
+                if ((new InsertNewAudit()).InsertIntoTable_Att(id, rev, UserInfo.userDetails.Id)==false)
+                {
+                    MessageBox.Show("The update of the attachments failed!");
+                }
+                else
+                {
+                    MessageBox.Show("The update was successful");
+                }
+
+                rev += 1;
+                auditList[auditList.FindIndex(w => w.Id == id)].RevNo = rev;
+                dgvAuditView["RevNo", dgvAuditView.SelectedRows[0].Index].Value = rev;
+
+
+            
             }
             else
             {
@@ -328,7 +359,7 @@ namespace IAFollowUp
             }
         }
 
-        private void RevisionsToolStripMenuItem_Click(object sender, EventArgs e)
+        private void MIRevisions_Click(object sender, EventArgs e)
         {
             AuditRevisions frmRevisions = new AuditRevisions(Convert.ToInt32(dgvAuditView.SelectedRows[0].Cells["Id"].Value.ToString()));
             frmRevisions.ShowDialog();
@@ -375,17 +406,21 @@ namespace IAFollowUp
             if (e.Button == MouseButtons.Right)
             {
                 var hti = dgvAuditView.HitTest(e.X, e.Y);
+                if (hti.RowIndex < 0)
+                {
+                    return;
+                }
                 dgvAuditView.Rows[hti.RowIndex].Selected = true;
 
                 if (Convert.ToBoolean(dgvAuditView.SelectedRows[0].Cells["IsCompleted"].Value) == true)
                 {
                     MIupdate.Enabled = false;
-                    MIattachments.Enabled = false;
+                    MIfinalizeAudit.Enabled = false;
                 }
                 else
                 {
                     MIupdate.Enabled = true;
-                    MIattachments.Enabled = true;
+                    MIfinalizeAudit.Enabled = true; 
                 }
             }
         }
@@ -416,17 +451,15 @@ namespace IAFollowUp
             ApplyFilters();
         }
 
-        private void chbCompleted_CheckedChanged(object sender, EventArgs e)
-        {
-            ApplyFilters();
-        }
-
         private void btnTitleSearch_Click(object sender, EventArgs e)
         {
             ApplyFilters();
         }
 
-        
+        private void chbCompleted_CheckStateChanged(object sender, EventArgs e)
+        {
+            ApplyFilters();
+        }
     }
 
     public class Audit

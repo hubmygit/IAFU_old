@@ -136,7 +136,8 @@ namespace IAFollowUp
                 IsCompleted = false,
 
                 Id = AuditUpdId, //only on update
-                RevNo = oldAuditRecord.RevNo
+                RevNo = oldAuditRecord.RevNo,
+                AttCnt= oldAuditRecord.AttCnt
 
             };
 
@@ -160,7 +161,7 @@ namespace IAFollowUp
                 newAuditRecord.Supervisor = new Users();
             }
 
-            if (isInsert)
+            if (isInsert) //insert
             {
                 if (InsertIntoTable_Audit(newAuditRecord))
                 {
@@ -173,15 +174,32 @@ namespace IAFollowUp
                     MessageBox.Show("The New Audit has not been inserted!", "Error", MessageBoxButtons.OK, MessageBoxIcon.Error);
                 }
             }
-            else
+            else //update
             {
                 if (Audit.isEqual(oldAuditRecord, newAuditRecord) == false)
                 {
                     if (UpdateTable_Audit(newAuditRecord))
                     {
-                        MessageBox.Show("Audit updated successfully!");
+                        bool successful = true;
                         newAuditRecord.RevNo = newAuditRecord.RevNo + 1;
                         success = true;
+                        
+                        if (oldAuditRecord.AttCnt > 0)
+                        {
+                            if (InsertIntoTable_Att(newAuditRecord.Id, oldAuditRecord.RevNo, UserInfo.userDetails.Id)==false)
+                            {
+                                successful = false;
+                              }
+                        }
+
+                        if (successful)
+                        {
+                            MessageBox.Show("Audit updated successfully!");
+                        }
+                        else
+                        {
+                            MessageBox.Show("Audit updated. Error while inserting attachments.");
+                        }
                         Close();
                     }
                     else
@@ -197,6 +215,43 @@ namespace IAFollowUp
 
             
             
+        }
+
+        public bool InsertIntoTable_Att( int AuditId, int OldRevNo, int UsersID)
+        {
+            bool ret = false;
+
+            SqlConnection sqlConn = new SqlConnection(SqlDBInfo.connectionString);
+            string InsSt = "INSERT INTO [dbo].[Attachments] ([Name], [FileContents], [AuditId], [RevNo], [UsersID], [InsDate]) " +
+                           "SELECT [Name], [FileContents], @AuditID, @OldRevNo+1, @UsersID, getDate() " +
+                           "FROM [dbo].[Attachments] WHERE AuditID=@AuditID and RevNo= @OldRevNo";
+            try
+            {
+                sqlConn.Open();
+                SqlCommand cmd = new SqlCommand(InsSt, sqlConn);
+
+                cmd.Parameters.AddWithValue("@AuditID", AuditId);
+                cmd.Parameters.AddWithValue("@OldRevNo", OldRevNo);
+                cmd.Parameters.AddWithValue("@UsersID", UsersID);
+
+
+                cmd.CommandType = CommandType.Text;
+                int rowsAffected = cmd.ExecuteNonQuery();
+
+                if (rowsAffected > 0)
+                {
+                    ret = true;
+                }
+            }
+            catch (Exception ex)
+            {
+                MessageBox.Show("The following error occurred: " + ex.Message);
+
+            }
+            sqlConn.Close();
+
+            return ret;
+
         }
 
         private bool InsertIntoTable_Audit (Audit audit) //INSERT [dbo].[Audit]
