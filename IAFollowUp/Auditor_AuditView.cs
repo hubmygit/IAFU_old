@@ -337,9 +337,12 @@ namespace IAFollowUp
 
                 int rev = auditList[auditList.FindIndex(w => w.Id == id)].RevNo;
 
-                if ((new InsertNewAudit()).InsertIntoTable_Att(id, rev, UserInfo.userDetails.Id)==false)
+                if (auditList[auditList.FindIndex(w => w.Id == id)].AttCnt > 0)
                 {
-                    MessageBox.Show("The update of the attachments failed!");
+                    if (new InsertNewAudit().InsertIntoTable_Att(id, rev, UserInfo.userDetails.Id) == false)
+                    {
+                        MessageBox.Show("The update of the attachments failed!");
+                    }
                 }
                 else
                 {
@@ -349,9 +352,6 @@ namespace IAFollowUp
                 rev += 1;
                 auditList[auditList.FindIndex(w => w.Id == id)].RevNo = rev;
                 dgvAuditView["RevNo", dgvAuditView.SelectedRows[0].Index].Value = rev;
-
-
-            
             }
             else
             {
