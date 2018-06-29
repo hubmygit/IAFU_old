@@ -16,6 +16,7 @@ namespace IAFollowUp
         {
             InitializeComponent();
 
+            //------ testing ------
             //string hex = "2AB26A9EBDBA39AAE9D1A5C1EA8203228CDC7E4DA8C4A1A85DE3ABC1B64DEEAA03BD9566FE4771D1E36BE15CB14027B19F93A49788B734BB89C08DEDC5CC2264";
             //byte[] test = Enumerable.Range(0, hex.Length)
             //         .Where(x => x % 2 == 0)
@@ -25,6 +26,7 @@ namespace IAFollowUp
             //byte[] data = System.Text.Encoding.ASCII.GetBytes("QWERTY12345!");
             //data = new System.Security.Cryptography.SHA256Managed().ComputeHash(data);
             //String hash = System.Text.Encoding.ASCII.GetString(data);
+            //------ testing ------
 
             auditList = SelectAudit();
         }
@@ -633,6 +635,44 @@ namespace IAFollowUp
 
     }
 
+    public class FIHeader
+    {
+        public int Id { get; set; }
+        public int AuditId { get; set; }
+        public string Title { get; set; }
+        public int FICategoryId { get; set; }
+        public FICategory FICatecory { get; set; }
+        public int InsUserId { get; set; }
+        public Users InsUser { get; set; }
+        public DateTime InsDt { get; set; }
+
+        public FIHeader()
+        {
+        }
+    }
+
+    public class FICategory
+    {
+        public int Id { get; set; }
+        public string Name { get; set; }
+        public bool NeedsApproval { get; set; }
+
+        public FICategory()
+        {
+        }
+
+        public static List<ComboboxItem> GetFICategoryComboboxItemsList(List<FICategory> FICategories)
+        {
+            List<ComboboxItem> ret = new List<ComboboxItem>();
+
+            foreach (FICategory c in FICategories)
+            {
+                ret.Add(new ComboboxItem() { Value = c, Text = c.Name });
+            }
+
+            return ret;
+        }
+    }
 
     public class AuditTypes
     {
