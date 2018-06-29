@@ -51,7 +51,7 @@ namespace IAFollowUp
 
         public List<Audit> auditList = new List<Audit>();
         public List<Companies> companiesList = Companies.GetSqlCompaniesList();
-        public List<Users> usersList = Users.GetSqlUsersList();
+        public List<Users> usersList = Users.GetUsersByRole(UserRole.IsAuditor); //Users.GetSqlUsersList();
 
 
 
@@ -721,11 +721,17 @@ namespace IAFollowUp
 
     }
 
+    public enum UserRole
+    {
+        None,
+        IsAuditor,
+        IsAuditee
+    }
+
     public class Users
     {
         public int Id { get; set; }
         public string FullName { get; set; }
-
         public Users()
         {
         }
@@ -781,6 +787,41 @@ namespace IAFollowUp
                 while (reader.Read())
                 {
                     ret.Add(new Users() { Id = Convert.ToInt32(reader["Id"].ToString()), FullName = reader["FullName"].ToString()});
+                }
+                reader.Close();
+                sqlConn.Close();
+            }
+            catch (Exception ex)
+            {
+                MessageBox.Show("The following error occurred: " + ex.Message);
+            }
+
+            return ret;
+        }
+
+        public static List<Users> GetUsersByRole(UserRole role)
+        {
+            List<Users> ret = new List<Users>();
+
+            SqlConnection sqlConn = new SqlConnection(SqlDBInfo.connectionString);
+            string SelectSt = "SELECT U.[Id], CONVERT(varchar, DECRYPTBYPASSPHRASE( @passPhrase , U.[FullName])) as FullName " +
+                              "FROM [dbo].[Roles] R, [dbo].[Users] U " +
+                              "WHERE R.Id = U.RolesId ";
+
+            if (role != UserRole.None)
+            {
+                SelectSt += " AND R." + role.ToString() + " = 1 ";
+            }
+
+            SqlCommand cmd = new SqlCommand(SelectSt, sqlConn);
+            try
+            {
+                sqlConn.Open();
+                cmd.Parameters.AddWithValue("@passPhrase", SqlDBInfo.passPhrase);
+                SqlDataReader reader = cmd.ExecuteReader();
+                while (reader.Read())
+                {
+                    ret.Add(new Users() { Id = Convert.ToInt32(reader["Id"].ToString()), FullName = reader["FullName"].ToString() });
                 }
                 reader.Close();
                 sqlConn.Close();

@@ -237,45 +237,45 @@
             this.MIfinalizeAudit,
             this.MIRevisions});
             this.cmsOnGrid.Name = "cmsOnGrid";
-            this.cmsOnGrid.Size = new System.Drawing.Size(146, 120);
+            this.cmsOnGrid.Size = new System.Drawing.Size(208, 142);
             // 
             // MIupdate
             // 
             this.MIupdate.Name = "MIupdate";
-            this.MIupdate.Size = new System.Drawing.Size(145, 22);
+            this.MIupdate.Size = new System.Drawing.Size(207, 22);
             this.MIupdate.Text = "Edit";
             this.MIupdate.Click += new System.EventHandler(this.MIupdate_Click);
             // 
             // MIattachments
             // 
             this.MIattachments.Name = "MIattachments";
-            this.MIattachments.Size = new System.Drawing.Size(145, 22);
+            this.MIattachments.Size = new System.Drawing.Size(207, 22);
             this.MIattachments.Text = "Attachments";
             this.MIattachments.Click += new System.EventHandler(this.MIattachments_Click);
             // 
             // toolStripSeparator1
             // 
             this.toolStripSeparator1.Name = "toolStripSeparator1";
-            this.toolStripSeparator1.Size = new System.Drawing.Size(142, 6);
+            this.toolStripSeparator1.Size = new System.Drawing.Size(204, 6);
             // 
             // MIshowFindings
             // 
             this.MIshowFindings.Name = "MIshowFindings";
-            this.MIshowFindings.Size = new System.Drawing.Size(145, 22);
-            this.MIshowFindings.Text = "Findings";
+            this.MIshowFindings.Size = new System.Drawing.Size(207, 22);
+            this.MIshowFindings.Text = "Findings / Improvements";
             this.MIshowFindings.Click += new System.EventHandler(this.MIshowFindings_Click);
             // 
             // MIfinalizeAudit
             // 
             this.MIfinalizeAudit.Name = "MIfinalizeAudit";
-            this.MIfinalizeAudit.Size = new System.Drawing.Size(145, 22);
+            this.MIfinalizeAudit.Size = new System.Drawing.Size(207, 22);
             this.MIfinalizeAudit.Text = "Finalize Audit";
             this.MIfinalizeAudit.Click += new System.EventHandler(this.MIfinalizeAudit_Click);
             // 
             // MIRevisions
             // 
             this.MIRevisions.Name = "MIRevisions";
-            this.MIRevisions.Size = new System.Drawing.Size(145, 22);
+            this.MIRevisions.Size = new System.Drawing.Size(207, 22);
             this.MIRevisions.Text = "Revisions";
             this.MIRevisions.Visible = false;
             this.MIRevisions.Click += new System.EventHandler(this.MIRevisions_Click);

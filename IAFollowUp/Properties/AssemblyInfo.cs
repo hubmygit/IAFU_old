@@ -8,9 +8,9 @@ using System.Runtime.InteropServices;
 [assembly: AssemblyTitle("IAFollowUp")]
 [assembly: AssemblyDescription("")]
 [assembly: AssemblyConfiguration("")]
-[assembly: AssemblyCompany("Hewlett-Packard Company")]
+[assembly: AssemblyCompany("MOH Company")]
 [assembly: AssemblyProduct("IAFollowUp")]
-[assembly: AssemblyCopyright("Copyright © Hewlett-Packard Company 2018")]
+[assembly: AssemblyCopyright("Copyright © MOH 2018")]
 [assembly: AssemblyTrademark("")]
 [assembly: AssemblyCulture("")]
 

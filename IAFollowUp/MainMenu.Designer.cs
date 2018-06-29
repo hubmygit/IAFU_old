@@ -112,7 +112,7 @@
             // 
             this.viewRevisionsToolStripMenuItem.Name = "viewRevisionsToolStripMenuItem";
             this.viewRevisionsToolStripMenuItem.Size = new System.Drawing.Size(193, 22);
-            this.viewRevisionsToolStripMenuItem.Text = "View Audits/ Revisions";
+            this.viewRevisionsToolStripMenuItem.Text = "View Audits / Revisions";
             this.viewRevisionsToolStripMenuItem.Click += new System.EventHandler(this.viewRevisionsToolStripMenuItem_Click);
             // 
             // helpToolStripMenuItem
@@ -135,7 +135,7 @@
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
             this.BackColor = System.Drawing.Color.White;
-            this.BackgroundImage = ((System.Drawing.Image)(resources.GetObject("$this.BackgroundImage")));
+            this.BackgroundImage = global::IAFollowUp.Properties.Resources.InternalAuditFollowUp_MainImage;
             this.BackgroundImageLayout = System.Windows.Forms.ImageLayout.Center;
             this.ClientSize = new System.Drawing.Size(603, 404);
             this.Controls.Add(this.menuStrip);

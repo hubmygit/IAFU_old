@@ -394,6 +394,14 @@ namespace IAFollowUp
         public bool IsAuditee { get; set; }
         public bool IsAdmin { get; set; }
         public int PasswordPeriod { get; set; }
+
+        public static bool isEqual(Role x, Role y)
+        {
+            if (x.Id == y.Id && x.Name == y.Name && x.IsAuditor == y.IsAuditor && x.IsAuditee == y.IsAuditee && x.IsAdmin == y.IsAdmin && x.PasswordPeriod == y.PasswordPeriod)
+                return true;
+            else
+                return false;
+        }
     }
 
     public class User

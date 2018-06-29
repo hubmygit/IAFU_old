@@ -56,6 +56,10 @@ namespace IAFollowUp
         {
             cbCompanies.Items.AddRange(Companies.GetCompaniesComboboxItemsList(companiesList).ToArray<ComboboxItem>());
             cbAuditTypes.Items.AddRange(AuditTypes.GetAuditTypesComboboxItemsList(auditTypesList).ToArray<ComboboxItem>());
+
+            //List<Users> auditorsList = usersList;
+            //List<Users> auditorsList = new List<Users>();
+
             cbAuditor1.Items.AddRange(Users.GetUsersComboboxItemsList(usersList).ToArray<ComboboxItem>());
             cbAuditor2.Items.AddRange(Users.GetUsersComboboxItemsList(usersList).ToArray<ComboboxItem>());
             cbSupervisor.Items.AddRange(Users.GetUsersComboboxItemsList(usersList).ToArray<ComboboxItem>());
@@ -67,7 +71,7 @@ namespace IAFollowUp
 
         public List<AuditTypes> auditTypesList = AuditTypes.GetSqlAuditTypesList();
 
-        public List<Users> usersList = Users.GetSqlUsersList();
+        public List<Users> usersList = Users.GetUsersByRole(UserRole.IsAuditor); //Users.GetSqlUsersList();
 
         public bool isInsert = false;
         public int AuditUpdId = 0;
@@ -395,7 +399,6 @@ namespace IAFollowUp
 
             return ret;
         }
-
     }
 
 

@@ -134,6 +134,7 @@
   </ItemGroup>
   <ItemGroup>
     <Content Include="InternalAudit.ico" />
+    <None Include="Resources\InternalAuditFollowUp_MainImage.png" />
     <None Include="Resources\DeleteAttachment_16x.png" />
     <None Include="Resources\OpenAttachment_16x.png" />
     <None Include="Resources\AddAttachment_16x.png" />
