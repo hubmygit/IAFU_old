@@ -34,14 +34,6 @@
             System.Windows.Forms.DataGridViewCellStyle dataGridViewCellStyle3 = new System.Windows.Forms.DataGridViewCellStyle();
             System.ComponentModel.ComponentResourceManager resources = new System.ComponentModel.ComponentResourceManager(typeof(AuditRevisions));
             this.dgvAuditRevView = new System.Windows.Forms.DataGridView();
-            this.statusStrip1 = new System.Windows.Forms.StatusStrip();
-            this.toolStripCounter = new System.Windows.Forms.ToolStripStatusLabel();
-            this.cbUpdUser = new System.Windows.Forms.ComboBox();
-            this.lblUpdUser = new System.Windows.Forms.Label();
-            this.lblUpdDtTo = new System.Windows.Forms.Label();
-            this.lblUpdDtFrom = new System.Windows.Forms.Label();
-            this.dtpUpdDtTo = new System.Windows.Forms.DateTimePicker();
-            this.dtpUpdDtFrom = new System.Windows.Forms.DateTimePicker();
             this.Id = new System.Windows.Forms.DataGridViewTextBoxColumn();
             this.AuditID = new System.Windows.Forms.DataGridViewTextBoxColumn();
             this.RevNo = new System.Windows.Forms.DataGridViewTextBoxColumn();
@@ -61,9 +53,17 @@
             this.UpdDt = new System.Windows.Forms.DataGridViewTextBoxColumn();
             this.cmsOnGrid = new System.Windows.Forms.ContextMenuStrip(this.components);
             this.MIattachments = new System.Windows.Forms.ToolStripMenuItem();
+            this.statusStrip1 = new System.Windows.Forms.StatusStrip();
+            this.toolStripCounter = new System.Windows.Forms.ToolStripStatusLabel();
+            this.cbUpdUser = new System.Windows.Forms.ComboBox();
+            this.lblUpdUser = new System.Windows.Forms.Label();
+            this.lblUpdDtTo = new System.Windows.Forms.Label();
+            this.lblUpdDtFrom = new System.Windows.Forms.Label();
+            this.dtpUpdDtTo = new System.Windows.Forms.DateTimePicker();
+            this.dtpUpdDtFrom = new System.Windows.Forms.DateTimePicker();
             ((System.ComponentModel.ISupportInitialize)(this.dgvAuditRevView)).BeginInit();
-            this.statusStrip1.SuspendLayout();
             this.cmsOnGrid.SuspendLayout();
+            this.statusStrip1.SuspendLayout();
             this.SuspendLayout();
             // 
             // dgvAuditRevView
@@ -125,84 +125,8 @@
             this.dgvAuditRevView.SelectionMode = System.Windows.Forms.DataGridViewSelectionMode.FullRowSelect;
             this.dgvAuditRevView.Size = new System.Drawing.Size(1209, 500);
             this.dgvAuditRevView.TabIndex = 13;
+            this.dgvAuditRevView.SortCompare += new System.Windows.Forms.DataGridViewSortCompareEventHandler(this.dgvAuditRevView_SortCompare);
             this.dgvAuditRevView.MouseDown += new System.Windows.Forms.MouseEventHandler(this.dgvAuditRevView_MouseDown);
-            // 
-            // statusStrip1
-            // 
-            this.statusStrip1.Items.AddRange(new System.Windows.Forms.ToolStripItem[] {
-            this.toolStripCounter});
-            this.statusStrip1.Location = new System.Drawing.Point(0, 606);
-            this.statusStrip1.Name = "statusStrip1";
-            this.statusStrip1.Size = new System.Drawing.Size(1222, 22);
-            this.statusStrip1.TabIndex = 44;
-            this.statusStrip1.Text = "statusStrip1";
-            // 
-            // toolStripCounter
-            // 
-            this.toolStripCounter.Name = "toolStripCounter";
-            this.toolStripCounter.Size = new System.Drawing.Size(0, 17);
-            // 
-            // cbUpdUser
-            // 
-            this.cbUpdUser.DropDownStyle = System.Windows.Forms.ComboBoxStyle.DropDownList;
-            this.cbUpdUser.Font = new System.Drawing.Font("Microsoft Sans Serif", 9.75F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(161)));
-            this.cbUpdUser.FormattingEnabled = true;
-            this.cbUpdUser.Location = new System.Drawing.Point(474, 40);
-            this.cbUpdUser.Name = "cbUpdUser";
-            this.cbUpdUser.Size = new System.Drawing.Size(179, 24);
-            this.cbUpdUser.TabIndex = 54;
-            this.cbUpdUser.SelectedIndexChanged += new System.EventHandler(this.cbUpdUser_SelectedIndexChanged);
-            // 
-            // lblUpdUser
-            // 
-            this.lblUpdUser.AutoSize = true;
-            this.lblUpdUser.Font = new System.Drawing.Font("Microsoft Sans Serif", 9.75F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(161)));
-            this.lblUpdUser.Location = new System.Drawing.Point(408, 42);
-            this.lblUpdUser.Name = "lblUpdUser";
-            this.lblUpdUser.Size = new System.Drawing.Size(66, 16);
-            this.lblUpdUser.TabIndex = 55;
-            this.lblUpdUser.Text = "Upd User";
-            // 
-            // lblUpdDtTo
-            // 
-            this.lblUpdDtTo.AutoSize = true;
-            this.lblUpdDtTo.Font = new System.Drawing.Font("Microsoft Sans Serif", 9.75F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(161)));
-            this.lblUpdDtTo.Location = new System.Drawing.Point(198, 42);
-            this.lblUpdDtTo.Name = "lblUpdDtTo";
-            this.lblUpdDtTo.Size = new System.Drawing.Size(25, 16);
-            this.lblUpdDtTo.TabIndex = 53;
-            this.lblUpdDtTo.Text = "To";
-            // 
-            // lblUpdDtFrom
-            // 
-            this.lblUpdDtFrom.AutoSize = true;
-            this.lblUpdDtFrom.Font = new System.Drawing.Font("Microsoft Sans Serif", 9.75F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(161)));
-            this.lblUpdDtFrom.Location = new System.Drawing.Point(18, 43);
-            this.lblUpdDtFrom.Name = "lblUpdDtFrom";
-            this.lblUpdDtFrom.Size = new System.Drawing.Size(39, 16);
-            this.lblUpdDtFrom.TabIndex = 52;
-            this.lblUpdDtFrom.Text = "From";
-            // 
-            // dtpUpdDtTo
-            // 
-            this.dtpUpdDtTo.Font = new System.Drawing.Font("Microsoft Sans Serif", 9.75F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(161)));
-            this.dtpUpdDtTo.Format = System.Windows.Forms.DateTimePickerFormat.Short;
-            this.dtpUpdDtTo.Location = new System.Drawing.Point(229, 38);
-            this.dtpUpdDtTo.Name = "dtpUpdDtTo";
-            this.dtpUpdDtTo.Size = new System.Drawing.Size(103, 22);
-            this.dtpUpdDtTo.TabIndex = 51;
-            this.dtpUpdDtTo.ValueChanged += new System.EventHandler(this.dtUpdDtTo_ValueChanged);
-            // 
-            // dtpUpdDtFrom
-            // 
-            this.dtpUpdDtFrom.Font = new System.Drawing.Font("Microsoft Sans Serif", 9.75F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(161)));
-            this.dtpUpdDtFrom.Format = System.Windows.Forms.DateTimePickerFormat.Short;
-            this.dtpUpdDtFrom.Location = new System.Drawing.Point(63, 38);
-            this.dtpUpdDtFrom.Name = "dtpUpdDtFrom";
-            this.dtpUpdDtFrom.Size = new System.Drawing.Size(103, 22);
-            this.dtpUpdDtFrom.TabIndex = 50;
-            this.dtpUpdDtFrom.Value = new System.DateTime(2015, 1, 1, 0, 0, 0, 0);
-            this.dtpUpdDtFrom.ValueChanged += new System.EventHandler(this.dtpUpdDtFrom_ValueChanged);
             // 
             // Id
             // 
@@ -330,6 +254,83 @@
             this.MIattachments.Text = "Attachments";
             this.MIattachments.Click += new System.EventHandler(this.MIattachments_Click);
             // 
+            // statusStrip1
+            // 
+            this.statusStrip1.Items.AddRange(new System.Windows.Forms.ToolStripItem[] {
+            this.toolStripCounter});
+            this.statusStrip1.Location = new System.Drawing.Point(0, 606);
+            this.statusStrip1.Name = "statusStrip1";
+            this.statusStrip1.Size = new System.Drawing.Size(1222, 22);
+            this.statusStrip1.TabIndex = 44;
+            this.statusStrip1.Text = "statusStrip1";
+            // 
+            // toolStripCounter
+            // 
+            this.toolStripCounter.Name = "toolStripCounter";
+            this.toolStripCounter.Size = new System.Drawing.Size(0, 17);
+            // 
+            // cbUpdUser
+            // 
+            this.cbUpdUser.DropDownStyle = System.Windows.Forms.ComboBoxStyle.DropDownList;
+            this.cbUpdUser.Font = new System.Drawing.Font("Microsoft Sans Serif", 9.75F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(161)));
+            this.cbUpdUser.FormattingEnabled = true;
+            this.cbUpdUser.Location = new System.Drawing.Point(474, 40);
+            this.cbUpdUser.Name = "cbUpdUser";
+            this.cbUpdUser.Size = new System.Drawing.Size(179, 24);
+            this.cbUpdUser.TabIndex = 54;
+            this.cbUpdUser.SelectedIndexChanged += new System.EventHandler(this.cbUpdUser_SelectedIndexChanged);
+            // 
+            // lblUpdUser
+            // 
+            this.lblUpdUser.AutoSize = true;
+            this.lblUpdUser.Font = new System.Drawing.Font("Microsoft Sans Serif", 9.75F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(161)));
+            this.lblUpdUser.Location = new System.Drawing.Point(408, 42);
+            this.lblUpdUser.Name = "lblUpdUser";
+            this.lblUpdUser.Size = new System.Drawing.Size(66, 16);
+            this.lblUpdUser.TabIndex = 55;
+            this.lblUpdUser.Text = "Upd User";
+            // 
+            // lblUpdDtTo
+            // 
+            this.lblUpdDtTo.AutoSize = true;
+            this.lblUpdDtTo.Font = new System.Drawing.Font("Microsoft Sans Serif", 9.75F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(161)));
+            this.lblUpdDtTo.Location = new System.Drawing.Point(198, 42);
+            this.lblUpdDtTo.Name = "lblUpdDtTo";
+            this.lblUpdDtTo.Size = new System.Drawing.Size(25, 16);
+            this.lblUpdDtTo.TabIndex = 53;
+            this.lblUpdDtTo.Text = "To";
+            // 
+            // lblUpdDtFrom
+            // 
+            this.lblUpdDtFrom.AutoSize = true;
+            this.lblUpdDtFrom.Font = new System.Drawing.Font("Microsoft Sans Serif", 9.75F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(161)));
+            this.lblUpdDtFrom.Location = new System.Drawing.Point(18, 43);
+            this.lblUpdDtFrom.Name = "lblUpdDtFrom";
+            this.lblUpdDtFrom.Size = new System.Drawing.Size(39, 16);
+            this.lblUpdDtFrom.TabIndex = 52;
+            this.lblUpdDtFrom.Text = "From";
+            // 
+            // dtpUpdDtTo
+            // 
+            this.dtpUpdDtTo.Font = new System.Drawing.Font("Microsoft Sans Serif", 9.75F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(161)));
+            this.dtpUpdDtTo.Format = System.Windows.Forms.DateTimePickerFormat.Short;
+            this.dtpUpdDtTo.Location = new System.Drawing.Point(229, 38);
+            this.dtpUpdDtTo.Name = "dtpUpdDtTo";
+            this.dtpUpdDtTo.Size = new System.Drawing.Size(103, 22);
+            this.dtpUpdDtTo.TabIndex = 51;
+            this.dtpUpdDtTo.ValueChanged += new System.EventHandler(this.dtUpdDtTo_ValueChanged);
+            // 
+            // dtpUpdDtFrom
+            // 
+            this.dtpUpdDtFrom.Font = new System.Drawing.Font("Microsoft Sans Serif", 9.75F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(161)));
+            this.dtpUpdDtFrom.Format = System.Windows.Forms.DateTimePickerFormat.Short;
+            this.dtpUpdDtFrom.Location = new System.Drawing.Point(63, 38);
+            this.dtpUpdDtFrom.Name = "dtpUpdDtFrom";
+            this.dtpUpdDtFrom.Size = new System.Drawing.Size(103, 22);
+            this.dtpUpdDtFrom.TabIndex = 50;
+            this.dtpUpdDtFrom.Value = new System.DateTime(2015, 1, 1, 0, 0, 0, 0);
+            this.dtpUpdDtFrom.ValueChanged += new System.EventHandler(this.dtpUpdDtFrom_ValueChanged);
+            // 
             // AuditRevisions
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
@@ -349,9 +350,9 @@
             this.Text = "Audit Revisions";
             this.Load += new System.EventHandler(this.AuditRevisions_Load);
             ((System.ComponentModel.ISupportInitialize)(this.dgvAuditRevView)).EndInit();
+            this.cmsOnGrid.ResumeLayout(false);
             this.statusStrip1.ResumeLayout(false);
             this.statusStrip1.PerformLayout();
-            this.cmsOnGrid.ResumeLayout(false);
             this.ResumeLayout(false);
             this.PerformLayout();
 

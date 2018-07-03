@@ -132,6 +132,7 @@
             this.dgvAuditView.SelectionMode = System.Windows.Forms.DataGridViewSelectionMode.FullRowSelect;
             this.dgvAuditView.Size = new System.Drawing.Size(1198, 514);
             this.dgvAuditView.TabIndex = 12;
+            this.dgvAuditView.SortCompare += new System.Windows.Forms.DataGridViewSortCompareEventHandler(this.dgvAuditView_SortCompare);
             this.dgvAuditView.MouseDown += new System.Windows.Forms.MouseEventHandler(this.dgvAuditView_MouseDown);
             // 
             // Id
@@ -237,7 +238,7 @@
             this.MIfinalizeAudit,
             this.MIRevisions});
             this.cmsOnGrid.Name = "cmsOnGrid";
-            this.cmsOnGrid.Size = new System.Drawing.Size(208, 142);
+            this.cmsOnGrid.Size = new System.Drawing.Size(208, 120);
             // 
             // MIupdate
             // 

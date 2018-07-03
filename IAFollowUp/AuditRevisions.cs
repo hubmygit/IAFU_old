@@ -296,5 +296,16 @@ namespace IAFollowUp
                 dgvAuditRevView.Rows[hti.RowIndex].Selected = true;
             }
         }
+
+        private void dgvAuditRevView_SortCompare(object sender, DataGridViewSortCompareEventArgs e)
+        {
+            if (e.Column.Name == "UpdDt" || e.Column.Name == "ReportDt")
+            {
+                e.SortResult = System.String.Compare(Convert.ToDateTime(e.CellValue1.ToString()).ToString("yyyyMMdd HHmmss"),
+                                                     Convert.ToDateTime(e.CellValue2.ToString()).ToString("yyyyMMdd HHmmss"));
+
+                e.Handled = true;
+            }
+        }
     }
 }
