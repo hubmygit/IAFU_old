@@ -91,7 +91,7 @@ namespace IAFollowUp
 
         private void btnSave_Click(object sender, EventArgs e)
         {            
-             if (txtTitle.Text.Trim()=="")
+            if (txtTitle.Text.Trim()=="")
             {
                 MessageBox.Show("Please insert a Title!");
                 return;

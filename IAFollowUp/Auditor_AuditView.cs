@@ -293,12 +293,15 @@ namespace IAFollowUp
         {
             if (dgvAuditView.SelectedRows.Count > 0)
             {
-                int Id = Convert.ToInt32(dgvAuditView.SelectedRows[0].Cells["Id"].Value.ToString());
-                Audit thisAudit = auditList.Where(i => i.Id == Id).First();
+                int thisId = Convert.ToInt32(dgvAuditView.SelectedRows[0].Cells["Id"].Value.ToString());
+                //Audit thisAudit = auditList.Where(i => i.Id == Id).First();
 
-                FIShowHeaders frmShowHeaders = new FIShowHeaders(thisAudit);
-                frmShowHeaders.ShowDialog();
-
+                //if (auditList.Exists(i => i.Id == thisId))
+                //{
+                    //FIShowHeaders frmShowHeaders = new FIShowHeaders(thisAudit);
+                    FIShowHeaders frmShowHeaders = new FIShowHeaders(thisId);
+                    frmShowHeaders.ShowDialog();
+                //}
 
             }
         }
@@ -427,11 +430,20 @@ namespace IAFollowUp
                 {
                     MIupdate.Enabled = false;
                     MIfinalizeAudit.Enabled = false;
+
+                    //if (auditList.Exists(i => i.Id == Convert.ToInt32(dgvAuditView.SelectedRows[0].Cells["Id"].Value) && i.HasFindings))
+                    //{
+                    //    MIshowFindings.Enabled = f
+                    //}
+                    //else
+                    //{
+
+                    //}
                 }
                 else
                 {
                     MIupdate.Enabled = true;
-                    MIfinalizeAudit.Enabled = true; 
+                    MIfinalizeAudit.Enabled = true;
                 }
             }
         }
@@ -688,6 +700,33 @@ namespace IAFollowUp
             foreach (FICategory c in FICategories)
             {
                 ret.Add(new ComboboxItem() { Value = c, Text = c.Name });
+            }
+
+            return ret;
+        }
+
+        public static List<FICategory> GetSqlFICategoriesList()
+        {
+            List<FICategory> ret = new List<FICategory>();
+
+            SqlConnection sqlConn = new SqlConnection(SqlDBInfo.connectionString);
+            string SelectSt = "SELECT [Id], [Name], [NeedsApproval] " +
+                              "FROM [dbo].[FICategory] ";
+            SqlCommand cmd = new SqlCommand(SelectSt, sqlConn);
+            try
+            {
+                sqlConn.Open();
+                SqlDataReader reader = cmd.ExecuteReader();
+                while (reader.Read())
+                {
+                    ret.Add(new FICategory() { Id = Convert.ToInt32(reader["Id"].ToString()), Name = reader["Name"].ToString(), NeedsApproval = Convert.ToBoolean(reader["NeedsApproval"].ToString()) });
+                }
+                reader.Close();
+                sqlConn.Close();
+            }
+            catch (Exception ex)
+            {
+                MessageBox.Show("The following error occurred: " + ex.Message);
             }
 
             return ret;

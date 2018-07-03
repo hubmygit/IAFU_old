@@ -19,15 +19,22 @@ namespace IAFollowUp
             auditList = SelectAudit();
         }
 
-        public List<Audit> auditList = new List<Audit>();
-
-        public FIShowHeaders(Audit Selected)
+        //public FIShowHeaders(Audit Selected)
+        public FIShowHeaders(int Selected)
         {
             InitializeComponent();
+
+            auditList = SelectAudit();
+
+            selAuditId = Selected;
         }
+
+        public List<Audit> auditList = new List<Audit>();
+        public int selAuditId = -1;
+       
         private void MIeditHeader_Click(object sender, EventArgs e)
         {
-            auditList = SelectAudit();
+            
         }
 
         public List<Audit> SelectAudit()
@@ -115,12 +122,27 @@ namespace IAFollowUp
         private void FIShowHeaders_Load(object sender, EventArgs e)
         {
             Auditor_AuditView.FillDataGridView(dgvAudits, auditList);
+
+            if (selAuditId > 0)
+            {
+                //set selected
+            }
         }
 
         private void btnNew_Click(object sender, EventArgs e)
         {
-            FIHeaderEdit frmHeaderEdit = new FIHeaderEdit();
-            frmHeaderEdit.ShowDialog();
+            if (dgvAudits.SelectedRows.Count > 0)
+            {
+                int Id = Convert.ToInt32(dgvAudits.SelectedRows[0].Cells["Id"].Value.ToString());
+                Audit selectedAudit = auditList.Where(i => i.Id == Id).First();
+
+                FIHeaderEdit frmHeaderEdit = new FIHeaderEdit(selectedAudit);
+                frmHeaderEdit.ShowDialog();
+            }
+            else
+            {
+                MessageBox.Show("Please select an Audit!");
+            }
 
         }
     }
