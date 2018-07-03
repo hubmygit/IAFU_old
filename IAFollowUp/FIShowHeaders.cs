@@ -119,6 +119,49 @@ namespace IAFollowUp
             return ret;
         }
 
+        public List<FIHeader> SelectHeaders(int AuditId)
+        {
+            List<FIHeader> ret = new List<FIHeader>();
+
+            SqlConnection sqlConn = new SqlConnection(SqlDBInfo.connectionString);
+            string SelectSt = "SELECT [Id], [AuditId], " +
+                              "CONVERT(varchar, DECRYPTBYPASSPHRASE( @passPhrase , [Title])) as Title, " +
+                              "[FICategoryId],[InsUserId],[InsDt] " +
+                              "FROM [dbo].[FIHeader] " +
+                              "WHERE [AuditId] = @AuditId " +
+                              "ORDER BY [InsDt] "; 
+                  
+        SqlCommand cmd = new SqlCommand(SelectSt, sqlConn);
+            try
+            {
+                sqlConn.Open();
+                cmd.Parameters.AddWithValue("@passPhrase", SqlDBInfo.passPhrase);
+                SqlDataReader reader = cmd.ExecuteReader();
+                while (reader.Read())
+                {
+                    
+                    ret.Add(new FIHeader()
+                    {
+                        Id = Convert.ToInt32(reader["Id"].ToString()),
+                        AuditId = Convert.ToInt32(reader["AuditTypeId"].ToString()),
+
+                        FICategoryId = Convert.ToInt32(reader["FICategoryId"].ToString()),
+                        FICategory = new FICategory(Convert.ToInt32(reader["FICategoryId"].ToString())),
+
+                        Title = reader["Title"].ToString()
+                    });
+                }
+                reader.Close();
+                sqlConn.Close();
+            }
+            catch (Exception ex)
+            {
+                MessageBox.Show("The following error occurred: " + ex.Message);
+            }
+
+            return ret;
+        }
+
         private void FIShowHeaders_Load(object sender, EventArgs e)
         {
             Auditor_AuditView.FillDataGridView(dgvAudits, auditList);
@@ -138,12 +181,25 @@ namespace IAFollowUp
 
                 FIHeaderEdit frmHeaderEdit = new FIHeaderEdit(selectedAudit);
                 frmHeaderEdit.ShowDialog();
+
+
             }
             else
             {
                 MessageBox.Show("Please select an Audit!");
             }
 
+        }
+
+        private void dgvAudits_CellClick(object sender, DataGridViewCellEventArgs e)
+        {
+            if (dgvAudits.SelectedRows.Count >0)
+            {
+                int AuditId = Convert.ToInt32(dgvAudits.SelectedRows[0].Cells["Id"].Value);
+                SelectHeaders(AuditId);
+
+                //....
+            }
         }
     }
 }

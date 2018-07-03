@@ -673,7 +673,7 @@ namespace IAFollowUp
         public int AuditId { get; set; }
         public string Title { get; set; }
         public int FICategoryId { get; set; }
-        public FICategory FICatecory { get; set; }
+        public FICategory FICategory { get; set; }
         public int InsUserId { get; set; }
         public Users InsUser { get; set; }
         public DateTime InsDt { get; set; }
@@ -691,6 +691,36 @@ namespace IAFollowUp
 
         public FICategory()
         {
+
+        }
+
+        public FICategory(int givenId)
+        {
+            SqlConnection sqlConn = new SqlConnection(SqlDBInfo.connectionString);
+            string SelectSt = "SELECT [Id], [Name], [NeedsApproval] " +
+                              "FROM [dbo].[FICategory] " +
+                              "WHERE Id = " + givenId.ToString();
+            SqlCommand cmd = new SqlCommand(SelectSt, sqlConn);
+            try
+            {
+                sqlConn.Open();
+                SqlDataReader reader = cmd.ExecuteReader();
+                while (reader.Read())
+                {
+                    Id = Convert.ToInt32(reader["Id"].ToString());
+                    Name = reader["Name"].ToString();
+                    NeedsApproval = Convert.ToBoolean(reader["NeedsApproval"].ToString());
+                }
+                reader.Close();
+                sqlConn.Close();
+            }
+            catch (Exception ex)
+            {
+                MessageBox.Show("The following error occurred: " + ex.Message);
+            }
+
+
+
         }
 
         public static List<ComboboxItem> GetFICategoryComboboxItemsList(List<FICategory> FICategories)
