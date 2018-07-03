@@ -177,7 +177,7 @@ namespace IAFollowUp
             return ret;
         }
 
-        public void FillDataGridView(DataGridView dgv, List<Audit> AuditList)
+        public static void FillDataGridView(DataGridView dgv, List<Audit> AuditList)
         {
             dgv.Rows.Clear();
 
@@ -291,7 +291,16 @@ namespace IAFollowUp
         }
         private void MIshowFindings_Click(object sender, EventArgs e)
         {
+            if (dgvAuditView.SelectedRows.Count > 0)
+            {
+                int Id = Convert.ToInt32(dgvAuditView.SelectedRows[0].Cells["Id"].Value.ToString());
+                Audit thisAudit = auditList.Where(i => i.Id == Id).First();
 
+                FIShowHeaders frmShowHeaders = new FIShowHeaders(thisAudit);
+                frmShowHeaders.ShowDialog();
+
+
+            }
         }
 
         private void MIattachments_Click(object sender, EventArgs e)

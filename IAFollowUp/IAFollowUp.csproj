@@ -53,6 +53,12 @@
     <Compile Include="Attachments.Designer.cs">
       <DependentUpon>Attachments.cs</DependentUpon>
     </Compile>
+    <Compile Include="FIShowHeaders.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="FIShowHeaders.Designer.cs">
+      <DependentUpon>FIShowHeaders.cs</DependentUpon>
+    </Compile>
     <Compile Include="Auditor_AuditView.cs">
       <SubType>Form</SubType>
     </Compile>
@@ -70,6 +76,12 @@
     </Compile>
     <Compile Include="ChangePassword.Designer.cs">
       <DependentUpon>ChangePassword.cs</DependentUpon>
+    </Compile>
+    <Compile Include="FIHeaderEdit.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="FIHeaderEdit.Designer.cs">
+      <DependentUpon>FIHeaderEdit.cs</DependentUpon>
     </Compile>
     <Compile Include="InsertNewAudit.cs">
       <SubType>Form</SubType>
@@ -94,6 +106,9 @@
     <EmbeddedResource Include="Attachments.resx">
       <DependentUpon>Attachments.cs</DependentUpon>
     </EmbeddedResource>
+    <EmbeddedResource Include="FIShowHeaders.resx">
+      <DependentUpon>FIShowHeaders.cs</DependentUpon>
+    </EmbeddedResource>
     <EmbeddedResource Include="Auditor_AuditView.resx">
       <DependentUpon>Auditor_AuditView.cs</DependentUpon>
     </EmbeddedResource>
@@ -102,6 +117,9 @@
     </EmbeddedResource>
     <EmbeddedResource Include="ChangePassword.resx">
       <DependentUpon>ChangePassword.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="FIHeaderEdit.resx">
+      <DependentUpon>FIHeaderEdit.cs</DependentUpon>
     </EmbeddedResource>
     <EmbeddedResource Include="InsertNewAudit.resx">
       <DependentUpon>InsertNewAudit.cs</DependentUpon>

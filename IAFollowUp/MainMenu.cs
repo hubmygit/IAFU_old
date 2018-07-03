@@ -65,6 +65,12 @@ namespace IAFollowUp
             frmAuditorAuditView_Rev.ShowDialog();
 
         }
+
+        private void findingsAndImprovementsToolStripMenuItem_Click(object sender, EventArgs e)
+        {
+            FIShowHeaders frmShowHeaders = new FIShowHeaders();
+            frmShowHeaders.ShowDialog();
+        }
     }
 
     public class UserAuthorization
