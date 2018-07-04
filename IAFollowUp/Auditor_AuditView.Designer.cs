@@ -482,8 +482,6 @@
         }
 
         #endregion
-
-        private System.Windows.Forms.DataGridView dgvAuditView;
         private System.Windows.Forms.ToolStripMenuItem MIupdate;
         private System.Windows.Forms.ToolStripMenuItem MIshowFindings;
         private System.Windows.Forms.ToolStripMenuItem MIattachments;
@@ -501,7 +499,6 @@
         private System.Windows.Forms.Label lblYear;
         private System.Windows.Forms.ComboBox cbAuditor1;
         private System.Windows.Forms.Label lblAuditor1;
-        private System.Windows.Forms.CheckBox chbCompleted;
         private System.Windows.Forms.TextBox txtTitle;
         private System.Windows.Forms.Label lblTitle;
         private System.Windows.Forms.Button btnTitleSearch;
@@ -521,5 +518,7 @@
         private System.Windows.Forms.DataGridViewCheckBoxColumn IsCompleted;
         private System.Windows.Forms.DataGridViewTextBoxColumn RevNo;
         private System.Windows.Forms.DataGridViewTextBoxColumn AttCnt;
+        public System.Windows.Forms.CheckBox chbCompleted;
+        public System.Windows.Forms.DataGridView dgvAuditView;
     }
 }

@@ -68,8 +68,19 @@ namespace IAFollowUp
 
         private void findingsAndImprovementsToolStripMenuItem_Click(object sender, EventArgs e)
         {
-            FIShowHeaders frmShowHeaders = new FIShowHeaders();
-            frmShowHeaders.ShowDialog();
+            Auditor_AuditView frmAuditView = new Auditor_AuditView();
+            frmAuditView.Text = "Select Audit";
+            frmAuditView.chbCompleted.CheckState = CheckState.Unchecked;
+            frmAuditView.dgvAuditView.ContextMenuStrip = null;
+
+            frmAuditView.dgvAuditView.CellDoubleClick += new DataGridViewCellEventHandler(frmAuditView.dgvAuditView_CellDoubleClick);
+
+            frmAuditView.ShowDialog();
+
+            //frmAuditView.dgvAuditView.CellDoubleClick -= new DataGridViewCellEventHandler(frmAuditView.dgvAuditView_CellDoubleClick);
+
+            //FIShowHeaders frmShowHeaders = new FIShowHeaders();
+            //frmShowHeaders.ShowDialog();
         }
     }
 

@@ -46,7 +46,7 @@ namespace IAFollowUp
 
 
 
-            FillDataGridView(dgvAuditView, auditList);
+            FillDataGridView(dgvAuditView, filteredLines);
 
 
         }
@@ -55,11 +55,11 @@ namespace IAFollowUp
         public List<Companies> companiesList = Companies.GetSqlCompaniesList();
         public List<Users> usersList = Users.GetUsersByRole(UserRole.IsAuditor); //Users.GetSqlUsersList();
 
-
+        public List<Audit> filteredLines = new List<Audit>();
 
         public void ApplyFilters()
         {
-            List<Audit> filteredLines = new List<Audit>();
+            //List<Audit> filteredLines = new List<Audit>();
 
             //dtFrom & dtTo
             //filteredLines = filteredLines.Where(i => i.ReportDt >= dtFrom.Value.Date && i.ReportDt < dtTo.Value.Date.AddDays(1)).ToList();
@@ -525,6 +525,12 @@ namespace IAFollowUp
                 e.Handled = true;
             }
         }
+
+        public void dgvAuditView_CellDoubleClick(object sender, DataGridViewCellEventArgs e)
+        {
+            MessageBox.Show("...");
+        }
+
     }
 
     public class Audit
