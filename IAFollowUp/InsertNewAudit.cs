@@ -193,7 +193,7 @@ namespace IAFollowUp
                             if (InsertIntoTable_Att(newAuditRecord.Id, oldAuditRecord.RevNo, UserInfo.userDetails.Id)==false)
                             {
                                 successful = false;
-                              }
+                            }
                         }
 
                         if (successful)

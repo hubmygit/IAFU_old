@@ -678,6 +678,11 @@ namespace IAFollowUp
         public Users InsUser { get; set; }
         public DateTime InsDt { get; set; }
 
+        public int UpdUserId { get; set; }
+        public Users UpdUser { get; set; }
+        public DateTime UpdDt { get; set; }
+
+
         public FIHeader()
         {
         }

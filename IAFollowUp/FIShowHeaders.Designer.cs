@@ -57,6 +57,8 @@
             this.Auditor2 = new System.Windows.Forms.DataGridViewTextBoxColumn();
             this.Supervisor = new System.Windows.Forms.DataGridViewTextBoxColumn();
             this.lblAudits = new System.Windows.Forms.Label();
+            this.UpdUser = new System.Windows.Forms.DataGridViewTextBoxColumn();
+            this.UpdDt = new System.Windows.Forms.DataGridViewTextBoxColumn();
             ((System.ComponentModel.ISupportInitialize)(this.dgvHeaders)).BeginInit();
             this.cmsHeader.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)(this.dgvAudits)).BeginInit();
@@ -82,7 +84,9 @@
             this.dgvHeaders.Columns.AddRange(new System.Windows.Forms.DataGridViewColumn[] {
             this.HeaderId,
             this.HeaderTitle,
-            this.HeaderCategory});
+            this.HeaderCategory,
+            this.UpdUser,
+            this.UpdDt});
             this.dgvHeaders.ContextMenuStrip = this.cmsHeader;
             dataGridViewCellStyle2.Alignment = System.Windows.Forms.DataGridViewContentAlignment.MiddleLeft;
             dataGridViewCellStyle2.BackColor = System.Drawing.SystemColors.Window;
@@ -106,8 +110,9 @@
             this.dgvHeaders.RowHeadersDefaultCellStyle = dataGridViewCellStyle3;
             this.dgvHeaders.RowHeadersWidth = 15;
             this.dgvHeaders.SelectionMode = System.Windows.Forms.DataGridViewSelectionMode.FullRowSelect;
-            this.dgvHeaders.Size = new System.Drawing.Size(893, 292);
+            this.dgvHeaders.Size = new System.Drawing.Size(1064, 292);
             this.dgvHeaders.TabIndex = 13;
+            this.dgvHeaders.MouseDown += new System.Windows.Forms.MouseEventHandler(this.dgvHeaders_MouseDown);
             // 
             // HeaderId
             // 
@@ -148,7 +153,7 @@
             // 
             this.lblHeaders.AutoSize = true;
             this.lblHeaders.Font = new System.Drawing.Font("Microsoft Sans Serif", 15.75F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(161)));
-            this.lblHeaders.Location = new System.Drawing.Point(343, 287);
+            this.lblHeaders.Location = new System.Drawing.Point(469, 291);
             this.lblHeaders.Name = "lblHeaders";
             this.lblHeaders.Size = new System.Drawing.Size(100, 25);
             this.lblHeaders.TabIndex = 47;
@@ -157,7 +162,7 @@
             // btnNew
             // 
             this.btnNew.Font = new System.Drawing.Font("Microsoft Sans Serif", 14.25F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(161)));
-            this.btnNew.Location = new System.Drawing.Point(1086, 482);
+            this.btnNew.Location = new System.Drawing.Point(1114, 461);
             this.btnNew.Name = "btnNew";
             this.btnNew.Size = new System.Drawing.Size(107, 52);
             this.btnNew.TabIndex = 48;
@@ -302,6 +307,18 @@
             this.lblAudits.TabIndex = 50;
             this.lblAudits.Text = "Audit(s)";
             // 
+            // UpdUser
+            // 
+            this.UpdUser.HeaderText = "Update User";
+            this.UpdUser.Name = "UpdUser";
+            this.UpdUser.ReadOnly = true;
+            // 
+            // UpdDt
+            // 
+            this.UpdDt.HeaderText = "Update Date";
+            this.UpdDt.Name = "UpdDt";
+            this.UpdDt.ReadOnly = true;
+            // 
             // FIShowHeaders
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
@@ -348,5 +365,7 @@
         private System.Windows.Forms.DataGridViewTextBoxColumn Auditor1;
         private System.Windows.Forms.DataGridViewTextBoxColumn Auditor2;
         private System.Windows.Forms.DataGridViewTextBoxColumn Supervisor;
+        private System.Windows.Forms.DataGridViewTextBoxColumn UpdUser;
+        private System.Windows.Forms.DataGridViewTextBoxColumn UpdDt;
     }
 }

@@ -31,10 +31,30 @@ namespace IAFollowUp
 
         public List<Audit> auditList = new List<Audit>();
         public int selAuditId = -1;
-       
+        public List<FIHeader> Audit_Headers = new List<FIHeader>();
+
         private void MIeditHeader_Click(object sender, EventArgs e)
         {
-            
+            if (dgvAudits.SelectedRows.Count > 0)
+            {
+                int HeaderId = Convert.ToInt32(dgvHeaders.SelectedRows[0].Cells["HeaderId"].Value.ToString());
+                FIHeader selectedHeader = Audit_Headers.Where(i => i.Id == HeaderId).First();
+
+                Audit selectedAudit = auditList.Where(i => i.Id == selAuditId).First();
+
+                FIHeaderEdit frmHeaderEdit = new FIHeaderEdit(selectedAudit, selectedHeader);
+                frmHeaderEdit.ShowDialog();
+
+                //if (frmHeaderEdit.success)
+                //{
+                //    List<FIHeader> Audit_Headers = SelectHeaders(AuditId);
+                //    FillHeadersDataGridView(dgvHeaders, Audit_Headers);
+                //}
+            }
+            else
+            {
+                MessageBox.Show("Please select an Audit!");
+            }
         }
 
         public List<Audit> SelectAudit()
@@ -126,12 +146,12 @@ namespace IAFollowUp
             SqlConnection sqlConn = new SqlConnection(SqlDBInfo.connectionString);
             string SelectSt = "SELECT [Id], [AuditId], " +
                               "CONVERT(varchar, DECRYPTBYPASSPHRASE( @passPhrase , [Title])) as Title, " +
-                              "[FICategoryId],[InsUserId],[InsDt] " +
+                              "[FICategoryId],[InsUserId],[InsDt], [UpdUserId], [UpdDt] " +
                               "FROM [dbo].[FIHeader] " +
                               "WHERE [AuditId] = @AuditId " +
-                              "ORDER BY [InsDt] "; 
-                  
-        SqlCommand cmd = new SqlCommand(SelectSt, sqlConn);
+                              "ORDER BY [InsDt] ";
+
+            SqlCommand cmd = new SqlCommand(SelectSt, sqlConn);
             try
             {
                 sqlConn.Open();
@@ -142,7 +162,7 @@ namespace IAFollowUp
                 SqlDataReader reader = cmd.ExecuteReader();
                 while (reader.Read())
                 {
-                    
+
                     ret.Add(new FIHeader()
                     {
                         Id = Convert.ToInt32(reader["Id"].ToString()),
@@ -150,6 +170,10 @@ namespace IAFollowUp
 
                         FICategoryId = Convert.ToInt32(reader["FICategoryId"].ToString()),
                         FICategory = new FICategory(Convert.ToInt32(reader["FICategoryId"].ToString())),
+
+                        UpdUserId = Convert.ToInt32(reader["UpdUserId"].ToString()),
+                        UpdUser = new Users(Convert.ToInt32(reader["UpdUserId"].ToString())),
+                        UpdDt = Convert.ToDateTime(reader["UpdDt"].ToString()),
 
                         Title = reader["Title"].ToString()
                     });
@@ -209,6 +233,9 @@ namespace IAFollowUp
                 dgvDictList.Add(new dgvDictionary() { dbfield = thisRecord.Id, dgvColumnHeader = "HeaderId" });
                 dgvDictList.Add(new dgvDictionary() { dbfield = thisRecord.Title, dgvColumnHeader = "HeaderTitle" });               
                 dgvDictList.Add(new dgvDictionary() { dbfield = thisRecord.FICategory.Name, dgvColumnHeader = "HeaderCategory" });
+                dgvDictList.Add(new dgvDictionary() { dbfield = thisRecord.UpdUser.FullName, dgvColumnHeader = "UpdUser" });
+                dgvDictList.Add(new dgvDictionary() { dbfield = thisRecord.UpdDt.ToString("dd.MM.yyyy HH:mm:ss"), dgvColumnHeader = "UpdDt" });
+
 
                 object[] obj = new object[dgv.Columns.Count];
 
@@ -229,8 +256,35 @@ namespace IAFollowUp
             {
                 int AuditId = Convert.ToInt32(dgvAudits.SelectedRows[0].Cells["Id"].Value);
 
-                List<FIHeader> Audit_Headers = SelectHeaders(AuditId);
-                FillHeadersDataGridView(dgvHeaders, Audit_Headers);
+                List<FIHeader> Audit_HeadersList = SelectHeaders(AuditId);
+                FillHeadersDataGridView(dgvHeaders, Audit_HeadersList);
+
+                Audit_Headers = Audit_HeadersList;
+
+                selAuditId = AuditId;
+            }
+        }
+
+        private void dgvHeaders_MouseDown(object sender, MouseEventArgs e)
+        {
+            if (e.Button == MouseButtons.Right)
+            {
+                var hti = dgvHeaders.HitTest(e.X, e.Y);
+                if (hti.RowIndex < 0)
+                {
+                    return;
+                }
+                dgvHeaders.Rows[hti.RowIndex].Selected = true;
+
+                //if (Convert.ToBoolean(dgvAudits.SelectedRows[0].Cells["IsCompleted"].Value) == true)
+                if(auditList.Where(i=>i.Id == selAuditId).First().IsCompleted == true)
+                {
+                    MIeditHeader.Enabled = false;
+                }
+                else
+                {
+                    MIeditHeader.Enabled = true;
+                }
             }
         }
     }
