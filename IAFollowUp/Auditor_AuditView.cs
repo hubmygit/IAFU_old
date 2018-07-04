@@ -57,6 +57,8 @@ namespace IAFollowUp
 
         public List<Audit> filteredLines = new List<Audit>();
 
+        public Audit Header_Audit = new Audit();
+
         public void ApplyFilters()
         {
             //List<Audit> filteredLines = new List<Audit>();
@@ -528,7 +530,15 @@ namespace IAFollowUp
 
         public void dgvAuditView_CellDoubleClick(object sender, DataGridViewCellEventArgs e)
         {
-            MessageBox.Show("...");
+            if (e.RowIndex > -1)
+            {
+                int AuditId = Convert.ToInt32(dgvAuditView["Id", e.RowIndex].Value);
+                Header_Audit = auditList.Where(i => i.Id == AuditId).First();
+
+                DialogResult = DialogResult.OK;
+
+                Close();
+            }
         }
 
     }
@@ -724,6 +734,28 @@ namespace IAFollowUp
         {
         }
     }
+
+    public class FIDetail
+    {
+        public int Id { get; set; }
+        public string Description { get; set; }
+        public int FIHeaderId { get; set; }
+        public DateTime ActionDt { get; set; }
+        public string ActionReq { get; set; }
+
+        public int InsUserId { get; set; }
+        public Users InsUser { get; set; }
+        public DateTime InsDt { get; set; }
+
+        public int UpdUserId { get; set; }
+        public Users UpdUser { get; set; }
+        public DateTime UpdDt { get; set; }
+        public FIDetail()
+        {
+
+        }
+    }
+
 
     public class FICategory
     {

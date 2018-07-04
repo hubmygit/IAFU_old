@@ -71,8 +71,7 @@
             this.dgvHeaders.AllowUserToAddRows = false;
             this.dgvHeaders.AllowUserToDeleteRows = false;
             this.dgvHeaders.AllowUserToOrderColumns = true;
-            this.dgvHeaders.Anchor = ((System.Windows.Forms.AnchorStyles)((((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Bottom) 
-            | System.Windows.Forms.AnchorStyles.Left) 
+            this.dgvHeaders.Anchor = ((System.Windows.Forms.AnchorStyles)(((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Left) 
             | System.Windows.Forms.AnchorStyles.Right)));
             dataGridViewCellStyle1.Alignment = System.Windows.Forms.DataGridViewContentAlignment.MiddleLeft;
             dataGridViewCellStyle1.BackColor = System.Drawing.SystemColors.Control;
@@ -165,6 +164,7 @@
             // 
             // lblHeaders
             // 
+            this.lblHeaders.Anchor = System.Windows.Forms.AnchorStyles.Top;
             this.lblHeaders.AutoSize = true;
             this.lblHeaders.Font = new System.Drawing.Font("Microsoft Sans Serif", 15.75F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(161)));
             this.lblHeaders.Location = new System.Drawing.Point(436, 50);
@@ -175,6 +175,7 @@
             // 
             // btnNewHeader
             // 
+            this.btnNewHeader.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Right)));
             this.btnNewHeader.Font = new System.Drawing.Font("Microsoft Sans Serif", 14.25F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(161)));
             this.btnNewHeader.Location = new System.Drawing.Point(1084, 171);
             this.btnNewHeader.Name = "btnNewHeader";
@@ -320,6 +321,7 @@
             // 
             // lblDetails
             // 
+            this.lblDetails.Anchor = System.Windows.Forms.AnchorStyles.Top;
             this.lblDetails.AutoSize = true;
             this.lblDetails.Font = new System.Drawing.Font("Microsoft Sans Serif", 15.75F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(161)));
             this.lblDetails.Location = new System.Drawing.Point(436, 374);
@@ -330,6 +332,7 @@
             // 
             // btnNewDetail
             // 
+            this.btnNewDetail.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Right)));
             this.btnNewDetail.Font = new System.Drawing.Font("Microsoft Sans Serif", 14.25F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(161)));
             this.btnNewDetail.Location = new System.Drawing.Point(1084, 455);
             this.btnNewDetail.Name = "btnNewDetail";

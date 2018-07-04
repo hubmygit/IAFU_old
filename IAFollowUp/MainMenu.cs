@@ -75,12 +75,17 @@ namespace IAFollowUp
 
             frmAuditView.dgvAuditView.CellDoubleClick += new DataGridViewCellEventHandler(frmAuditView.dgvAuditView_CellDoubleClick);
 
-            frmAuditView.ShowDialog();
+            //message...
 
-            //frmAuditView.dgvAuditView.CellDoubleClick -= new DataGridViewCellEventHandler(frmAuditView.dgvAuditView_CellDoubleClick);
+            DialogResult dRes = frmAuditView.ShowDialog();
 
-            //FIShowHeaders frmShowHeaders = new FIShowHeaders();
-            //frmShowHeaders.ShowDialog();
+            if (dRes == DialogResult.OK)
+            {
+                Audit selAudit = frmAuditView.Header_Audit;
+
+                FIShowHeaders frmShowHeaders = new FIShowHeaders(selAudit);
+                frmShowHeaders.ShowDialog();
+            }
         }
     }
 

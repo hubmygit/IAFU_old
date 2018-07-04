@@ -130,7 +130,7 @@
             dataGridViewCellStyle3.WrapMode = System.Windows.Forms.DataGridViewTriState.True;
             this.dgvAuditView.RowHeadersDefaultCellStyle = dataGridViewCellStyle3;
             this.dgvAuditView.SelectionMode = System.Windows.Forms.DataGridViewSelectionMode.FullRowSelect;
-            this.dgvAuditView.Size = new System.Drawing.Size(1198, 514);
+            this.dgvAuditView.Size = new System.Drawing.Size(1198, 508);
             this.dgvAuditView.TabIndex = 12;
             this.dgvAuditView.SortCompare += new System.Windows.Forms.DataGridViewSortCompareEventHandler(this.dgvAuditView_SortCompare);
             this.dgvAuditView.MouseDown += new System.Windows.Forms.MouseEventHandler(this.dgvAuditView_MouseDown);
@@ -326,7 +326,7 @@
             // 
             this.statusStrip1.Items.AddRange(new System.Windows.Forms.ToolStripItem[] {
             this.toolStripCounter});
-            this.statusStrip1.Location = new System.Drawing.Point(0, 606);
+            this.statusStrip1.Location = new System.Drawing.Point(0, 600);
             this.statusStrip1.Name = "statusStrip1";
             this.statusStrip1.Size = new System.Drawing.Size(1222, 22);
             this.statusStrip1.TabIndex = 43;
@@ -450,7 +450,7 @@
             this.AcceptButton = this.btnTitleSearch;
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
-            this.ClientSize = new System.Drawing.Size(1222, 628);
+            this.ClientSize = new System.Drawing.Size(1222, 622);
             this.Controls.Add(this.btnTitleSearch);
             this.Controls.Add(this.txtTitle);
             this.Controls.Add(this.lblTitle);
