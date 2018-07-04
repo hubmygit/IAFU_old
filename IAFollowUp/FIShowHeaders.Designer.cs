@@ -40,10 +40,12 @@
             this.HeaderId = new System.Windows.Forms.DataGridViewTextBoxColumn();
             this.HeaderTitle = new System.Windows.Forms.DataGridViewTextBoxColumn();
             this.HeaderCategory = new System.Windows.Forms.DataGridViewTextBoxColumn();
+            this.UpdUser = new System.Windows.Forms.DataGridViewTextBoxColumn();
+            this.UpdDt = new System.Windows.Forms.DataGridViewTextBoxColumn();
             this.cmsHeader = new System.Windows.Forms.ContextMenuStrip(this.components);
             this.MIeditHeader = new System.Windows.Forms.ToolStripMenuItem();
             this.lblHeaders = new System.Windows.Forms.Label();
-            this.btnNew = new System.Windows.Forms.Button();
+            this.btnNewHeader = new System.Windows.Forms.Button();
             this.dgvAudits = new System.Windows.Forms.DataGridView();
             this.Id = new System.Windows.Forms.DataGridViewTextBoxColumn();
             this.Year = new System.Windows.Forms.DataGridViewTextBoxColumn();
@@ -56,9 +58,9 @@
             this.Auditor1 = new System.Windows.Forms.DataGridViewTextBoxColumn();
             this.Auditor2 = new System.Windows.Forms.DataGridViewTextBoxColumn();
             this.Supervisor = new System.Windows.Forms.DataGridViewTextBoxColumn();
-            this.lblAudits = new System.Windows.Forms.Label();
-            this.UpdUser = new System.Windows.Forms.DataGridViewTextBoxColumn();
-            this.UpdDt = new System.Windows.Forms.DataGridViewTextBoxColumn();
+            this.IsCompleted = new System.Windows.Forms.DataGridViewCheckBoxColumn();
+            this.lblDetails = new System.Windows.Forms.Label();
+            this.btnNewDetail = new System.Windows.Forms.Button();
             ((System.ComponentModel.ISupportInitialize)(this.dgvHeaders)).BeginInit();
             this.cmsHeader.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)(this.dgvAudits)).BeginInit();
@@ -96,7 +98,7 @@
             dataGridViewCellStyle2.SelectionForeColor = System.Drawing.SystemColors.HighlightText;
             dataGridViewCellStyle2.WrapMode = System.Windows.Forms.DataGridViewTriState.False;
             this.dgvHeaders.DefaultCellStyle = dataGridViewCellStyle2;
-            this.dgvHeaders.Location = new System.Drawing.Point(0, 328);
+            this.dgvHeaders.Location = new System.Drawing.Point(0, 78);
             this.dgvHeaders.MultiSelect = false;
             this.dgvHeaders.Name = "dgvHeaders";
             this.dgvHeaders.ReadOnly = true;
@@ -110,7 +112,7 @@
             this.dgvHeaders.RowHeadersDefaultCellStyle = dataGridViewCellStyle3;
             this.dgvHeaders.RowHeadersWidth = 15;
             this.dgvHeaders.SelectionMode = System.Windows.Forms.DataGridViewSelectionMode.FullRowSelect;
-            this.dgvHeaders.Size = new System.Drawing.Size(1064, 292);
+            this.dgvHeaders.Size = new System.Drawing.Size(1067, 269);
             this.dgvHeaders.TabIndex = 13;
             this.dgvHeaders.MouseDown += new System.Windows.Forms.MouseEventHandler(this.dgvHeaders_MouseDown);
             // 
@@ -135,6 +137,18 @@
             this.HeaderCategory.ReadOnly = true;
             this.HeaderCategory.Width = 350;
             // 
+            // UpdUser
+            // 
+            this.UpdUser.HeaderText = "Update User";
+            this.UpdUser.Name = "UpdUser";
+            this.UpdUser.ReadOnly = true;
+            // 
+            // UpdDt
+            // 
+            this.UpdDt.HeaderText = "Update Date";
+            this.UpdDt.Name = "UpdDt";
+            this.UpdDt.ReadOnly = true;
+            // 
             // cmsHeader
             // 
             this.cmsHeader.Items.AddRange(new System.Windows.Forms.ToolStripItem[] {
@@ -153,22 +167,22 @@
             // 
             this.lblHeaders.AutoSize = true;
             this.lblHeaders.Font = new System.Drawing.Font("Microsoft Sans Serif", 15.75F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(161)));
-            this.lblHeaders.Location = new System.Drawing.Point(469, 291);
+            this.lblHeaders.Location = new System.Drawing.Point(436, 50);
             this.lblHeaders.Name = "lblHeaders";
             this.lblHeaders.Size = new System.Drawing.Size(100, 25);
             this.lblHeaders.TabIndex = 47;
             this.lblHeaders.Text = "Headers";
             // 
-            // btnNew
+            // btnNewHeader
             // 
-            this.btnNew.Font = new System.Drawing.Font("Microsoft Sans Serif", 14.25F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(161)));
-            this.btnNew.Location = new System.Drawing.Point(1114, 461);
-            this.btnNew.Name = "btnNew";
-            this.btnNew.Size = new System.Drawing.Size(107, 52);
-            this.btnNew.TabIndex = 48;
-            this.btnNew.Text = "New";
-            this.btnNew.UseVisualStyleBackColor = true;
-            this.btnNew.Click += new System.EventHandler(this.btnNew_Click);
+            this.btnNewHeader.Font = new System.Drawing.Font("Microsoft Sans Serif", 14.25F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(161)));
+            this.btnNewHeader.Location = new System.Drawing.Point(1084, 171);
+            this.btnNewHeader.Name = "btnNewHeader";
+            this.btnNewHeader.Size = new System.Drawing.Size(158, 51);
+            this.btnNewHeader.TabIndex = 48;
+            this.btnNewHeader.Text = "New Header";
+            this.btnNewHeader.UseVisualStyleBackColor = true;
+            this.btnNewHeader.Click += new System.EventHandler(this.btnNew_Click);
             // 
             // dgvAudits
             // 
@@ -185,7 +199,6 @@
             dataGridViewCellStyle4.SelectionForeColor = System.Drawing.SystemColors.HighlightText;
             dataGridViewCellStyle4.WrapMode = System.Windows.Forms.DataGridViewTriState.True;
             this.dgvAudits.ColumnHeadersDefaultCellStyle = dataGridViewCellStyle4;
-            this.dgvAudits.ColumnHeadersHeightSizeMode = System.Windows.Forms.DataGridViewColumnHeadersHeightSizeMode.AutoSize;
             this.dgvAudits.Columns.AddRange(new System.Windows.Forms.DataGridViewColumn[] {
             this.Id,
             this.Year,
@@ -197,7 +210,8 @@
             this.ReportDt,
             this.Auditor1,
             this.Auditor2,
-            this.Supervisor});
+            this.Supervisor,
+            this.IsCompleted});
             dataGridViewCellStyle5.Alignment = System.Windows.Forms.DataGridViewContentAlignment.MiddleLeft;
             dataGridViewCellStyle5.BackColor = System.Drawing.SystemColors.Window;
             dataGridViewCellStyle5.Font = new System.Drawing.Font("Microsoft Sans Serif", 9F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(161)));
@@ -206,7 +220,8 @@
             dataGridViewCellStyle5.SelectionForeColor = System.Drawing.SystemColors.HighlightText;
             dataGridViewCellStyle5.WrapMode = System.Windows.Forms.DataGridViewTriState.False;
             this.dgvAudits.DefaultCellStyle = dataGridViewCellStyle5;
-            this.dgvAudits.Location = new System.Drawing.Point(0, 37);
+            this.dgvAudits.Enabled = false;
+            this.dgvAudits.Location = new System.Drawing.Point(0, 0);
             this.dgvAudits.MultiSelect = false;
             this.dgvAudits.Name = "dgvAudits";
             this.dgvAudits.ReadOnly = true;
@@ -220,7 +235,7 @@
             this.dgvAudits.RowHeadersDefaultCellStyle = dataGridViewCellStyle6;
             this.dgvAudits.RowHeadersWidth = 15;
             this.dgvAudits.SelectionMode = System.Windows.Forms.DataGridViewSelectionMode.FullRowSelect;
-            this.dgvAudits.Size = new System.Drawing.Size(1242, 225);
+            this.dgvAudits.Size = new System.Drawing.Size(1254, 47);
             this.dgvAudits.TabIndex = 49;
             this.dgvAudits.CellClick += new System.Windows.Forms.DataGridViewCellEventHandler(this.dgvAudits_CellClick);
             // 
@@ -271,7 +286,7 @@
             this.Title.HeaderText = "Title";
             this.Title.Name = "Title";
             this.Title.ReadOnly = true;
-            this.Title.Width = 200;
+            this.Title.Width = 295;
             // 
             // ReportDt
             // 
@@ -297,36 +312,41 @@
             this.Supervisor.Name = "Supervisor";
             this.Supervisor.ReadOnly = true;
             // 
-            // lblAudits
+            // IsCompleted
             // 
-            this.lblAudits.AutoSize = true;
-            this.lblAudits.Font = new System.Drawing.Font("Microsoft Sans Serif", 15.75F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(161)));
-            this.lblAudits.Location = new System.Drawing.Point(521, 9);
-            this.lblAudits.Name = "lblAudits";
-            this.lblAudits.Size = new System.Drawing.Size(94, 25);
-            this.lblAudits.TabIndex = 50;
-            this.lblAudits.Text = "Audit(s)";
+            this.IsCompleted.HeaderText = "Completed";
+            this.IsCompleted.Name = "IsCompleted";
+            this.IsCompleted.ReadOnly = true;
             // 
-            // UpdUser
+            // lblDetails
             // 
-            this.UpdUser.HeaderText = "Update User";
-            this.UpdUser.Name = "UpdUser";
-            this.UpdUser.ReadOnly = true;
+            this.lblDetails.AutoSize = true;
+            this.lblDetails.Font = new System.Drawing.Font("Microsoft Sans Serif", 15.75F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(161)));
+            this.lblDetails.Location = new System.Drawing.Point(436, 374);
+            this.lblDetails.Name = "lblDetails";
+            this.lblDetails.Size = new System.Drawing.Size(85, 25);
+            this.lblDetails.TabIndex = 51;
+            this.lblDetails.Text = "Details";
             // 
-            // UpdDt
+            // btnNewDetail
             // 
-            this.UpdDt.HeaderText = "Update Date";
-            this.UpdDt.Name = "UpdDt";
-            this.UpdDt.ReadOnly = true;
+            this.btnNewDetail.Font = new System.Drawing.Font("Microsoft Sans Serif", 14.25F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(161)));
+            this.btnNewDetail.Location = new System.Drawing.Point(1084, 455);
+            this.btnNewDetail.Name = "btnNewDetail";
+            this.btnNewDetail.Size = new System.Drawing.Size(158, 51);
+            this.btnNewDetail.TabIndex = 52;
+            this.btnNewDetail.Text = "New Detail";
+            this.btnNewDetail.UseVisualStyleBackColor = true;
             // 
             // FIShowHeaders
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
             this.ClientSize = new System.Drawing.Size(1254, 622);
-            this.Controls.Add(this.lblAudits);
+            this.Controls.Add(this.btnNewDetail);
+            this.Controls.Add(this.lblDetails);
             this.Controls.Add(this.dgvAudits);
-            this.Controls.Add(this.btnNew);
+            this.Controls.Add(this.btnNewHeader);
             this.Controls.Add(this.lblHeaders);
             this.Controls.Add(this.dgvHeaders);
             this.Icon = ((System.Drawing.Icon)(resources.GetObject("$this.Icon")));
@@ -348,12 +368,13 @@
         private System.Windows.Forms.ContextMenuStrip cmsHeader;
         private System.Windows.Forms.ToolStripMenuItem MIeditHeader;
         private System.Windows.Forms.Label lblHeaders;
-        private System.Windows.Forms.Button btnNew;
+        private System.Windows.Forms.Button btnNewHeader;
         private System.Windows.Forms.DataGridView dgvAudits;
-        private System.Windows.Forms.Label lblAudits;
         private System.Windows.Forms.DataGridViewTextBoxColumn HeaderId;
         private System.Windows.Forms.DataGridViewTextBoxColumn HeaderTitle;
         private System.Windows.Forms.DataGridViewTextBoxColumn HeaderCategory;
+        private System.Windows.Forms.DataGridViewTextBoxColumn UpdUser;
+        private System.Windows.Forms.DataGridViewTextBoxColumn UpdDt;
         private System.Windows.Forms.DataGridViewTextBoxColumn Id;
         private System.Windows.Forms.DataGridViewTextBoxColumn Year;
         private System.Windows.Forms.DataGridViewTextBoxColumn Company;
@@ -365,7 +386,8 @@
         private System.Windows.Forms.DataGridViewTextBoxColumn Auditor1;
         private System.Windows.Forms.DataGridViewTextBoxColumn Auditor2;
         private System.Windows.Forms.DataGridViewTextBoxColumn Supervisor;
-        private System.Windows.Forms.DataGridViewTextBoxColumn UpdUser;
-        private System.Windows.Forms.DataGridViewTextBoxColumn UpdDt;
+        private System.Windows.Forms.DataGridViewCheckBoxColumn IsCompleted;
+        private System.Windows.Forms.Label lblDetails;
+        private System.Windows.Forms.Button btnNewDetail;
     }
 }

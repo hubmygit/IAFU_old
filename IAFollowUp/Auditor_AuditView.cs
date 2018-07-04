@@ -216,6 +216,42 @@ namespace IAFollowUp
 
         }
 
+        public static void FillDataGridView(DataGridView dgv, Audit givenAudit)
+        {
+            dgv.Rows.Clear();
+
+
+            List<dgvDictionary> dgvDictList = new List<dgvDictionary>();
+
+            dgvDictList.Add(new dgvDictionary() { dbfield = givenAudit.Id, dgvColumnHeader = "Id" });
+            dgvDictList.Add(new dgvDictionary() { dbfield = givenAudit.Year, dgvColumnHeader = "Year" });
+            dgvDictList.Add(new dgvDictionary() { dbfield = givenAudit.Company.Name, dgvColumnHeader = "Company" });
+            dgvDictList.Add(new dgvDictionary() { dbfield = givenAudit.AuditType.Name, dgvColumnHeader = "AuditType" });
+            dgvDictList.Add(new dgvDictionary() { dbfield = givenAudit.Title, dgvColumnHeader = "Title" });
+            dgvDictList.Add(new dgvDictionary() { dbfield = givenAudit.ReportDt.ToString("dd.MM.yyyy"), dgvColumnHeader = "ReportDt" });
+            dgvDictList.Add(new dgvDictionary() { dbfield = givenAudit.Auditor1.FullName, dgvColumnHeader = "Auditor1" });
+            dgvDictList.Add(new dgvDictionary() { dbfield = givenAudit.Auditor2.FullName, dgvColumnHeader = "Auditor2" });
+            dgvDictList.Add(new dgvDictionary() { dbfield = givenAudit.Supervisor.FullName, dgvColumnHeader = "Supervisor" });
+            dgvDictList.Add(new dgvDictionary() { dbfield = givenAudit.IsCompleted, dgvColumnHeader = "IsCompleted" });
+            dgvDictList.Add(new dgvDictionary() { dbfield = givenAudit.AuditNumber, dgvColumnHeader = "AuditNumber" });
+            dgvDictList.Add(new dgvDictionary() { dbfield = givenAudit.IASentNumber, dgvColumnHeader = "IASentNumber" });
+            dgvDictList.Add(new dgvDictionary() { dbfield = givenAudit.RevNo, dgvColumnHeader = "RevNo" });
+            dgvDictList.Add(new dgvDictionary() { dbfield = givenAudit.AttCnt, dgvColumnHeader = "AttCnt" });
+
+            object[] obj = new object[dgv.Columns.Count];
+
+            for (int i = 0; i < dgv.Columns.Count; i++)
+            {
+                obj[i] = dgvDictList.Where(z => z.dgvColumnHeader == dgv.Columns[i].Name).First().dbfield;
+            }
+
+            dgv.Rows.Add(obj);
+
+
+            dgv.ClearSelection();
+
+        }
+
         public void FillDataGridView(DataGridView dgv, Audit Audit, int dgvIndex)
         {
             //dgv.Rows.Clear();
@@ -294,15 +330,10 @@ namespace IAFollowUp
             if (dgvAuditView.SelectedRows.Count > 0)
             {
                 int thisId = Convert.ToInt32(dgvAuditView.SelectedRows[0].Cells["Id"].Value.ToString());
-                //Audit thisAudit = auditList.Where(i => i.Id == Id).First();
+                Audit thisAudit = auditList.Where(i => i.Id == thisId).First();
 
-                //if (auditList.Exists(i => i.Id == thisId))
-                //{
-                    //FIShowHeaders frmShowHeaders = new FIShowHeaders(thisAudit);
-                    FIShowHeaders frmShowHeaders = new FIShowHeaders(thisId);
-                    frmShowHeaders.ShowDialog();
-                //}
-
+                FIShowHeaders frmShowHeaders = new FIShowHeaders(thisAudit);
+                frmShowHeaders.ShowDialog();
             }
         }
 
