@@ -36,16 +36,15 @@
             System.Windows.Forms.DataGridViewCellStyle dataGridViewCellStyle5 = new System.Windows.Forms.DataGridViewCellStyle();
             System.Windows.Forms.DataGridViewCellStyle dataGridViewCellStyle6 = new System.Windows.Forms.DataGridViewCellStyle();
             System.ComponentModel.ComponentResourceManager resources = new System.ComponentModel.ComponentResourceManager(typeof(FIShowHeaders));
-            this.dgvHeaderDetails = new System.Windows.Forms.DataGridView();
+            this.dgvHeaders = new System.Windows.Forms.DataGridView();
+            this.HeaderId = new System.Windows.Forms.DataGridViewTextBoxColumn();
+            this.HeaderTitle = new System.Windows.Forms.DataGridViewTextBoxColumn();
+            this.HeaderCategory = new System.Windows.Forms.DataGridViewTextBoxColumn();
             this.cmsHeader = new System.Windows.Forms.ContextMenuStrip(this.components);
             this.MIeditHeader = new System.Windows.Forms.ToolStripMenuItem();
             this.lblHeaders = new System.Windows.Forms.Label();
             this.btnNew = new System.Windows.Forms.Button();
             this.dgvAudits = new System.Windows.Forms.DataGridView();
-            this.lblAudits = new System.Windows.Forms.Label();
-            this.HeaderId = new System.Windows.Forms.DataGridViewTextBoxColumn();
-            this.HeaderTitle = new System.Windows.Forms.DataGridViewTextBoxColumn();
-            this.HeaderCategory = new System.Windows.Forms.DataGridViewTextBoxColumn();
             this.Id = new System.Windows.Forms.DataGridViewTextBoxColumn();
             this.Year = new System.Windows.Forms.DataGridViewTextBoxColumn();
             this.Company = new System.Windows.Forms.DataGridViewTextBoxColumn();
@@ -57,17 +56,18 @@
             this.Auditor1 = new System.Windows.Forms.DataGridViewTextBoxColumn();
             this.Auditor2 = new System.Windows.Forms.DataGridViewTextBoxColumn();
             this.Supervisor = new System.Windows.Forms.DataGridViewTextBoxColumn();
-            ((System.ComponentModel.ISupportInitialize)(this.dgvHeaderDetails)).BeginInit();
+            this.lblAudits = new System.Windows.Forms.Label();
+            ((System.ComponentModel.ISupportInitialize)(this.dgvHeaders)).BeginInit();
             this.cmsHeader.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)(this.dgvAudits)).BeginInit();
             this.SuspendLayout();
             // 
-            // dgvHeaderDetails
+            // dgvHeaders
             // 
-            this.dgvHeaderDetails.AllowUserToAddRows = false;
-            this.dgvHeaderDetails.AllowUserToDeleteRows = false;
-            this.dgvHeaderDetails.AllowUserToOrderColumns = true;
-            this.dgvHeaderDetails.Anchor = ((System.Windows.Forms.AnchorStyles)((((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Bottom) 
+            this.dgvHeaders.AllowUserToAddRows = false;
+            this.dgvHeaders.AllowUserToDeleteRows = false;
+            this.dgvHeaders.AllowUserToOrderColumns = true;
+            this.dgvHeaders.Anchor = ((System.Windows.Forms.AnchorStyles)((((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Bottom) 
             | System.Windows.Forms.AnchorStyles.Left) 
             | System.Windows.Forms.AnchorStyles.Right)));
             dataGridViewCellStyle1.Alignment = System.Windows.Forms.DataGridViewContentAlignment.MiddleLeft;
@@ -77,13 +77,13 @@
             dataGridViewCellStyle1.SelectionBackColor = System.Drawing.SystemColors.Highlight;
             dataGridViewCellStyle1.SelectionForeColor = System.Drawing.SystemColors.HighlightText;
             dataGridViewCellStyle1.WrapMode = System.Windows.Forms.DataGridViewTriState.True;
-            this.dgvHeaderDetails.ColumnHeadersDefaultCellStyle = dataGridViewCellStyle1;
-            this.dgvHeaderDetails.ColumnHeadersHeightSizeMode = System.Windows.Forms.DataGridViewColumnHeadersHeightSizeMode.AutoSize;
-            this.dgvHeaderDetails.Columns.AddRange(new System.Windows.Forms.DataGridViewColumn[] {
+            this.dgvHeaders.ColumnHeadersDefaultCellStyle = dataGridViewCellStyle1;
+            this.dgvHeaders.ColumnHeadersHeightSizeMode = System.Windows.Forms.DataGridViewColumnHeadersHeightSizeMode.AutoSize;
+            this.dgvHeaders.Columns.AddRange(new System.Windows.Forms.DataGridViewColumn[] {
             this.HeaderId,
             this.HeaderTitle,
             this.HeaderCategory});
-            this.dgvHeaderDetails.ContextMenuStrip = this.cmsHeader;
+            this.dgvHeaders.ContextMenuStrip = this.cmsHeader;
             dataGridViewCellStyle2.Alignment = System.Windows.Forms.DataGridViewContentAlignment.MiddleLeft;
             dataGridViewCellStyle2.BackColor = System.Drawing.SystemColors.Window;
             dataGridViewCellStyle2.Font = new System.Drawing.Font("Microsoft Sans Serif", 12F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(161)));
@@ -91,11 +91,11 @@
             dataGridViewCellStyle2.SelectionBackColor = System.Drawing.SystemColors.Highlight;
             dataGridViewCellStyle2.SelectionForeColor = System.Drawing.SystemColors.HighlightText;
             dataGridViewCellStyle2.WrapMode = System.Windows.Forms.DataGridViewTriState.False;
-            this.dgvHeaderDetails.DefaultCellStyle = dataGridViewCellStyle2;
-            this.dgvHeaderDetails.Location = new System.Drawing.Point(0, 328);
-            this.dgvHeaderDetails.MultiSelect = false;
-            this.dgvHeaderDetails.Name = "dgvHeaderDetails";
-            this.dgvHeaderDetails.ReadOnly = true;
+            this.dgvHeaders.DefaultCellStyle = dataGridViewCellStyle2;
+            this.dgvHeaders.Location = new System.Drawing.Point(0, 328);
+            this.dgvHeaders.MultiSelect = false;
+            this.dgvHeaders.Name = "dgvHeaders";
+            this.dgvHeaders.ReadOnly = true;
             dataGridViewCellStyle3.Alignment = System.Windows.Forms.DataGridViewContentAlignment.MiddleLeft;
             dataGridViewCellStyle3.BackColor = System.Drawing.SystemColors.Control;
             dataGridViewCellStyle3.Font = new System.Drawing.Font("Microsoft Sans Serif", 8.25F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(161)));
@@ -103,11 +103,32 @@
             dataGridViewCellStyle3.SelectionBackColor = System.Drawing.SystemColors.Highlight;
             dataGridViewCellStyle3.SelectionForeColor = System.Drawing.SystemColors.HighlightText;
             dataGridViewCellStyle3.WrapMode = System.Windows.Forms.DataGridViewTriState.True;
-            this.dgvHeaderDetails.RowHeadersDefaultCellStyle = dataGridViewCellStyle3;
-            this.dgvHeaderDetails.RowHeadersWidth = 15;
-            this.dgvHeaderDetails.SelectionMode = System.Windows.Forms.DataGridViewSelectionMode.FullRowSelect;
-            this.dgvHeaderDetails.Size = new System.Drawing.Size(893, 292);
-            this.dgvHeaderDetails.TabIndex = 13;
+            this.dgvHeaders.RowHeadersDefaultCellStyle = dataGridViewCellStyle3;
+            this.dgvHeaders.RowHeadersWidth = 15;
+            this.dgvHeaders.SelectionMode = System.Windows.Forms.DataGridViewSelectionMode.FullRowSelect;
+            this.dgvHeaders.Size = new System.Drawing.Size(893, 292);
+            this.dgvHeaders.TabIndex = 13;
+            // 
+            // HeaderId
+            // 
+            this.HeaderId.HeaderText = "Id";
+            this.HeaderId.Name = "HeaderId";
+            this.HeaderId.ReadOnly = true;
+            this.HeaderId.Visible = false;
+            // 
+            // HeaderTitle
+            // 
+            this.HeaderTitle.HeaderText = "Title";
+            this.HeaderTitle.Name = "HeaderTitle";
+            this.HeaderTitle.ReadOnly = true;
+            this.HeaderTitle.Width = 500;
+            // 
+            // HeaderCategory
+            // 
+            this.HeaderCategory.HeaderText = "Category";
+            this.HeaderCategory.Name = "HeaderCategory";
+            this.HeaderCategory.ReadOnly = true;
+            this.HeaderCategory.Width = 350;
             // 
             // cmsHeader
             // 
@@ -196,37 +217,7 @@
             this.dgvAudits.SelectionMode = System.Windows.Forms.DataGridViewSelectionMode.FullRowSelect;
             this.dgvAudits.Size = new System.Drawing.Size(1242, 225);
             this.dgvAudits.TabIndex = 49;
-            // 
-            // lblAudits
-            // 
-            this.lblAudits.AutoSize = true;
-            this.lblAudits.Font = new System.Drawing.Font("Microsoft Sans Serif", 15.75F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(161)));
-            this.lblAudits.Location = new System.Drawing.Point(521, 9);
-            this.lblAudits.Name = "lblAudits";
-            this.lblAudits.Size = new System.Drawing.Size(94, 25);
-            this.lblAudits.TabIndex = 50;
-            this.lblAudits.Text = "Audit(s)";
-            // 
-            // HeaderId
-            // 
-            this.HeaderId.HeaderText = "Id";
-            this.HeaderId.Name = "HeaderId";
-            this.HeaderId.ReadOnly = true;
-            this.HeaderId.Visible = false;
-            // 
-            // HeaderTitle
-            // 
-            this.HeaderTitle.HeaderText = "Title";
-            this.HeaderTitle.Name = "HeaderTitle";
-            this.HeaderTitle.ReadOnly = true;
-            this.HeaderTitle.Width = 500;
-            // 
-            // HeaderCategory
-            // 
-            this.HeaderCategory.HeaderText = "Category";
-            this.HeaderCategory.Name = "HeaderCategory";
-            this.HeaderCategory.ReadOnly = true;
-            this.HeaderCategory.Width = 350;
+            this.dgvAudits.CellClick += new System.Windows.Forms.DataGridViewCellEventHandler(this.dgvAudits_CellClick);
             // 
             // Id
             // 
@@ -301,6 +292,16 @@
             this.Supervisor.Name = "Supervisor";
             this.Supervisor.ReadOnly = true;
             // 
+            // lblAudits
+            // 
+            this.lblAudits.AutoSize = true;
+            this.lblAudits.Font = new System.Drawing.Font("Microsoft Sans Serif", 15.75F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(161)));
+            this.lblAudits.Location = new System.Drawing.Point(521, 9);
+            this.lblAudits.Name = "lblAudits";
+            this.lblAudits.Size = new System.Drawing.Size(94, 25);
+            this.lblAudits.TabIndex = 50;
+            this.lblAudits.Text = "Audit(s)";
+            // 
             // FIShowHeaders
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
@@ -310,13 +311,13 @@
             this.Controls.Add(this.dgvAudits);
             this.Controls.Add(this.btnNew);
             this.Controls.Add(this.lblHeaders);
-            this.Controls.Add(this.dgvHeaderDetails);
+            this.Controls.Add(this.dgvHeaders);
             this.Icon = ((System.Drawing.Icon)(resources.GetObject("$this.Icon")));
             this.Name = "FIShowHeaders";
             this.StartPosition = System.Windows.Forms.FormStartPosition.CenterParent;
             this.Text = "Findings and Improvements Headers";
             this.Load += new System.EventHandler(this.FIShowHeaders_Load);
-            ((System.ComponentModel.ISupportInitialize)(this.dgvHeaderDetails)).EndInit();
+            ((System.ComponentModel.ISupportInitialize)(this.dgvHeaders)).EndInit();
             this.cmsHeader.ResumeLayout(false);
             ((System.ComponentModel.ISupportInitialize)(this.dgvAudits)).EndInit();
             this.ResumeLayout(false);
@@ -326,7 +327,7 @@
 
         #endregion
 
-        private System.Windows.Forms.DataGridView dgvHeaderDetails;
+        private System.Windows.Forms.DataGridView dgvHeaders;
         private System.Windows.Forms.ContextMenuStrip cmsHeader;
         private System.Windows.Forms.ToolStripMenuItem MIeditHeader;
         private System.Windows.Forms.Label lblHeaders;

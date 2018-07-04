@@ -136,6 +136,9 @@ namespace IAFollowUp
             {
                 sqlConn.Open();
                 cmd.Parameters.AddWithValue("@passPhrase", SqlDBInfo.passPhrase);
+
+                cmd.Parameters.AddWithValue("@AuditId", AuditId);
+
                 SqlDataReader reader = cmd.ExecuteReader();
                 while (reader.Read())
                 {
@@ -143,7 +146,7 @@ namespace IAFollowUp
                     ret.Add(new FIHeader()
                     {
                         Id = Convert.ToInt32(reader["Id"].ToString()),
-                        AuditId = Convert.ToInt32(reader["AuditTypeId"].ToString()),
+                        AuditId = Convert.ToInt32(reader["AuditId"].ToString()),
 
                         FICategoryId = Convert.ToInt32(reader["FICategoryId"].ToString()),
                         FICategory = new FICategory(Convert.ToInt32(reader["FICategoryId"].ToString())),
@@ -176,13 +179,17 @@ namespace IAFollowUp
         {
             if (dgvAudits.SelectedRows.Count > 0)
             {
-                int Id = Convert.ToInt32(dgvAudits.SelectedRows[0].Cells["Id"].Value.ToString());
-                Audit selectedAudit = auditList.Where(i => i.Id == Id).First();
+                int AuditId = Convert.ToInt32(dgvAudits.SelectedRows[0].Cells["Id"].Value.ToString());
+                Audit selectedAudit = auditList.Where(i => i.Id == AuditId).First();
 
                 FIHeaderEdit frmHeaderEdit = new FIHeaderEdit(selectedAudit);
                 frmHeaderEdit.ShowDialog();
 
-
+                if (frmHeaderEdit.success)
+                {
+                    List<FIHeader> Audit_Headers = SelectHeaders(AuditId);
+                    FillHeadersDataGridView(dgvHeaders, Audit_Headers);
+                }
             }
             else
             {
@@ -191,14 +198,39 @@ namespace IAFollowUp
 
         }
 
+        public static void FillHeadersDataGridView(DataGridView dgv, List<FIHeader> HeaderList)
+        {
+            dgv.Rows.Clear();
+
+            foreach (FIHeader thisRecord in HeaderList)
+            {
+                List<dgvDictionary> dgvDictList = new List<dgvDictionary>();
+
+                dgvDictList.Add(new dgvDictionary() { dbfield = thisRecord.Id, dgvColumnHeader = "HeaderId" });
+                dgvDictList.Add(new dgvDictionary() { dbfield = thisRecord.Title, dgvColumnHeader = "HeaderTitle" });               
+                dgvDictList.Add(new dgvDictionary() { dbfield = thisRecord.FICategory.Name, dgvColumnHeader = "HeaderCategory" });
+
+                object[] obj = new object[dgv.Columns.Count];
+
+                for (int i = 0; i < dgv.Columns.Count; i++)
+                {
+                    obj[i] = dgvDictList.Where(z => z.dgvColumnHeader == dgv.Columns[i].Name).First().dbfield;
+                }
+
+                dgv.Rows.Add(obj);
+            }
+
+            dgv.ClearSelection();
+        }
+
         private void dgvAudits_CellClick(object sender, DataGridViewCellEventArgs e)
         {
-            if (dgvAudits.SelectedRows.Count >0)
+            if (dgvAudits.SelectedRows.Count > 0)
             {
                 int AuditId = Convert.ToInt32(dgvAudits.SelectedRows[0].Cells["Id"].Value);
-                SelectHeaders(AuditId);
 
-                //....
+                List<FIHeader> Audit_Headers = SelectHeaders(AuditId);
+                FillHeadersDataGridView(dgvHeaders, Audit_Headers);
             }
         }
     }
