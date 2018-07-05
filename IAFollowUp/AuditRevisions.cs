@@ -65,7 +65,7 @@ namespace IAFollowUp
                               "[ReportDt], " +
                               "[Auditor1Id], [Auditor2Id], [SupervisorId], " +
                               "[IsCompleted], [AuditNumber], [IASentNumber],[InsUserId],[UpdUserId],[InsDt], [UpdDt], [RevNo], " +
-                              "(SELECT count(*) FROM [dbo].[Attachments] T WHERE a.id = T.AuditID and A.RevNo = T.RevNo) as AttCnt " +
+                              "(SELECT count(*) FROM [dbo].[Audit_Attachments] T WHERE a.id = T.AuditID and A.RevNo = T.RevNo) as AttCnt " +
                               "FROM [dbo].[Audit] A " +
                               "WHERE Id = " + Id.ToString() + 
 
@@ -76,7 +76,7 @@ namespace IAFollowUp
                               "R.[ReportDt], " +
                               "R.[Auditor1Id], R.[Auditor2Id], R.[SupervisorId], " +
                               "R.[IsCompleted], R.[AuditNumber], R.[IASentNumber], R.[InsUserId], R.[UpdUserId], R.[InsDt], R.[UpdDt], R.[RevNo], " +
-                              "(SELECT count(*) FROM [dbo].[Attachments] T WHERE R.AuditId = T.AuditID and R.RevNo = T.RevNo) as AttCnt " +
+                              "(SELECT count(*) FROM [dbo].[Audit_Attachments] T WHERE R.AuditId = T.AuditID and R.RevNo = T.RevNo) as AttCnt " +
                               "FROM [dbo].[AuditRev] R " +
                               "WHERE R.AuditId = " + Id.ToString() +
                               

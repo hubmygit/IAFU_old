@@ -108,7 +108,7 @@ namespace IAFollowUp
                               "[ReportDt], " +
                               "[Auditor1Id], [Auditor2Id], [SupervisorId], " +
                               "[IsCompleted], [AuditNumber], [IASentNumber], [RevNo], " +
-                              "(SELECT count(*) FROM [dbo].[Attachments] T WHERE a.id = T.AuditID and A.RevNo = T.RevNo) as AttCnt " +
+                              "(SELECT count(*) FROM [dbo].[Audit_Attachments] T WHERE a.id = T.AuditID and A.RevNo = T.RevNo) as AttCnt " +
                               "FROM [dbo].[Audit] A " +
                               "ORDER BY Id "; //ToDo
             SqlCommand cmd = new SqlCommand(SelectSt, sqlConn);

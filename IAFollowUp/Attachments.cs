@@ -28,7 +28,7 @@ namespace IAFollowUp
 
             //--------------------
             //SqlConnection sqlConn = new SqlConnection(SqlDBInfo.connectionString);
-            //string InsSt = "INSERT INTO [dbo].[Attachments] (Name, FileContents, AuditId, RevNo, UsersId, InsDate) VALUES ('IAFollow.txt', @DocCont, 10, 8, 5, getdate()) ";
+            //string InsSt = "INSERT INTO [dbo].[Audit_Attachments] (Name, FileContents, AuditId, RevNo, UsersId, InsDate) VALUES ('IAFollow.txt', @DocCont, 10, 8, 5, getdate()) ";
             //try
             //{
             //    byte[] fileBytes = System.IO.File.ReadAllBytes("C:\\Tests\\IAFollow.txt");
@@ -66,7 +66,7 @@ namespace IAFollowUp
             List<string> ret = new List<string>();
 
             SqlConnection sqlConn = new SqlConnection(SqlDBInfo.connectionString);
-            string SelectSt = "SELECT Name FROM [dbo].[Attachments] WHERE AuditId = " + auditId.ToString() + " AND RevNo= " + revNo.ToString();
+            string SelectSt = "SELECT Name FROM [dbo].[Audit_Attachments] WHERE AuditId = " + auditId.ToString() + " AND RevNo= " + revNo.ToString();
             SqlCommand cmd = new SqlCommand(SelectSt, sqlConn);
             try
             {
@@ -159,7 +159,7 @@ namespace IAFollowUp
                     }
 
                     SqlConnection sqlConn = new SqlConnection(SqlDBInfo.connectionString);
-                    string SelectSt = "SELECT [FileContents] FROM [dbo].[Attachments] WHERE AuditId = @AuditId AND RevNo = @RevNo AND Name = @Filename";
+                    string SelectSt = "SELECT [FileContents] FROM [dbo].[Audit_Attachments] WHERE AuditId = @AuditId AND RevNo = @RevNo AND Name = @Filename";
                     SqlCommand cmd = new SqlCommand(SelectSt, sqlConn);
                     try
                     {
@@ -256,7 +256,7 @@ namespace IAFollowUp
             }
 
             SqlConnection sqlConn = new SqlConnection(SqlDBInfo.connectionString);
-            string SelectSt = "SELECT [Name], [FileContents] FROM [dbo].[Attachments] " + 
+            string SelectSt = "SELECT [Name], [FileContents] FROM [dbo].[Audit_Attachments] " + 
                 " WHERE AuditId = @AuditId and RevNo = @RevNo and Name = @Filename ";
             SqlCommand cmd = new SqlCommand(SelectSt, sqlConn);
             try
@@ -308,14 +308,14 @@ namespace IAFollowUp
             return ret;
         }
 
-        private bool InertIntoTable_AttachedFiles(int AuditId, int RevNo, string fileName, byte[] fileBytes) //INSERT [dbo].[Attachments]
+        private bool InertIntoTable_AttachedFiles(int AuditId, int RevNo, string fileName, byte[] fileBytes) //INSERT [dbo].[Audit_Attachments]
         {
             bool ret = false;
 
             if (AuditId > 0 && RevNo > 0 && fileName.Trim().Length > 0)
             {
                 SqlConnection sqlConn = new SqlConnection(SqlDBInfo.connectionString);
-                string InsSt = "INSERT INTO [dbo].[Attachments] (Name, FileContents, AuditId, RevNo, UsersId, InsDate) VALUES " +
+                string InsSt = "INSERT INTO [dbo].[Audit_Attachments] (Name, FileContents, AuditId, RevNo, UsersId, InsDate) VALUES " +
                     "(@Filename, @FileCont, @AuditId, @RevNo, @UsersId, getdate() ) ";
                 try
                 {

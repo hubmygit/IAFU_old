@@ -104,7 +104,7 @@
             this.txtDescription.Name = "txtDescription";
             this.txtDescription.ScrollBars = System.Windows.Forms.ScrollBars.Both;
             this.txtDescription.Size = new System.Drawing.Size(468, 72);
-            this.txtDescription.TabIndex = 50;
+            this.txtDescription.TabIndex = 1;
             // 
             // lblDetailDescription
             // 
@@ -125,7 +125,7 @@
             this.dtpActionDate.Location = new System.Drawing.Point(229, 443);
             this.dtpActionDate.Name = "dtpActionDate";
             this.dtpActionDate.Size = new System.Drawing.Size(184, 22);
-            this.dtpActionDate.TabIndex = 52;
+            this.dtpActionDate.TabIndex = 3;
             // 
             // lblActionDate
             // 
@@ -156,7 +156,7 @@
             this.txtActionReq.Name = "txtActionReq";
             this.txtActionReq.ScrollBars = System.Windows.Forms.ScrollBars.Both;
             this.txtActionReq.Size = new System.Drawing.Size(468, 72);
-            this.txtActionReq.TabIndex = 55;
+            this.txtActionReq.TabIndex = 2;
             // 
             // btnSave
             // 
@@ -167,7 +167,7 @@
             this.btnSave.Location = new System.Drawing.Point(729, 444);
             this.btnSave.Name = "btnSave";
             this.btnSave.Size = new System.Drawing.Size(132, 60);
-            this.btnSave.TabIndex = 56;
+            this.btnSave.TabIndex = 4;
             this.btnSave.Text = "Save";
             this.btnSave.TextAlign = System.Drawing.ContentAlignment.MiddleRight;
             this.btnSave.UseVisualStyleBackColor = true;

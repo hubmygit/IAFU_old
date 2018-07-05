@@ -226,9 +226,9 @@ namespace IAFollowUp
             bool ret = false;
 
             SqlConnection sqlConn = new SqlConnection(SqlDBInfo.connectionString);
-            string InsSt = "INSERT INTO [dbo].[Attachments] ([Name], [FileContents], [AuditId], [RevNo], [UsersID], [InsDate]) " +
+            string InsSt = "INSERT INTO [dbo].[Audit_Attachments] ([Name], [FileContents], [AuditId], [RevNo], [UsersID], [InsDate]) " +
                            "SELECT [Name], [FileContents], @AuditID, @OldRevNo+1, @UsersID, getDate() " +
-                           "FROM [dbo].[Attachments] WHERE AuditID=@AuditID and RevNo= @OldRevNo";
+                           "FROM [dbo].[Audit_Attachments] WHERE AuditID=@AuditID and RevNo= @OldRevNo";
             try
             {
                 sqlConn.Open();
