@@ -15,35 +15,18 @@ namespace IAFollowUp
         public FIShowHeaders()
         {
             InitializeComponent();
-
-            //auditList = SelectAudit();
         }
-
-        //public FIShowHeaders(Audit Selected)
-        //public FIShowHeaders(int Selected)
-        //{
-        //    InitializeComponent();
-
-        //    //auditList = SelectAudit();
-
-        //    //selAuditId = Selected;
-        //}
 
         public FIShowHeaders(Audit selAudit)
         {
             InitializeComponent();
 
-            //auditList = SelectAudit();
-
-            //selAuditId = Selected;
-
             glAudit = selAudit;
         }
 
-        //public List<Audit> auditList = new List<Audit>();
-        //public int selAuditId = -1;
         public Audit glAudit = new Audit();
         public List<FIHeader> Audit_Headers = new List<FIHeader>();
+        public List<FIDetail> Header_Details = new List<FIDetail>();
 
         private void MIeditHeader_Click(object sender, EventArgs e)
         {
@@ -64,6 +47,104 @@ namespace IAFollowUp
                 }
             }
         }
+
+        private void MIeditDetail_Click(object sender, EventArgs e)
+        {
+            if (dgvDetails.SelectedRows.Count > 0)
+            {
+                int DetailId = Convert.ToInt32(dgvDetails.SelectedRows[0].Cells["DetailId"].Value.ToString());
+                FIDetail selectedDetail = Header_Details.Where(i => i.Id == DetailId).First();
+
+                int HeaderId = Convert.ToInt32(dgvHeaders.SelectedRows[0].Cells["HeaderId"].Value.ToString());
+                FIHeader selectedHeader = Audit_Headers.Where(i => i.Id == HeaderId).First();
+
+                FIDetailEdit frmDetailEdit = new FIDetailEdit(selectedHeader, selectedDetail);
+                frmDetailEdit.ShowDialog();
+
+                if (frmDetailEdit.success)
+                {
+                    Header_Details = SelectDetails(selectedHeader.Id);
+                    FillDetailsDataGridView(dgvDetails, Header_Details);
+                }
+            }
+        }
+
+        public List<FIDetail> SelectDetails(int HeaderId)
+        {
+            List<FIDetail> ret = new List<FIDetail>();
+
+            SqlConnection sqlConn = new SqlConnection(SqlDBInfo.connectionString);
+            string SelectSt = "SELECT [Id], CONVERT(varchar(500), DECRYPTBYPASSPHRASE( @passPhrase , [Description])) as Description, " +
+                              "CONVERT(varchar(500), DECRYPTBYPASSPHRASE( @passPhrase , [ActionReq])) as ActionReq,[ActionDt], " +
+                              "[FIHeaderId],[InsUserId],[InsDt], [UpdUserId], [UpdDt] " +
+                              "FROM [dbo].[FIDetail] " +
+                              "WHERE [FIHeaderId] = @HeaderId " +
+                              "ORDER BY [InsDt] ";
+
+            SqlCommand cmd = new SqlCommand(SelectSt, sqlConn);
+            try
+            {
+                sqlConn.Open();
+                cmd.Parameters.AddWithValue("@passPhrase", SqlDBInfo.passPhrase);
+
+                cmd.Parameters.AddWithValue("@HeaderId", HeaderId);
+
+                SqlDataReader reader = cmd.ExecuteReader();
+                while (reader.Read())
+                {
+
+                    ret.Add(new FIDetail()
+                    {
+                        Id = Convert.ToInt32(reader["Id"].ToString()),
+                        FIHeaderId = Convert.ToInt32(reader["FIHeaderId"].ToString()),
+                        UpdUserId = Convert.ToInt32(reader["UpdUserId"].ToString()),
+                        UpdUser = new Users(Convert.ToInt32(reader["UpdUserId"].ToString())),
+                        UpdDt = Convert.ToDateTime(reader["UpdDt"].ToString()),
+                        ActionDt = Convert.ToDateTime(reader["ActionDt"].ToString()),
+                        Description = reader["Description"].ToString(),
+                        ActionReq = reader["ActionReq"].ToString()
+                    });
+                }
+                reader.Close();
+                sqlConn.Close();
+            }
+            catch (Exception ex)
+            {
+                MessageBox.Show("The following error occurred: " + ex.Message);
+            }
+
+            return ret;
+        }
+
+        public static void FillDetailsDataGridView(DataGridView dgv, List<FIDetail> DetailList)
+        {
+            dgv.Rows.Clear();
+
+            foreach (FIDetail thisRecord in DetailList)
+            {
+                List<dgvDictionary> dgvDictList = new List<dgvDictionary>();
+
+                dgvDictList.Add(new dgvDictionary() { dbfield = thisRecord.Id, dgvColumnHeader = "DetailId" });
+                dgvDictList.Add(new dgvDictionary() { dbfield = thisRecord.Description, dgvColumnHeader = "DetailDescription" });
+                dgvDictList.Add(new dgvDictionary() { dbfield = thisRecord.ActionReq, dgvColumnHeader = "DetailActionReq" });
+                dgvDictList.Add(new dgvDictionary() { dbfield = thisRecord.ActionDt.ToString("dd.MM.yyyy"), dgvColumnHeader = "DetailActionDt" });
+                dgvDictList.Add(new dgvDictionary() { dbfield = thisRecord.UpdUser.FullName, dgvColumnHeader = "DetailUpdUser" });
+                dgvDictList.Add(new dgvDictionary() { dbfield = thisRecord.UpdDt.ToString("dd.MM.yyyy HH:mm:ss"), dgvColumnHeader = "DetailUpdDate" });
+
+
+                object[] obj = new object[dgv.Columns.Count];
+
+                for (int i = 0; i < dgv.Columns.Count; i++)
+                {
+                    obj[i] = dgvDictList.Where(z => z.dgvColumnHeader == dgv.Columns[i].Name).First().dbfield;
+                }
+
+                dgv.Rows.Add(obj);
+            }
+
+            dgv.ClearSelection();
+        }
+
 
         //public List<Audit> SelectAudit()
         //{
@@ -281,6 +362,17 @@ namespace IAFollowUp
             //}
         }
 
+        private void dgvHeaders_CellClick(object sender, DataGridViewCellEventArgs e)
+        {
+            if (dgvHeaders.SelectedRows.Count > 0)
+            {
+                int HeaderId = Convert.ToInt32(dgvHeaders.SelectedRows[0].Cells["HeaderId"].Value.ToString());
+
+                Header_Details = SelectDetails(HeaderId);
+                FillDetailsDataGridView(dgvDetails, Header_Details);
+            }
+        }
+
         private void dgvHeaders_MouseDown(object sender, MouseEventArgs e)
         {
             if (e.Button == MouseButtons.Right)
@@ -303,5 +395,25 @@ namespace IAFollowUp
                 }
             }
         }
+
+        private void btnNewDetail_Click(object sender, EventArgs e)
+        {
+            if (dgvHeaders.SelectedRows.Count > 0)
+            {
+                int HeaderId = Convert.ToInt32(dgvHeaders.SelectedRows[0].Cells["HeaderId"].Value.ToString());
+                FIHeader selectedHeader = Audit_Headers.Where(i => i.Id == HeaderId).First();
+
+                FIDetailEdit frmDetailEdit = new FIDetailEdit(selectedHeader);
+                frmDetailEdit.ShowDialog();
+
+                if (frmDetailEdit.success)
+                {
+                    Header_Details = SelectDetails(selectedHeader.Id);
+                    FillDetailsDataGridView(dgvDetails, Header_Details);
+                }
+            }
+        }
+
+        
     }
 }

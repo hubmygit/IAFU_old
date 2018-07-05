@@ -763,6 +763,13 @@ namespace IAFollowUp
         {
 
         }
+        public static bool isEqual(FIDetail x, FIDetail y)
+        {
+            if (x.Id == y.Id && x.FIHeaderId == y.FIHeaderId && x.Description == y.Description && x.ActionReq == y.ActionReq && x.ActionDt == y.ActionDt)
+                return true;
+            else
+                return false;
+        }
     }
 
 

@@ -194,7 +194,7 @@ namespace IAFollowUp
                     if (UpdateTable_Headers(newFIHeaderRecord))
                     {
                         success = true;
-                        MessageBox.Show("Audit updated successfully!");
+                        MessageBox.Show("Header updated successfully!");
                         Close();
                     }
                     else
