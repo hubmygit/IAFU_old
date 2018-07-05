@@ -71,6 +71,7 @@
             this.txtTitle = new System.Windows.Forms.TextBox();
             this.lblTitle = new System.Windows.Forms.Label();
             this.btnTitleSearch = new System.Windows.Forms.Button();
+            this.toolStripMessage = new System.Windows.Forms.ToolStripStatusLabel();
             ((System.ComponentModel.ISupportInitialize)(this.dgvAuditView)).BeginInit();
             this.cmsOnGrid.SuspendLayout();
             this.statusStrip1.SuspendLayout();
@@ -84,6 +85,7 @@
             this.dgvAuditView.Anchor = ((System.Windows.Forms.AnchorStyles)((((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Bottom) 
             | System.Windows.Forms.AnchorStyles.Left) 
             | System.Windows.Forms.AnchorStyles.Right)));
+            this.dgvAuditView.AutoSizeRowsMode = System.Windows.Forms.DataGridViewAutoSizeRowsMode.AllCellsExceptHeaders;
             dataGridViewCellStyle1.Alignment = System.Windows.Forms.DataGridViewContentAlignment.MiddleLeft;
             dataGridViewCellStyle1.BackColor = System.Drawing.SystemColors.Control;
             dataGridViewCellStyle1.Font = new System.Drawing.Font("Microsoft Sans Serif", 12F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(161)));
@@ -115,7 +117,7 @@
             dataGridViewCellStyle2.ForeColor = System.Drawing.SystemColors.ControlText;
             dataGridViewCellStyle2.SelectionBackColor = System.Drawing.SystemColors.Highlight;
             dataGridViewCellStyle2.SelectionForeColor = System.Drawing.SystemColors.HighlightText;
-            dataGridViewCellStyle2.WrapMode = System.Windows.Forms.DataGridViewTriState.False;
+            dataGridViewCellStyle2.WrapMode = System.Windows.Forms.DataGridViewTriState.True;
             this.dgvAuditView.DefaultCellStyle = dataGridViewCellStyle2;
             this.dgvAuditView.Location = new System.Drawing.Point(12, 89);
             this.dgvAuditView.MultiSelect = false;
@@ -325,17 +327,18 @@
             // statusStrip1
             // 
             this.statusStrip1.Items.AddRange(new System.Windows.Forms.ToolStripItem[] {
-            this.toolStripCounter});
-            this.statusStrip1.Location = new System.Drawing.Point(0, 600);
+            this.toolStripCounter,
+            this.toolStripMessage});
+            this.statusStrip1.Location = new System.Drawing.Point(0, 596);
             this.statusStrip1.Name = "statusStrip1";
-            this.statusStrip1.Size = new System.Drawing.Size(1222, 22);
+            this.statusStrip1.Size = new System.Drawing.Size(1222, 26);
             this.statusStrip1.TabIndex = 43;
             this.statusStrip1.Text = "statusStrip1";
             // 
             // toolStripCounter
             // 
             this.toolStripCounter.Name = "toolStripCounter";
-            this.toolStripCounter.Size = new System.Drawing.Size(0, 17);
+            this.toolStripCounter.Size = new System.Drawing.Size(0, 21);
             // 
             // cbCompanies
             // 
@@ -445,6 +448,15 @@
             this.btnTitleSearch.UseVisualStyleBackColor = true;
             this.btnTitleSearch.Click += new System.EventHandler(this.btnTitleSearch_Click);
             // 
+            // toolStripMessage
+            // 
+            this.toolStripMessage.Font = new System.Drawing.Font("Segoe UI", 12F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(161)));
+            this.toolStripMessage.ForeColor = System.Drawing.Color.Salmon;
+            this.toolStripMessage.Name = "toolStripMessage";
+            this.toolStripMessage.Size = new System.Drawing.Size(429, 21);
+            this.toolStripMessage.Text = "Double-Click on Audit To View Findings / Imrovements";
+            this.toolStripMessage.Visible = false;
+            // 
             // Auditor_AuditView
             // 
             this.AcceptButton = this.btnTitleSearch;
@@ -520,5 +532,6 @@
         private System.Windows.Forms.DataGridViewTextBoxColumn AttCnt;
         public System.Windows.Forms.CheckBox chbCompleted;
         public System.Windows.Forms.DataGridView dgvAuditView;
+        public System.Windows.Forms.ToolStripStatusLabel toolStripMessage;
     }
 }

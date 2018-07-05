@@ -146,10 +146,12 @@
             // txtTitle
             // 
             this.txtTitle.Font = new System.Drawing.Font("Microsoft Sans Serif", 12F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(161)));
-            this.txtTitle.Location = new System.Drawing.Point(205, 33);
+            this.txtTitle.Location = new System.Drawing.Point(205, 12);
             this.txtTitle.MaxLength = 500;
+            this.txtTitle.Multiline = true;
             this.txtTitle.Name = "txtTitle";
-            this.txtTitle.Size = new System.Drawing.Size(468, 26);
+            this.txtTitle.ScrollBars = System.Windows.Forms.ScrollBars.Both;
+            this.txtTitle.Size = new System.Drawing.Size(468, 72);
             this.txtTitle.TabIndex = 1;
             // 
             // lblTitle

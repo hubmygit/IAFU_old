@@ -47,6 +47,8 @@ namespace IAFollowUp
 
         private void MIeditHeader_Click(object sender, EventArgs e)
         {
+            if (dgvHeaders.SelectedRows.Count > 0)
+            {
                 int HeaderId = Convert.ToInt32(dgvHeaders.SelectedRows[0].Cells["HeaderId"].Value.ToString());
                 FIHeader selectedHeader = Audit_Headers.Where(i => i.Id == HeaderId).First();
 
@@ -60,6 +62,7 @@ namespace IAFollowUp
                     Audit_Headers = SelectHeaders(glAudit.Id);
                     FillHeadersDataGridView(dgvHeaders, Audit_Headers);
                 }
+            }
         }
 
         //public List<Audit> SelectAudit()
@@ -150,7 +153,7 @@ namespace IAFollowUp
 
             SqlConnection sqlConn = new SqlConnection(SqlDBInfo.connectionString);
             string SelectSt = "SELECT [Id], [AuditId], " +
-                              "CONVERT(varchar, DECRYPTBYPASSPHRASE( @passPhrase , [Title])) as Title, " +
+                              "CONVERT(varchar(500), DECRYPTBYPASSPHRASE( @passPhrase , [Title])) as Title, " +
                               "[FICategoryId],[InsUserId],[InsDt], [UpdUserId], [UpdDt] " +
                               "FROM [dbo].[FIHeader] " +
                               "WHERE [AuditId] = @AuditId " +
@@ -230,7 +233,7 @@ namespace IAFollowUp
 
                 if (frmHeaderEdit.success)
                 {
-                    List<FIHeader> Audit_Headers = SelectHeaders(glAudit.Id);
+                    Audit_Headers = SelectHeaders(glAudit.Id);
                     FillHeadersDataGridView(dgvHeaders, Audit_Headers);
                 }
         }

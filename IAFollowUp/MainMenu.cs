@@ -57,19 +57,18 @@ namespace IAFollowUp
 
         private void viewRevisionsToolStripMenuItem_Click(object sender, EventArgs e)
         {
-
             Auditor_AuditView frmAuditorAuditView_Rev = new Auditor_AuditView();
 
             frmAuditorAuditView_Rev.cmsOnGrid.Items["MIRevisions"].Visible = true;
 
             frmAuditorAuditView_Rev.ShowDialog();
-
         }
 
         private void findingsAndImprovementsToolStripMenuItem_Click(object sender, EventArgs e)
         {
             Auditor_AuditView frmAuditView = new Auditor_AuditView();
             frmAuditView.Text = "Select Audit";
+            frmAuditView.toolStripMessage.Visible = true;
             frmAuditView.chbCompleted.CheckState = CheckState.Unchecked;
             frmAuditView.dgvAuditView.ContextMenuStrip = null;
 

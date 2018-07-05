@@ -104,7 +104,7 @@ namespace IAFollowUp
 
             SqlConnection sqlConn = new SqlConnection(SqlDBInfo.connectionString);
             string SelectSt = "SELECT [Id], [Year], [CompanyId], [AuditTypeId], " +
-                              "CONVERT(varchar, DECRYPTBYPASSPHRASE( @passPhrase , [Title])) as Title, " + 
+                              "CONVERT(varchar(500), DECRYPTBYPASSPHRASE( @passPhrase , [Title])) as Title, " + 
                               "[ReportDt], " +
                               "[Auditor1Id], [Auditor2Id], [SupervisorId], " +
                               "[IsCompleted], [AuditNumber], [IASentNumber], [RevNo], " +
@@ -733,6 +733,15 @@ namespace IAFollowUp
         public FIHeader()
         {
         }
+        
+        public static bool isEqual(FIHeader x, FIHeader y)
+        {
+            if (x.Id == y.Id && x.AuditId == y.AuditId && x.Title == y.Title && x.FICategoryId == y.FICategoryId && FICategory.isEqual(x.FICategory, y.FICategory))
+                return true;
+            else
+                return false;
+        }
+
     }
 
     public class FIDetail
@@ -834,6 +843,14 @@ namespace IAFollowUp
             }
 
             return ret;
+        }
+
+        public static bool isEqual(FICategory x, FICategory y)
+        {
+            if (x.Id == y.Id && x.Name == y.Name && x.NeedsApproval == y.NeedsApproval)
+                return true;
+            else
+                return false;
         }
     }
 
@@ -941,7 +958,7 @@ namespace IAFollowUp
         public Users(int givenId)
         {
             SqlConnection sqlConn = new SqlConnection(SqlDBInfo.connectionString);
-            string SelectSt = "SELECT [Id], CONVERT(varchar, DECRYPTBYPASSPHRASE( @passPhrase , [FullName])) as FullName " +
+            string SelectSt = "SELECT [Id], CONVERT(varchar(500), DECRYPTBYPASSPHRASE( @passPhrase , [FullName])) as FullName " +
                               "FROM [dbo].[Users] " +
                               "WHERE Id = " + givenId.ToString();
             SqlCommand cmd = new SqlCommand(SelectSt, sqlConn);
@@ -979,7 +996,7 @@ namespace IAFollowUp
             List<Users> ret = new List<Users>();
 
             SqlConnection sqlConn = new SqlConnection(SqlDBInfo.connectionString);
-            string SelectSt = "SELECT [Id], CONVERT(varchar, DECRYPTBYPASSPHRASE( @passPhrase , [FullName])) as FullName " +
+            string SelectSt = "SELECT [Id], CONVERT(varchar(500), DECRYPTBYPASSPHRASE( @passPhrase , [FullName])) as FullName " +
                               "FROM [dbo].[Users] ";
             SqlCommand cmd = new SqlCommand(SelectSt, sqlConn);
             try
@@ -1007,7 +1024,7 @@ namespace IAFollowUp
             List<Users> ret = new List<Users>();
 
             SqlConnection sqlConn = new SqlConnection(SqlDBInfo.connectionString);
-            string SelectSt = "SELECT U.[Id], CONVERT(varchar, DECRYPTBYPASSPHRASE( @passPhrase , U.[FullName])) as FullName " +
+            string SelectSt = "SELECT U.[Id], CONVERT(varchar(500), DECRYPTBYPASSPHRASE( @passPhrase , U.[FullName])) as FullName " +
                               "FROM [dbo].[Roles] R, [dbo].[Users] U " +
                               "WHERE R.Id = U.RolesId ";
 

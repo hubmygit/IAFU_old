@@ -61,7 +61,7 @@ namespace IAFollowUp
 
             SqlConnection sqlConn = new SqlConnection(SqlDBInfo.connectionString);
             string SelectSt = "SELECT 0 as [Id], [Id] as [AuditId], [Year], [CompanyId], [AuditTypeId], " +
-                              "CONVERT(varchar, DECRYPTBYPASSPHRASE( @passPhrase , [Title])) as Title, " +
+                              "CONVERT(varchar(500), DECRYPTBYPASSPHRASE( @passPhrase , [Title])) as Title, " +
                               "[ReportDt], " +
                               "[Auditor1Id], [Auditor2Id], [SupervisorId], " +
                               "[IsCompleted], [AuditNumber], [IASentNumber],[InsUserId],[UpdUserId],[InsDt], [UpdDt], [RevNo], " +
@@ -72,7 +72,7 @@ namespace IAFollowUp
                               " UNION ALL " +
 
                               "SELECT R.[Id], R.[AuditId], R.[Year], R.[CompanyId], R.[AuditTypeId], " +
-                              "CONVERT(varchar, DECRYPTBYPASSPHRASE( @passPhrase , R.[Title])) as Title, " +
+                              "CONVERT(varchar(500), DECRYPTBYPASSPHRASE( @passPhrase , R.[Title])) as Title, " +
                               "R.[ReportDt], " +
                               "R.[Auditor1Id], R.[Auditor2Id], R.[SupervisorId], " +
                               "R.[IsCompleted], R.[AuditNumber], R.[IASentNumber], R.[InsUserId], R.[UpdUserId], R.[InsDt], R.[UpdDt], R.[RevNo], " +

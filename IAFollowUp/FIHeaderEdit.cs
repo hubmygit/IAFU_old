@@ -82,7 +82,7 @@ namespace IAFollowUp
 
             SqlConnection sqlConn = new SqlConnection(SqlDBInfo.connectionString);
             string InsSt = "INSERT INTO [dbo].[FIHeader] ([AuditId],[Title],[FICategoryId] ,[InsUserId], [InsDt],[UpdUserId], [UpdDt]) VALUES " +
-                           "(@AuditId,encryptByPassPhrase(@passPhrase, convert(varchar, @Title)), " +
+                           "(@AuditId,encryptByPassPhrase(@passPhrase, convert(varchar(500), @Title)), " +
                            "@FICategoryId, @InsUserId, getDate(), @InsUserId, getDate() ) ";
             try
             {
@@ -118,7 +118,7 @@ namespace IAFollowUp
             bool ret = false;
 
             SqlConnection sqlConn = new SqlConnection(SqlDBInfo.connectionString);
-            string InsSt = "UPDATE [dbo].[FIHeader] SET [Title] = encryptByPassPhrase(@passPhrase, convert(varchar, @Title)), [FICategoryId] = @FICategoryId, [UpdUserId] = @UpdUserId, " +
+            string InsSt = "UPDATE [dbo].[FIHeader] SET [Title] = encryptByPassPhrase(@passPhrase, convert(varchar(500), @Title)), [FICategoryId] = @FICategoryId, [UpdUserId] = @UpdUserId, " +
                 "[UpdDt] = getDate() " +
                 "WHERE id=@id";
             try
@@ -189,17 +189,23 @@ namespace IAFollowUp
             }
             else //update
             {
-                if (UpdateTable_Headers(newFIHeaderRecord))
+                if (FIHeader.isEqual(oldFIHeaderRecord, newFIHeaderRecord) == false)
                 {
-                    success = true;
-                    MessageBox.Show("Audit updated successfully!");
-                    Close();
+                    if (UpdateTable_Headers(newFIHeaderRecord))
+                    {
+                        success = true;
+                        MessageBox.Show("Audit updated successfully!");
+                        Close();
+                    }
+                    else
+                    {
+                        MessageBox.Show("The F/I Header has not been updated!", "Error", MessageBoxButtons.OK, MessageBoxIcon.Error);
+                    }
                 }
                 else
                 {
-                    MessageBox.Show("The F/I Header has not been updated!", "Error", MessageBoxButtons.OK, MessageBoxIcon.Error);
+                    Close();
                 }
-
             }
 
 

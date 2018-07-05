@@ -178,12 +178,12 @@ namespace IAFollowUp
             //string SelectSt = "SELECT [Id], [UserName], [RolesId], [FullName], [Email] FROM [dbo].[Users] WHERE UserName = '" + GivenUserName + "'";
             
             string SelectSt = "SELECT [Id], " +
-                              "CONVERT(varchar, DECRYPTBYPASSPHRASE( @passPhrase , [UserName])) as UserName, " + 
+                              "CONVERT(varchar(500), DECRYPTBYPASSPHRASE( @passPhrase , [UserName])) as UserName, " + 
                               "[RolesId], " +
-                              "CONVERT(varchar, DECRYPTBYPASSPHRASE( @passPhrase ,  [FullName])) as FullName, " +
-                              "CONVERT(varchar, DECRYPTBYPASSPHRASE( @passPhrase ,  [Email])) as Email " + 
+                              "CONVERT(varchar(500), DECRYPTBYPASSPHRASE( @passPhrase ,  [FullName])) as FullName, " +
+                              "CONVERT(varchar(500), DECRYPTBYPASSPHRASE( @passPhrase ,  [Email])) as Email " + 
                               "FROM [dbo].[Users] WHERE " +
-                              "CONVERT(varchar, DECRYPTBYPASSPHRASE( @passPhrase ,  [UserName])) = '" + GivenUserName + "'";
+                              "CONVERT(varchar(500), DECRYPTBYPASSPHRASE( @passPhrase ,  [UserName])) = '" + GivenUserName + "'";
             SqlCommand cmd = new SqlCommand(SelectSt, sqlConn);
             try
             {
@@ -262,7 +262,7 @@ namespace IAFollowUp
                               "[dbo].[Users] U on P.UsersId = U.Id " + 
                               "WHERE P.IsCurrent = 'true' and " +
                               //"U.UserName = '" + GivenUserName + "'";
-                              "CONVERT(varchar, DECRYPTBYPASSPHRASE(@passPhrase,  U.UserName)) = '" + GivenUserName + "'";
+                              "CONVERT(varchar(500), DECRYPTBYPASSPHRASE(@passPhrase,  U.UserName)) = '" + GivenUserName + "'";
 
             SqlCommand cmd = new SqlCommand(SelectSt, sqlConn);
             try

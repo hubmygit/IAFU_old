@@ -266,7 +266,7 @@ namespace IAFollowUp
             string InsSt = "INSERT INTO [dbo].[Audit] ([Year],[CompanyID],[AuditTypeID],[Title],[ReportDt] ," +
                 "[Auditor1ID],[Auditor2ID],[SupervisorID],[IsCompleted],[AuditNumber],[IASentNumber],[InsUserID],[InsDt],[UpdUserID],[UpdDt], [RevNo]) VALUES " +
                            "(@Year, @CompanyID, @AuditTypeID, " +
-                           "encryptByPassPhrase(@passPhrase, convert(varchar, @Title)), " +
+                           "encryptByPassPhrase(@passPhrase, convert(varchar(500), @Title)), " +
                            "@ReportDt, @Auditor1ID, @Auditor2ID, @SupervisorID, @IsCompleted, @AuditNumber, @IASentNumber, @InsUserID, getDate(), @InsUserID, getDate(), 1 ) ";
             try
             {
@@ -330,7 +330,7 @@ namespace IAFollowUp
 
             SqlConnection sqlConn = new SqlConnection(SqlDBInfo.connectionString);
             string InsSt = "UPDATE [dbo].[Audit] SET [Year] = @Year, [CompanyID] = @CompanyID, [AuditTypeID] = @AuditTypeID, " +
-                "[Title] = encryptByPassPhrase(@passPhrase, convert(varchar, @Title))," + 
+                "[Title] = encryptByPassPhrase(@passPhrase, convert(varchar(500), @Title))," + 
                 "[ReportDt] = @ReportDt, " +
                 "[Auditor1ID] = @Auditor1ID, [Auditor2ID] = @Auditor2ID, [SupervisorID] = @SupervisorID, [IsCompleted] = @IsCompleted, [AuditNumber] = @AuditNumber, " +
                 "[IASentNumber] = @IASentNumber, [UpdUserID] = @UpdUserID, [UpdDt] = getDate(), [RevNo] = RevNo+1, [UseUpdTrigger] = 1 " + 
