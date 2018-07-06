@@ -15,5 +15,10 @@ namespace IAFollowUp
         {
             InitializeComponent();
         }
+
+        public FIDetail_Revisions(Audit givenAudit, FIHeader givenHeader)
+        {
+            InitializeComponent();
+        }
     }
 }

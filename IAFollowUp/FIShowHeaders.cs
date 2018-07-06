@@ -474,5 +474,17 @@ namespace IAFollowUp
 
             }
         }
+
+        private void MIDetailRevisions_Click(object sender, EventArgs e)
+        {
+            if (dgvDetails.SelectedRows.Count > 0)
+            {
+                int HeaderId = Convert.ToInt32(dgvHeaders.SelectedRows[0].Cells["HeaderId"].Value.ToString());
+                FIHeader selectedHeader = Audit_Headers.Where(i => i.Id == HeaderId).First();
+
+                FIDetail_Revisions frmFIDetailRev = new FIDetail_Revisions(glAudit, selectedHeader);
+                frmFIDetailRev.ShowDialog();
+            }
+        }
     }
 }

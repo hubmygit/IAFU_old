@@ -422,19 +422,19 @@
             this.MIattachments,
             this.MIDetailRevisions});
             this.cmsDetail.Name = "cmsHeader";
-            this.cmsDetail.Size = new System.Drawing.Size(143, 70);
+            this.cmsDetail.Size = new System.Drawing.Size(181, 92);
             // 
             // MIeditDetail
             // 
             this.MIeditDetail.Name = "MIeditDetail";
-            this.MIeditDetail.Size = new System.Drawing.Size(142, 22);
+            this.MIeditDetail.Size = new System.Drawing.Size(180, 22);
             this.MIeditDetail.Text = "Edit";
             this.MIeditDetail.Click += new System.EventHandler(this.MIeditDetail_Click);
             // 
             // MIattachments
             // 
             this.MIattachments.Name = "MIattachments";
-            this.MIattachments.Size = new System.Drawing.Size(142, 22);
+            this.MIattachments.Size = new System.Drawing.Size(180, 22);
             this.MIattachments.Text = "Attachments";
             this.MIattachments.Click += new System.EventHandler(this.MIattachments_Click);
             // 
@@ -491,9 +491,10 @@
             // MIDetailRevisions
             // 
             this.MIDetailRevisions.Name = "MIDetailRevisions";
-            this.MIDetailRevisions.Size = new System.Drawing.Size(142, 22);
+            this.MIDetailRevisions.Size = new System.Drawing.Size(180, 22);
             this.MIDetailRevisions.Text = "Revisions";
             this.MIDetailRevisions.Visible = false;
+            this.MIDetailRevisions.Click += new System.EventHandler(this.MIDetailRevisions_Click);
             // 
             // FIShowHeaders
             // 
