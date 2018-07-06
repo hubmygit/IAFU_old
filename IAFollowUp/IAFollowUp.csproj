@@ -59,6 +59,12 @@
     <Compile Include="FIDetailEdit.Designer.cs">
       <DependentUpon>FIDetailEdit.cs</DependentUpon>
     </Compile>
+    <Compile Include="FIDetail_Revisions.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="FIDetail_Revisions.Designer.cs">
+      <DependentUpon>FIDetail_Revisions.cs</DependentUpon>
+    </Compile>
     <Compile Include="FIShowHeaders.cs">
       <SubType>Form</SubType>
     </Compile>
@@ -114,6 +120,9 @@
     </EmbeddedResource>
     <EmbeddedResource Include="FIDetailEdit.resx">
       <DependentUpon>FIDetailEdit.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="FIDetail_Revisions.resx">
+      <DependentUpon>FIDetail_Revisions.cs</DependentUpon>
     </EmbeddedResource>
     <EmbeddedResource Include="FIShowHeaders.resx">
       <DependentUpon>FIShowHeaders.cs</DependentUpon>

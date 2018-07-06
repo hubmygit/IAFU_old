@@ -86,6 +86,25 @@ namespace IAFollowUp
                 frmShowHeaders.ShowDialog();
             }
         }
+
+        private void viewFIRevisionsToolStripMenuItem_Click(object sender, EventArgs e)
+        {
+            Auditor_AuditView frmAuditView = new Auditor_AuditView();
+            frmAuditView.Text = "Select Audit";
+            frmAuditView.toolStripMessage.Visible = true;
+            frmAuditView.chbCompleted.CheckState = CheckState.Unchecked;
+            frmAuditView.dgvAuditView.ContextMenuStrip = null;
+            frmAuditView.dgvAuditView.CellDoubleClick += new DataGridViewCellEventHandler(frmAuditView.dgvAuditView_CellDoubleClick);
+
+            DialogResult dRes = frmAuditView.ShowDialog();
+            if (dRes == DialogResult.OK)
+            {
+                Audit selAudit = frmAuditView.Header_Audit;
+                FIShowHeaders frmShowHeaders_Rev = new FIShowHeaders(selAudit);
+                frmShowHeaders_Rev.cmsDetail.Items["MIDetailRevisions"].Visible = true;
+                frmShowHeaders_Rev.ShowDialog();
+            }
+        }
     }
 
     public class UserAuthorization

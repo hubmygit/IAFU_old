@@ -76,6 +76,7 @@
             this.DetailUpdUser = new System.Windows.Forms.DataGridViewTextBoxColumn();
             this.DetailUpdDate = new System.Windows.Forms.DataGridViewTextBoxColumn();
             this.AttCnt = new System.Windows.Forms.DataGridViewTextBoxColumn();
+            this.MIDetailRevisions = new System.Windows.Forms.ToolStripMenuItem();
             ((System.ComponentModel.ISupportInitialize)(this.dgvHeaders)).BeginInit();
             this.cmsHeader.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)(this.dgvAudits)).BeginInit();
@@ -418,9 +419,10 @@
             // 
             this.cmsDetail.Items.AddRange(new System.Windows.Forms.ToolStripItem[] {
             this.MIeditDetail,
-            this.MIattachments});
+            this.MIattachments,
+            this.MIDetailRevisions});
             this.cmsDetail.Name = "cmsHeader";
-            this.cmsDetail.Size = new System.Drawing.Size(143, 48);
+            this.cmsDetail.Size = new System.Drawing.Size(143, 70);
             // 
             // MIeditDetail
             // 
@@ -486,6 +488,13 @@
             this.AttCnt.Name = "AttCnt";
             this.AttCnt.ReadOnly = true;
             // 
+            // MIDetailRevisions
+            // 
+            this.MIDetailRevisions.Name = "MIDetailRevisions";
+            this.MIDetailRevisions.Size = new System.Drawing.Size(142, 22);
+            this.MIDetailRevisions.Text = "Revisions";
+            this.MIDetailRevisions.Visible = false;
+            // 
             // FIShowHeaders
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
@@ -516,7 +525,6 @@
         #endregion
 
         private System.Windows.Forms.DataGridView dgvHeaders;
-        private System.Windows.Forms.ContextMenuStrip cmsHeader;
         private System.Windows.Forms.ToolStripMenuItem MIeditHeader;
         private System.Windows.Forms.Label lblHeaders;
         private System.Windows.Forms.Button btnNewHeader;
@@ -541,7 +549,6 @@
         private System.Windows.Forms.Label lblDetails;
         private System.Windows.Forms.Button btnNewDetail;
         private System.Windows.Forms.DataGridView dgvDetails;
-        private System.Windows.Forms.ContextMenuStrip cmsDetail;
         private System.Windows.Forms.ToolStripMenuItem MIeditDetail;
         private System.Windows.Forms.ToolStripMenuItem MIattachments;
         private System.Windows.Forms.DataGridViewTextBoxColumn DetailId;
@@ -552,5 +559,8 @@
         private System.Windows.Forms.DataGridViewTextBoxColumn DetailUpdUser;
         private System.Windows.Forms.DataGridViewTextBoxColumn DetailUpdDate;
         private System.Windows.Forms.DataGridViewTextBoxColumn AttCnt;
+        private System.Windows.Forms.ToolStripMenuItem MIDetailRevisions;
+        public System.Windows.Forms.ContextMenuStrip cmsHeader;
+        public System.Windows.Forms.ContextMenuStrip cmsDetail;
     }
 }
