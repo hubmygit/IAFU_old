@@ -18,34 +18,27 @@ namespace IAFollowUp
             InitializeComponent();
         }
 
-        public Attachments(int givenAuditId, int givenRevNo)
+        public Attachments(int givenId, int givenRevNo, AttachmentsTableName attTable)
         {
             InitializeComponent();
-            
-            AuditId = givenAuditId;
+
+
+            glAttTable = attTable;
+
+            string[] fileNames = { };
             RevNo = givenRevNo;
 
-
-            //--------------------
-            //SqlConnection sqlConn = new SqlConnection(SqlDBInfo.connectionString);
-            //string InsSt = "INSERT INTO [dbo].[Audit_Attachments] (Name, FileContents, AuditId, RevNo, UsersId, InsDate) VALUES ('IAFollow.txt', @DocCont, 10, 8, 5, getdate()) ";
-            //try
-            //{
-            //    byte[] fileBytes = System.IO.File.ReadAllBytes("C:\\Tests\\IAFollow.txt");
-            //    sqlConn.Open();
-            //    SqlCommand cmd = new SqlCommand(InsSt, sqlConn);
-            //    cmd.Parameters.Add("@DocCont", SqlDbType.VarBinary).Value = fileBytes;
-            //    cmd.CommandType = CommandType.Text;
-            //    cmd.ExecuteNonQuery();
-            //}
-            //catch (Exception ex)
-            //{
-            //    MessageBox.Show("The following error occurred: " + ex.Message);
-            //}
-            //--------------------
-
-
-            string[] fileNames = getSavedAttachments(AuditId, RevNo);
+            if (attTable == AttachmentsTableName.Audit_Attachments)
+            {
+                AuditId = givenId;
+                fileNames = getSavedAttachments(AuditId, RevNo, AttachmentsTableName.Audit_Attachments);
+            }
+            else if (attTable == AttachmentsTableName.FIDetail_Attachments)
+            {
+                DetailId = givenId;
+                fileNames = getSavedAttachments(DetailId, RevNo, AttachmentsTableName.FIDetail_Attachments);
+            }
+            
 
             foreach (string thisFileName in fileNames)
             {
@@ -54,19 +47,31 @@ namespace IAFollowUp
             AttCnt = fileNames.Length;
         }
 
+
+        AttachmentsTableName glAttTable;
         int AuditId;
+        int DetailId;
         public int RevNo;
 
         public int AttCnt;
        
         public bool success= false;
 
-        public string[] getSavedAttachments(int auditId, int revNo)
+        public string[] getSavedAttachments(int tableId, int revNo, AttachmentsTableName attTable)
         {
             List<string> ret = new List<string>();
 
             SqlConnection sqlConn = new SqlConnection(SqlDBInfo.connectionString);
-            string SelectSt = "SELECT Name FROM [dbo].[Audit_Attachments] WHERE AuditId = " + auditId.ToString() + " AND RevNo= " + revNo.ToString();
+            string SelectSt = "";
+            if (attTable == AttachmentsTableName.Audit_Attachments)
+            {
+                SelectSt = "SELECT Name FROM [dbo].[Audit_Attachments] WHERE AuditId = " + tableId.ToString() + " AND RevNo = " + revNo.ToString();
+            }
+            else if (attTable == AttachmentsTableName.FIDetail_Attachments)
+            {
+                SelectSt = "SELECT Name FROM [dbo].[FIDetail_Attachments] WHERE FIDetailId = " + tableId.ToString() + " AND RevNo = " + revNo.ToString();
+            }
+
             SqlCommand cmd = new SqlCommand(SelectSt, sqlConn);
             try
             {
@@ -159,14 +164,33 @@ namespace IAFollowUp
                     }
 
                     SqlConnection sqlConn = new SqlConnection(SqlDBInfo.connectionString);
-                    string SelectSt = "SELECT [FileContents] FROM [dbo].[Audit_Attachments] WHERE AuditId = @AuditId AND RevNo = @RevNo AND Name = @Filename";
-                    SqlCommand cmd = new SqlCommand(SelectSt, sqlConn);
+
+                    string SelectSt = "";
+
+                    if (glAttTable == AttachmentsTableName.Audit_Attachments)
+                    {
+                        SelectSt = "SELECT [FileContents] FROM [dbo].[Audit_Attachments] WHERE AuditId = @AuditId AND RevNo = @RevNo AND Name = @Filename";
+                    }
+                    else if (glAttTable == AttachmentsTableName.FIDetail_Attachments)
+                    {
+                        SelectSt = "SELECT [FileContents] FROM [dbo].[Detail_Attachments] WHERE FIDetailId = @DetailId AND RevNo = @RevNo AND Name = @Filename";
+                    }
+                        SqlCommand cmd = new SqlCommand(SelectSt, sqlConn);
                     try
                     {
                         sqlConn.Open();
 
-                        cmd.Parameters.AddWithValue("@AuditId", AuditId);
+                        if (glAttTable == AttachmentsTableName.Audit_Attachments)
+                        {
+                            cmd.Parameters.AddWithValue("@AuditId", AuditId);
+                        }
+                        else if (glAttTable == AttachmentsTableName.FIDetail_Attachments)
+                        {
+                            cmd.Parameters.AddWithValue("@DetailId", DetailId);
+                        }
+
                         cmd.Parameters.AddWithValue("@RevNo", RevNo);
+                        
                         cmd.Parameters.AddWithValue("@Filename", lvAttachedFiles.SelectedItems[0].SubItems[0].Text);
 
                         SqlDataReader reader = cmd.ExecuteReader();
@@ -238,7 +262,7 @@ namespace IAFollowUp
         //    return ret;
         //}
 
-        LvFileInfo saveAttachmentLocally(int AuditId, int RevNo, string Filename)
+        LvFileInfo saveAttachmentLocally(int Id, int RevNo, string Filename, AttachmentsTableName attTable)
         {
             LvFileInfo ret = new LvFileInfo();
             string tempPath = Path.GetTempPath(); //C:\Users\hkylidis\AppData\Local\Temp\
@@ -256,13 +280,21 @@ namespace IAFollowUp
             }
 
             SqlConnection sqlConn = new SqlConnection(SqlDBInfo.connectionString);
-            string SelectSt = "SELECT [Name], [FileContents] FROM [dbo].[Audit_Attachments] " + 
-                " WHERE AuditId = @AuditId and RevNo = @RevNo and Name = @Filename ";
+            string SelectSt = "";
+
+            if (attTable == AttachmentsTableName.Audit_Attachments)
+            {
+                SelectSt = "SELECT [Name], [FileContents] FROM [dbo].[Audit_Attachments] WHERE AuditId = @Id and RevNo = @RevNo and Name = @Filename ";
+            }
+            else if (attTable == AttachmentsTableName.FIDetail_Attachments)
+            {
+                SelectSt = "SELECT [Name], [FileContents] FROM [dbo].[Detail_Attachments] WHERE FIDetailId = @Id and RevNo = @RevNo and Name = @Filename ";
+            }
             SqlCommand cmd = new SqlCommand(SelectSt, sqlConn);
             try
             {
                 sqlConn.Open();
-                cmd.Parameters.AddWithValue("@AuditId", AuditId);
+                cmd.Parameters.AddWithValue("@Id", Id);
                 cmd.Parameters.AddWithValue("@RevNo", RevNo);
                 cmd.Parameters.AddWithValue("@Filename", Filename);
                 SqlDataReader reader = cmd.ExecuteReader();
@@ -308,20 +340,29 @@ namespace IAFollowUp
             return ret;
         }
 
-        private bool InertIntoTable_AttachedFiles(int AuditId, int RevNo, string fileName, byte[] fileBytes) //INSERT [dbo].[Audit_Attachments]
+        private bool InertIntoTable_AttachedFiles(int Id, int RevNo, string fileName, byte[] fileBytes,AttachmentsTableName attTable) //INSERT [dbo].[Audit_Attachments]
         {
             bool ret = false;
 
-            if (AuditId > 0 && RevNo > 0 && fileName.Trim().Length > 0)
+            if (Id > 0 && RevNo > 0 && fileName.Trim().Length > 0)
             {
                 SqlConnection sqlConn = new SqlConnection(SqlDBInfo.connectionString);
-                string InsSt = "INSERT INTO [dbo].[Audit_Attachments] (Name, FileContents, AuditId, RevNo, UsersId, InsDate) VALUES " +
-                    "(@Filename, @FileCont, @AuditId, @RevNo, @UsersId, getdate() ) ";
+                string InsSt = "";
+                if (attTable == AttachmentsTableName.Audit_Attachments)
+                {
+                   InsSt = "INSERT INTO [dbo].[Audit_Attachments] (Name, FileContents, AuditId, RevNo, UsersId, InsDate) VALUES " +
+                    "(@Filename, @FileCont, @Id, @RevNo, @UsersId, getdate() ) ";
+                }
+                else if (attTable==AttachmentsTableName.FIDetail_Attachments)
+                {
+                    InsSt = "INSERT INTO [dbo].[Detail_Attachments] (Name, FileContents, FIDetailId, RevNo, UsersId, InsDate) VALUES " +
+                   "(@Filename, @FileCont, @Id, @RevNo, @UsersId, getdate() ) ";
+                }
                 try
                 {
                     sqlConn.Open();
                     SqlCommand cmd = new SqlCommand(InsSt, sqlConn);
-                    cmd.Parameters.AddWithValue("@AuditId", AuditId);
+                    cmd.Parameters.AddWithValue("@Id", Id);
                     cmd.Parameters.AddWithValue("@RevNo", RevNo);
                     cmd.Parameters.AddWithValue("@UsersId", UserInfo.userDetails.Id);
                     cmd.Parameters.AddWithValue("@Filename", fileName);
@@ -343,13 +384,22 @@ namespace IAFollowUp
             return ret;
         }
 
-        private bool UpdateAuditOnAttSave(int id)
+        private bool UpdateAuditOnAttSave(int id, AttachmentsTableName attTable)
         {
             bool ret = false;
 
             SqlConnection sqlConn = new SqlConnection(SqlDBInfo.connectionString);
-            string InsSt = "UPDATE [dbo].[Audit] SET [UpdUserID] = @UpdUserID, [UpdDt] = getDate(), [RevNo] = RevNo+1, [UseUpdTrigger] = 1 " +
+            string InsSt = "";
+            if (attTable == AttachmentsTableName.Audit_Attachments)
+            {
+                InsSt= "UPDATE [dbo].[Audit] SET [UpdUserID] = @UpdUserID, [UpdDt] = getDate(), [RevNo] = RevNo+1, [UseUpdTrigger] = 1 " +
                 "WHERE id=@id";
+            }
+            else if (attTable ==AttachmentsTableName.FIDetail_Attachments)
+            {
+                InsSt = "UPDATE [dbo].[FIDetail] SET [UpdUserID] = @UpdUserID, [UpdDt] = getDate(), [RevNo] = RevNo+1, [UseUpdTrigger] = 1 " +
+                "WHERE id=@id";
+            }
             try
             {
                 sqlConn.Open();
@@ -386,7 +436,7 @@ namespace IAFollowUp
                 return;
             }
 
-            if (UpdateAuditOnAttSave(AuditId) == false)
+            if (UpdateAuditOnAttSave(AuditId,glAttTable) == false)
             {
                 MessageBox.Show("Error: No files attached!");
                 return;
@@ -400,7 +450,7 @@ namespace IAFollowUp
                 {
                     if (lvi.SubItems.Count == 1) //only filename into lv -> from db
                     {
-                        LvFileInfo lvfi = saveAttachmentLocally(AuditId, RevNo, lvi.SubItems[0].Text);
+                        LvFileInfo lvfi = saveAttachmentLocally(AuditId, RevNo, lvi.SubItems[0].Text,glAttTable);
 
                         newLvItems.Add(new ListViewItem(new string[] { lvfi.FileName, lvfi.FilePath }));
                     }
@@ -418,7 +468,7 @@ namespace IAFollowUp
                 {
                     byte[] attFileBytes = File.ReadAllBytes(lvi.SubItems[1].Text);
 
-                    if (!InertIntoTable_AttachedFiles(AuditId, RevNo, lvi.SubItems[0].Text, attFileBytes))
+                    if (!InertIntoTable_AttachedFiles(AuditId, RevNo, lvi.SubItems[0].Text, attFileBytes,glAttTable))
                     {
                         MessageBox.Show("File save failed: " + lvi.SubItems[0].Text);
                     }

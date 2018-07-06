@@ -65,14 +65,16 @@
             this.lblDetails = new System.Windows.Forms.Label();
             this.btnNewDetail = new System.Windows.Forms.Button();
             this.dgvDetails = new System.Windows.Forms.DataGridView();
+            this.cmsDetail = new System.Windows.Forms.ContextMenuStrip(this.components);
+            this.MIeditDetail = new System.Windows.Forms.ToolStripMenuItem();
+            this.MIattachments = new System.Windows.Forms.ToolStripMenuItem();
             this.DetailId = new System.Windows.Forms.DataGridViewTextBoxColumn();
+            this.DetailRevNo = new System.Windows.Forms.DataGridViewTextBoxColumn();
             this.DetailDescription = new System.Windows.Forms.DataGridViewTextBoxColumn();
             this.DetailActionDt = new System.Windows.Forms.DataGridViewTextBoxColumn();
             this.DetailActionReq = new System.Windows.Forms.DataGridViewTextBoxColumn();
             this.DetailUpdUser = new System.Windows.Forms.DataGridViewTextBoxColumn();
             this.DetailUpdDate = new System.Windows.Forms.DataGridViewTextBoxColumn();
-            this.cmsDetail = new System.Windows.Forms.ContextMenuStrip(this.components);
-            this.MIeditDetail = new System.Windows.Forms.ToolStripMenuItem();
             ((System.ComponentModel.ISupportInitialize)(this.dgvHeaders)).BeginInit();
             this.cmsHeader.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)(this.dgvAudits)).BeginInit();
@@ -378,6 +380,7 @@
             this.dgvDetails.ColumnHeadersHeightSizeMode = System.Windows.Forms.DataGridViewColumnHeadersHeightSizeMode.AutoSize;
             this.dgvDetails.Columns.AddRange(new System.Windows.Forms.DataGridViewColumn[] {
             this.DetailId,
+            this.DetailRevNo,
             this.DetailDescription,
             this.DetailActionDt,
             this.DetailActionReq,
@@ -409,12 +412,40 @@
             this.dgvDetails.Size = new System.Drawing.Size(1067, 250);
             this.dgvDetails.TabIndex = 53;
             // 
+            // cmsDetail
+            // 
+            this.cmsDetail.Items.AddRange(new System.Windows.Forms.ToolStripItem[] {
+            this.MIeditDetail,
+            this.MIattachments});
+            this.cmsDetail.Name = "cmsHeader";
+            this.cmsDetail.Size = new System.Drawing.Size(143, 48);
+            // 
+            // MIeditDetail
+            // 
+            this.MIeditDetail.Name = "MIeditDetail";
+            this.MIeditDetail.Size = new System.Drawing.Size(142, 22);
+            this.MIeditDetail.Text = "Edit";
+            this.MIeditDetail.Click += new System.EventHandler(this.MIeditDetail_Click);
+            // 
+            // MIattachments
+            // 
+            this.MIattachments.Name = "MIattachments";
+            this.MIattachments.Size = new System.Drawing.Size(142, 22);
+            this.MIattachments.Text = "Attachments";
+            this.MIattachments.Click += new System.EventHandler(this.MIattachments_Click);
+            // 
             // DetailId
             // 
             this.DetailId.HeaderText = "Id";
             this.DetailId.Name = "DetailId";
             this.DetailId.ReadOnly = true;
             this.DetailId.Visible = false;
+            // 
+            // DetailRevNo
+            // 
+            this.DetailRevNo.HeaderText = "Rev No";
+            this.DetailRevNo.Name = "DetailRevNo";
+            this.DetailRevNo.ReadOnly = true;
             // 
             // DetailDescription
             // 
@@ -446,20 +477,6 @@
             this.DetailUpdDate.HeaderText = "Update Date";
             this.DetailUpdDate.Name = "DetailUpdDate";
             this.DetailUpdDate.ReadOnly = true;
-            // 
-            // cmsDetail
-            // 
-            this.cmsDetail.Items.AddRange(new System.Windows.Forms.ToolStripItem[] {
-            this.MIeditDetail});
-            this.cmsDetail.Name = "cmsHeader";
-            this.cmsDetail.Size = new System.Drawing.Size(95, 26);
-            // 
-            // MIeditDetail
-            // 
-            this.MIeditDetail.Name = "MIeditDetail";
-            this.MIeditDetail.Size = new System.Drawing.Size(94, 22);
-            this.MIeditDetail.Text = "Edit";
-            this.MIeditDetail.Click += new System.EventHandler(this.MIeditDetail_Click);
             // 
             // FIShowHeaders
             // 
@@ -516,13 +533,15 @@
         private System.Windows.Forms.Label lblDetails;
         private System.Windows.Forms.Button btnNewDetail;
         private System.Windows.Forms.DataGridView dgvDetails;
+        private System.Windows.Forms.ContextMenuStrip cmsDetail;
+        private System.Windows.Forms.ToolStripMenuItem MIeditDetail;
+        private System.Windows.Forms.ToolStripMenuItem MIattachments;
         private System.Windows.Forms.DataGridViewTextBoxColumn DetailId;
+        private System.Windows.Forms.DataGridViewTextBoxColumn DetailRevNo;
         private System.Windows.Forms.DataGridViewTextBoxColumn DetailDescription;
         private System.Windows.Forms.DataGridViewTextBoxColumn DetailActionDt;
         private System.Windows.Forms.DataGridViewTextBoxColumn DetailActionReq;
         private System.Windows.Forms.DataGridViewTextBoxColumn DetailUpdUser;
         private System.Windows.Forms.DataGridViewTextBoxColumn DetailUpdDate;
-        private System.Windows.Forms.ContextMenuStrip cmsDetail;
-        private System.Windows.Forms.ToolStripMenuItem MIeditDetail;
     }
 }

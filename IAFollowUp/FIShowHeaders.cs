@@ -75,7 +75,7 @@ namespace IAFollowUp
 
             SqlConnection sqlConn = new SqlConnection(SqlDBInfo.connectionString);
             string SelectSt = "SELECT [Id], CONVERT(varchar(500), DECRYPTBYPASSPHRASE( @passPhrase , [Description])) as Description, " +
-                              "CONVERT(varchar(500), DECRYPTBYPASSPHRASE( @passPhrase , [ActionReq])) as ActionReq,[ActionDt], " +
+                              "CONVERT(varchar(500), DECRYPTBYPASSPHRASE( @passPhrase , [ActionReq])) as ActionReq, [ActionDt], [RevNo], " +
                               "[FIHeaderId],[InsUserId],[InsDt], [UpdUserId], [UpdDt] " +
                               "FROM [dbo].[FIDetail] " +
                               "WHERE [FIHeaderId] = @HeaderId " +
@@ -102,7 +102,8 @@ namespace IAFollowUp
                         UpdDt = Convert.ToDateTime(reader["UpdDt"].ToString()),
                         ActionDt = Convert.ToDateTime(reader["ActionDt"].ToString()),
                         Description = reader["Description"].ToString(),
-                        ActionReq = reader["ActionReq"].ToString()
+                        ActionReq = reader["ActionReq"].ToString(),
+                        RevNo = Convert.ToInt32(reader["RevNo"].ToString())
                     });
                 }
                 reader.Close();
@@ -130,7 +131,7 @@ namespace IAFollowUp
                 dgvDictList.Add(new dgvDictionary() { dbfield = thisRecord.ActionDt.ToString("dd.MM.yyyy"), dgvColumnHeader = "DetailActionDt" });
                 dgvDictList.Add(new dgvDictionary() { dbfield = thisRecord.UpdUser.FullName, dgvColumnHeader = "DetailUpdUser" });
                 dgvDictList.Add(new dgvDictionary() { dbfield = thisRecord.UpdDt.ToString("dd.MM.yyyy HH:mm:ss"), dgvColumnHeader = "DetailUpdDate" });
-
+                dgvDictList.Add(new dgvDictionary() { dbfield = thisRecord.RevNo, dgvColumnHeader = "DetailRevNo" });
 
                 object[] obj = new object[dgv.Columns.Count];
 
@@ -143,6 +144,32 @@ namespace IAFollowUp
             }
 
             dgv.ClearSelection();
+        }
+
+        public static void FillDetailsDataGridView(DataGridView dgv, FIDetail Detail, int dgvIndex)
+        {
+            //dgv.Rows.Clear();
+
+                List<dgvDictionary> dgvDictList = new List<dgvDictionary>();
+
+                dgvDictList.Add(new dgvDictionary() { dbfield = Detail.Id, dgvColumnHeader = "DetailId" });
+                dgvDictList.Add(new dgvDictionary() { dbfield = Detail.Description, dgvColumnHeader = "DetailDescription" });
+                dgvDictList.Add(new dgvDictionary() { dbfield = Detail.ActionReq, dgvColumnHeader = "DetailActionReq" });
+                dgvDictList.Add(new dgvDictionary() { dbfield = Detail.ActionDt.ToString("dd.MM.yyyy"), dgvColumnHeader = "DetailActionDt" });
+                dgvDictList.Add(new dgvDictionary() { dbfield = Detail.UpdUser.FullName, dgvColumnHeader = "DetailUpdUser" });
+                dgvDictList.Add(new dgvDictionary() { dbfield = Detail.UpdDt.ToString("dd.MM.yyyy HH:mm:ss"), dgvColumnHeader = "DetailUpdDate" });
+                dgvDictList.Add(new dgvDictionary() { dbfield = Detail.RevNo, dgvColumnHeader = "DetailRevNo" });
+
+                object[] obj = new object[dgv.Columns.Count];
+
+            for (int i = 0; i < dgv.Columns.Count; i++)
+            {
+                obj[i] = dgvDictList.Where(z => z.dgvColumnHeader == dgv.Columns[i].Name).First().dbfield;
+                dgv.Rows[dgvIndex].Cells[i].Value = obj[i];
+            }
+
+            //set selected again???
+            dgv.Rows[dgvIndex].Selected = true;
         }
 
 
@@ -414,6 +441,34 @@ namespace IAFollowUp
             }
         }
 
-        
+        private void MIattachments_Click(object sender, EventArgs e)
+        {
+            if (dgvDetails.SelectedRows.Count > 0)
+            {
+                int detailId = Convert.ToInt32(dgvDetails.SelectedRows[0].Cells["DetailId"].Value.ToString());
+                int revNo = Convert.ToInt32(dgvDetails.SelectedRows[0].Cells["DetailRevNo"].Value.ToString());
+
+                Attachments attachedFiles = new Attachments(detailId, revNo, AttachmentsTableName.FIDetail_Attachments);
+
+                if (glAudit.IsCompleted)
+                {
+                    attachedFiles.btnAddFiles.Enabled = false;
+                    attachedFiles.btnRemoveAll.Enabled = false;
+                    attachedFiles.btnRemoveFile.Enabled = false;
+                    attachedFiles.btnSave.Enabled = false;
+                }
+                attachedFiles.ShowDialog();
+
+                int dgvIndex = dgvDetails.SelectedRows[0].Index;
+                if (attachedFiles.success)
+                {
+                    Header_Details[Header_Details.FindIndex(w => w.Id == detailId)].RevNo = attachedFiles.RevNo;
+                    //Header_Details[Header_Details.FindIndex(w => w.Id == detailId)].AttCnt = attachedFiles.AttCnt;
+                    FillDetailsDataGridView(dgvDetails, Header_Details[Header_Details.FindIndex(w => w.Id == detailId)], dgvIndex);
+                }
+
+
+            }
+        }
     }
 }

@@ -346,7 +346,7 @@ namespace IAFollowUp
                 int auditId = Convert.ToInt32(dgvAuditView.SelectedRows[0].Cells["Id"].Value.ToString());
                 int revNo = Convert.ToInt32(dgvAuditView.SelectedRows[0].Cells["RevNo"].Value.ToString());
 
-                Attachments attachedFiles = new Attachments(auditId, revNo);
+                Attachments attachedFiles = new Attachments(auditId, revNo, AttachmentsTableName.Audit_Attachments);
 
                 if (Convert.ToBoolean(dgvAuditView.SelectedRows[0].Cells["IsCompleted"].Value.ToString()) == true)
                 {
@@ -759,13 +759,15 @@ namespace IAFollowUp
         public int UpdUserId { get; set; }
         public Users UpdUser { get; set; }
         public DateTime UpdDt { get; set; }
+
+        public int RevNo { get; set; }
         public FIDetail()
         {
 
         }
         public static bool isEqual(FIDetail x, FIDetail y)
         {
-            if (x.Id == y.Id && x.FIHeaderId == y.FIHeaderId && x.Description == y.Description && x.ActionReq == y.ActionReq && x.ActionDt == y.ActionDt)
+            if (x.Id == y.Id && x.FIHeaderId == y.FIHeaderId && x.Description == y.Description && x.ActionReq == y.ActionReq && x.ActionDt == y.ActionDt && x.RevNo == y.RevNo)
                 return true;
             else
                 return false;
@@ -953,6 +955,13 @@ namespace IAFollowUp
         None,
         IsAuditor,
         IsAuditee
+    }
+
+    public enum AttachmentsTableName
+    {
+        None,
+        Audit_Attachments,
+        FIDetail_Attachments
     }
 
     public class Users

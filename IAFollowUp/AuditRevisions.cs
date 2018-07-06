@@ -269,7 +269,7 @@ namespace IAFollowUp
                     int auditId = Convert.ToInt32(dgvAuditRevView.SelectedRows[0].Cells["AuditID"].Value.ToString());
                     int revNo = Convert.ToInt32(dgvAuditRevView.SelectedRows[0].Cells["RevNo"].Value.ToString());
 
-                    Attachments attachedFiles = new Attachments(auditId, revNo);
+                    Attachments attachedFiles = new Attachments(auditId, revNo, AttachmentsTableName.Audit_Attachments);
                     attachedFiles.btnAddFiles.Enabled = false;
                     attachedFiles.btnRemoveAll.Enabled = false;
                     attachedFiles.btnRemoveFile.Enabled = false;
