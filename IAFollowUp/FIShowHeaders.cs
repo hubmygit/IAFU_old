@@ -76,8 +76,9 @@ namespace IAFollowUp
             SqlConnection sqlConn = new SqlConnection(SqlDBInfo.connectionString);
             string SelectSt = "SELECT [Id], CONVERT(varchar(500), DECRYPTBYPASSPHRASE( @passPhrase , [Description])) as Description, " +
                               "CONVERT(varchar(500), DECRYPTBYPASSPHRASE( @passPhrase , [ActionReq])) as ActionReq, [ActionDt], [RevNo], " +
-                              "[FIHeaderId],[InsUserId],[InsDt], [UpdUserId], [UpdDt] " +
-                              "FROM [dbo].[FIDetail] " +
+                              "[FIHeaderId],[InsUserId],[InsDt], [UpdUserId], [UpdDt], " +
+                              "(SELECT count(*) FROM [dbo].[FIDetail_Attachments] T WHERE a.id = T.FIDetailID and A.RevNo = T.RevNo) as AttCnt " +
+                              "FROM [dbo].[FIDetail] a " +
                               "WHERE [FIHeaderId] = @HeaderId " +
                               "ORDER BY [InsDt] ";
 
@@ -103,7 +104,8 @@ namespace IAFollowUp
                         ActionDt = Convert.ToDateTime(reader["ActionDt"].ToString()),
                         Description = reader["Description"].ToString(),
                         ActionReq = reader["ActionReq"].ToString(),
-                        RevNo = Convert.ToInt32(reader["RevNo"].ToString())
+                        RevNo = Convert.ToInt32(reader["RevNo"].ToString()),
+                        AttCnt = Convert.ToInt32(reader["AttCnt"].ToString())
                     });
                 }
                 reader.Close();
@@ -132,6 +134,7 @@ namespace IAFollowUp
                 dgvDictList.Add(new dgvDictionary() { dbfield = thisRecord.UpdUser.FullName, dgvColumnHeader = "DetailUpdUser" });
                 dgvDictList.Add(new dgvDictionary() { dbfield = thisRecord.UpdDt.ToString("dd.MM.yyyy HH:mm:ss"), dgvColumnHeader = "DetailUpdDate" });
                 dgvDictList.Add(new dgvDictionary() { dbfield = thisRecord.RevNo, dgvColumnHeader = "DetailRevNo" });
+                dgvDictList.Add(new dgvDictionary() { dbfield = thisRecord.AttCnt, dgvColumnHeader = "AttCnt" });
 
                 object[] obj = new object[dgv.Columns.Count];
 
@@ -159,8 +162,9 @@ namespace IAFollowUp
                 dgvDictList.Add(new dgvDictionary() { dbfield = Detail.UpdUser.FullName, dgvColumnHeader = "DetailUpdUser" });
                 dgvDictList.Add(new dgvDictionary() { dbfield = Detail.UpdDt.ToString("dd.MM.yyyy HH:mm:ss"), dgvColumnHeader = "DetailUpdDate" });
                 dgvDictList.Add(new dgvDictionary() { dbfield = Detail.RevNo, dgvColumnHeader = "DetailRevNo" });
+                dgvDictList.Add(new dgvDictionary() { dbfield = Detail.AttCnt, dgvColumnHeader = "AttCnt" });
 
-                object[] obj = new object[dgv.Columns.Count];
+            object[] obj = new object[dgv.Columns.Count];
 
             for (int i = 0; i < dgv.Columns.Count; i++)
             {
@@ -463,7 +467,7 @@ namespace IAFollowUp
                 if (attachedFiles.success)
                 {
                     Header_Details[Header_Details.FindIndex(w => w.Id == detailId)].RevNo = attachedFiles.RevNo;
-                    //Header_Details[Header_Details.FindIndex(w => w.Id == detailId)].AttCnt = attachedFiles.AttCnt;
+                    Header_Details[Header_Details.FindIndex(w => w.Id == detailId)].AttCnt = attachedFiles.AttCnt;
                     FillDetailsDataGridView(dgvDetails, Header_Details[Header_Details.FindIndex(w => w.Id == detailId)], dgvIndex);
                 }
 

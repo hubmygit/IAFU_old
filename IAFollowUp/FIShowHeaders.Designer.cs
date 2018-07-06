@@ -75,6 +75,7 @@
             this.DetailActionReq = new System.Windows.Forms.DataGridViewTextBoxColumn();
             this.DetailUpdUser = new System.Windows.Forms.DataGridViewTextBoxColumn();
             this.DetailUpdDate = new System.Windows.Forms.DataGridViewTextBoxColumn();
+            this.AttCnt = new System.Windows.Forms.DataGridViewTextBoxColumn();
             ((System.ComponentModel.ISupportInitialize)(this.dgvHeaders)).BeginInit();
             this.cmsHeader.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)(this.dgvAudits)).BeginInit();
@@ -385,7 +386,8 @@
             this.DetailActionDt,
             this.DetailActionReq,
             this.DetailUpdUser,
-            this.DetailUpdDate});
+            this.DetailUpdDate,
+            this.AttCnt});
             this.dgvDetails.ContextMenuStrip = this.cmsDetail;
             dataGridViewCellStyle8.Alignment = System.Windows.Forms.DataGridViewContentAlignment.MiddleLeft;
             dataGridViewCellStyle8.BackColor = System.Drawing.SystemColors.Window;
@@ -478,6 +480,12 @@
             this.DetailUpdDate.Name = "DetailUpdDate";
             this.DetailUpdDate.ReadOnly = true;
             // 
+            // AttCnt
+            // 
+            this.AttCnt.HeaderText = "Att";
+            this.AttCnt.Name = "AttCnt";
+            this.AttCnt.ReadOnly = true;
+            // 
             // FIShowHeaders
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
@@ -543,5 +551,6 @@
         private System.Windows.Forms.DataGridViewTextBoxColumn DetailActionReq;
         private System.Windows.Forms.DataGridViewTextBoxColumn DetailUpdUser;
         private System.Windows.Forms.DataGridViewTextBoxColumn DetailUpdDate;
+        private System.Windows.Forms.DataGridViewTextBoxColumn AttCnt;
     }
 }

@@ -173,7 +173,7 @@ namespace IAFollowUp
                     }
                     else if (glAttTable == AttachmentsTableName.FIDetail_Attachments)
                     {
-                        SelectSt = "SELECT [FileContents] FROM [dbo].[Detail_Attachments] WHERE FIDetailId = @DetailId AND RevNo = @RevNo AND Name = @Filename";
+                        SelectSt = "SELECT [FileContents] FROM [dbo].[FIDetail_Attachments] WHERE FIDetailId = @DetailId AND RevNo = @RevNo AND Name = @Filename";
                     }
                         SqlCommand cmd = new SqlCommand(SelectSt, sqlConn);
                     try
@@ -288,7 +288,7 @@ namespace IAFollowUp
             }
             else if (attTable == AttachmentsTableName.FIDetail_Attachments)
             {
-                SelectSt = "SELECT [Name], [FileContents] FROM [dbo].[Detail_Attachments] WHERE FIDetailId = @Id and RevNo = @RevNo and Name = @Filename ";
+                SelectSt = "SELECT [Name], [FileContents] FROM [dbo].[FIDetail_Attachments] WHERE FIDetailId = @Id and RevNo = @RevNo and Name = @Filename ";
             }
             SqlCommand cmd = new SqlCommand(SelectSt, sqlConn);
             try
@@ -355,7 +355,7 @@ namespace IAFollowUp
                 }
                 else if (attTable==AttachmentsTableName.FIDetail_Attachments)
                 {
-                    InsSt = "INSERT INTO [dbo].[Detail_Attachments] (Name, FileContents, FIDetailId, RevNo, UsersId, InsDate) VALUES " +
+                    InsSt = "INSERT INTO [dbo].[FIDetail_Attachments] (Name, FileContents, FIDetailId, RevNo, UsersId, InsDate) VALUES " +
                    "(@Filename, @FileCont, @Id, @RevNo, @UsersId, getdate() ) ";
                 }
                 try
@@ -436,7 +436,18 @@ namespace IAFollowUp
                 return;
             }
 
-            if (UpdateAuditOnAttSave(AuditId,glAttTable) == false)
+
+            int Id= 0;
+
+            if (glAttTable==AttachmentsTableName.Audit_Attachments)
+            {
+                Id = AuditId;
+            }
+            else if ( glAttTable ==AttachmentsTableName.FIDetail_Attachments)
+            {
+                Id = DetailId;
+            }
+            if (UpdateAuditOnAttSave(Id, glAttTable) == false)
             {
                 MessageBox.Show("Error: No files attached!");
                 return;
@@ -450,7 +461,7 @@ namespace IAFollowUp
                 {
                     if (lvi.SubItems.Count == 1) //only filename into lv -> from db
                     {
-                        LvFileInfo lvfi = saveAttachmentLocally(AuditId, RevNo, lvi.SubItems[0].Text,glAttTable);
+                        LvFileInfo lvfi = saveAttachmentLocally(Id, RevNo, lvi.SubItems[0].Text,glAttTable);
 
                         newLvItems.Add(new ListViewItem(new string[] { lvfi.FileName, lvfi.FilePath }));
                     }
@@ -461,14 +472,14 @@ namespace IAFollowUp
                 }
 
                 //update old records
-                //UpdateAttachments_IsCurrent(AuditId, RevNo);
+                //UpdateAttachments_IsCurrent(Id, RevNo);
                 RevNo += 1;
                 //insert attachments into db - IsCurrent = 1
                 foreach (ListViewItem lvi in newLvItems)
                 {
                     byte[] attFileBytes = File.ReadAllBytes(lvi.SubItems[1].Text);
 
-                    if (!InertIntoTable_AttachedFiles(AuditId, RevNo, lvi.SubItems[0].Text, attFileBytes,glAttTable))
+                    if (!InertIntoTable_AttachedFiles(Id, RevNo, lvi.SubItems[0].Text, attFileBytes,glAttTable))
                     {
                         MessageBox.Show("File save failed: " + lvi.SubItems[0].Text);
                     }
@@ -478,7 +489,7 @@ namespace IAFollowUp
             //else
             //{
             //update old records
-            //UpdateAttachments_IsCurrent(AuditId, RevNo);
+            //UpdateAttachments_IsCurrent(Id, RevNo);
             //}
 
             success = true;

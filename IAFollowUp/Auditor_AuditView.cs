@@ -761,6 +761,8 @@ namespace IAFollowUp
         public DateTime UpdDt { get; set; }
 
         public int RevNo { get; set; }
+
+        public int AttCnt { get; set; }
         public FIDetail()
         {
 

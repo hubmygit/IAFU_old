@@ -58,9 +58,9 @@ namespace IAFollowUp
             bool ret = false;
 
             SqlConnection sqlConn = new SqlConnection(SqlDBInfo.connectionString);
-            string InsSt = "INSERT INTO [dbo].[FIDetail] ([FIHeaderId],[Description],[ActionReq],[ActionDt],[InsUserId], [InsDt],[UpdUserId], [UpdDt]) VALUES " +
+            string InsSt = "INSERT INTO [dbo].[FIDetail] ([FIHeaderId],[Description],[ActionReq],[ActionDt],[InsUserId], [InsDt],[UpdUserId], [UpdDt], [RevNo]) VALUES " +
                            "(@HeaderId,encryptByPassPhrase(@passPhrase, convert(varchar(500), @Description)), encryptByPassPhrase(@passPhrase, convert(varchar(500), @ActionReq))," +
-                           "@ActionDt, @InsUserId, getDate(), @InsUserId, getDate() ) ";
+                           "@ActionDt, @InsUserId, getDate(), @InsUserId, getDate(), 1 ) ";
             try
             {
                 sqlConn.Open();
@@ -97,8 +97,8 @@ namespace IAFollowUp
 
             SqlConnection sqlConn = new SqlConnection(SqlDBInfo.connectionString);
             string InsSt = "UPDATE [dbo].[FIDetail] SET [Description] = encryptByPassPhrase(@passPhrase, convert(varchar(500), @Description)), " +
-                          "[ActionReq] = encryptByPassPhrase(@passPhrase, convert(varchar(500), @ActionReq)), [ActionDt] = @ActionDt, [UpdUserId] = @UpdUserId, " +
-                "[UpdDt] = getDate() " +
+                          "[ActionReq] = encryptByPassPhrase(@passPhrase, convert(varchar(500), @ActionReq)), [ActionDt] = @ActionDt, " + 
+                          "[UpdUserId] = @UpdUserId, [UpdDt] = getDate(), [RevNo] = RevNo+1, [UseUpdTrigger] = 1" +
                 "WHERE id=@id";
             try
             {
@@ -131,6 +131,44 @@ namespace IAFollowUp
 
             return ret;
         }
+
+        public bool InsertIntoTable_DetailAtt(int DetailId, int OldRevNo, int UsersID)
+        {
+            bool ret = false;
+
+            SqlConnection sqlConn = new SqlConnection(SqlDBInfo.connectionString);
+            string InsSt = "INSERT INTO [dbo].[FIDetail_Attachments] ([Name], [FileContents], [FIDetailId], [RevNo], [UsersID], [InsDate]) " +
+                           "SELECT [Name], [FileContents], @DetailID, @OldRevNo+1, @UsersID, getDate() " +
+                           "FROM [dbo].[FIDetail_Attachments] WHERE FIDetailId=@DetailID and RevNo= @OldRevNo";
+            try
+            {
+                sqlConn.Open();
+                SqlCommand cmd = new SqlCommand(InsSt, sqlConn);
+
+                cmd.Parameters.AddWithValue("@DetailID", DetailId);
+                cmd.Parameters.AddWithValue("@OldRevNo", OldRevNo);
+                cmd.Parameters.AddWithValue("@UsersID", UsersID);
+
+
+                cmd.CommandType = CommandType.Text;
+                int rowsAffected = cmd.ExecuteNonQuery();
+
+                if (rowsAffected > 0)
+                {
+                    ret = true;
+                }
+            }
+            catch (Exception ex)
+            {
+                MessageBox.Show("The following error occurred: " + ex.Message);
+
+            }
+            sqlConn.Close();
+
+            return ret;
+
+        }
+
         private void btnSave_Click(object sender, EventArgs e)
         {
             if (txtDescription.Text.Trim() == "")
@@ -151,7 +189,9 @@ namespace IAFollowUp
                 Description = txtDescription.Text,
                 ActionReq = txtActionReq.Text,
                 ActionDt = dtpActionDate.Value,
-                FIHeaderId = currentHeader.Id
+                RevNo = oldFIDetailRecord.RevNo,
+                FIHeaderId = currentHeader.Id,
+                AttCnt = oldFIDetailRecord.AttCnt
             };
 
             if (isInsert) //insert
@@ -173,8 +213,26 @@ namespace IAFollowUp
                 {
                     if (UpdateTable_Details(newFIDetailRecord))
                     {
+                        bool successful = true;
+                        newFIDetailRecord.RevNo = newFIDetailRecord.RevNo + 1;
                         success = true;
-                        MessageBox.Show("Detail updated successfully!");
+
+                        if (oldFIDetailRecord.AttCnt > 0)
+                        {
+                            if (InsertIntoTable_DetailAtt(newFIDetailRecord.Id, oldFIDetailRecord.RevNo, UserInfo.userDetails.Id) == false)
+                            {
+                                successful = false;
+                            }
+                        }
+
+                        if (successful)
+                        {
+                            MessageBox.Show("Detail updated successfully!");
+                        }
+                        else
+                        {
+                            MessageBox.Show("Detail updated. Error while inserting attachments.");
+                        }
                         Close();
                     }
                     else
