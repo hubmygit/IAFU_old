@@ -53,6 +53,12 @@
     <Compile Include="Attachments.Designer.cs">
       <DependentUpon>Attachments.cs</DependentUpon>
     </Compile>
+    <Compile Include="CreateRole.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="CreateRole.Designer.cs">
+      <DependentUpon>CreateRole.cs</DependentUpon>
+    </Compile>
     <Compile Include="FIDetailEdit.cs">
       <SubType>Form</SubType>
     </Compile>
@@ -118,6 +124,9 @@
     <EmbeddedResource Include="Attachments.resx">
       <DependentUpon>Attachments.cs</DependentUpon>
     </EmbeddedResource>
+    <EmbeddedResource Include="CreateRole.resx">
+      <DependentUpon>CreateRole.cs</DependentUpon>
+    </EmbeddedResource>
     <EmbeddedResource Include="FIDetailEdit.resx">
       <DependentUpon>FIDetailEdit.cs</DependentUpon>
     </EmbeddedResource>
@@ -170,6 +179,7 @@
   </ItemGroup>
   <ItemGroup>
     <Content Include="InternalAudit.ico" />
+    <None Include="Resources\User_16x.png" />
     <None Include="Resources\InternalAuditFollowUp_MainImage.png" />
     <None Include="Resources\DeleteAttachment_16x.png" />
     <None Include="Resources\OpenAttachment_16x.png" />
