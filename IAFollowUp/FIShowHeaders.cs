@@ -378,6 +378,31 @@ namespace IAFollowUp
             dgv.ClearSelection();
         }
 
+        public static void FillHeadersDataGridView(DataGridView dgv, FIHeader Header)
+        {
+            dgv.Rows.Clear();
+
+            List<dgvDictionary> dgvDictList = new List<dgvDictionary>();
+
+            dgvDictList.Add(new dgvDictionary() { dbfield = Header.Id, dgvColumnHeader = "HeaderId" });
+            dgvDictList.Add(new dgvDictionary() { dbfield = Header.Title, dgvColumnHeader = "HeaderTitle" });
+            dgvDictList.Add(new dgvDictionary() { dbfield = Header.FICategory.Name, dgvColumnHeader = "HeaderCategory" });
+            dgvDictList.Add(new dgvDictionary() { dbfield = Header.UpdUser.FullName, dgvColumnHeader = "HeaderUpdUser" });
+            dgvDictList.Add(new dgvDictionary() { dbfield = Header.UpdDt.ToString("dd.MM.yyyy HH:mm:ss"), dgvColumnHeader = "HeaderUpdDt" });
+
+
+            object[] obj = new object[dgv.Columns.Count];
+
+            for (int i = 0; i < dgv.Columns.Count; i++)
+            {
+                obj[i] = dgvDictList.Where(z => z.dgvColumnHeader == dgv.Columns[i].Name).First().dbfield;
+            }
+
+            dgv.Rows.Add(obj);
+
+            dgv.ClearSelection();
+        }
+
         private void dgvAudits_CellClick(object sender, DataGridViewCellEventArgs e)
         {
             //if (dgvAudits.SelectedRows.Count > 0)
@@ -449,7 +474,7 @@ namespace IAFollowUp
         {
             if (dgvDetails.SelectedRows.Count > 0)
             {
-                int detailId = Convert.ToInt32(dgvDetails.SelectedRows[0].Cells["DetailId"].Value.ToString());
+                int detailId = Convert.ToInt32(dgvDetails.SelectedRows[0].Cells["DetailDetailRevId"].Value.ToString());
                 int revNo = Convert.ToInt32(dgvDetails.SelectedRows[0].Cells["DetailRevNo"].Value.ToString());
 
                 Attachments attachedFiles = new Attachments(detailId, revNo, AttachmentsTableName.FIDetail_Attachments);
@@ -482,8 +507,57 @@ namespace IAFollowUp
                 int HeaderId = Convert.ToInt32(dgvHeaders.SelectedRows[0].Cells["HeaderId"].Value.ToString());
                 FIHeader selectedHeader = Audit_Headers.Where(i => i.Id == HeaderId).First();
 
-                FIDetail_Revisions frmFIDetailRev = new FIDetail_Revisions(glAudit, selectedHeader);
+                int DetailId = Convert.ToInt32(dgvDetails.SelectedRows[0].Cells["DetailId"].Value.ToString());
+                FIDetail selectedDetail = Header_Details.Where(i => i.Id == DetailId).First();
+
+                FIDetail_Revisions frmFIDetailRev = new FIDetail_Revisions(glAudit, selectedHeader, selectedDetail.Id);
                 frmFIDetailRev.ShowDialog();
+            }
+        }
+
+        private void dgvDetails_MouseDown(object sender, MouseEventArgs e)
+        {
+            if (e.Button == MouseButtons.Right)
+            {
+                var hti = dgvDetails.HitTest(e.X, e.Y);
+                if (hti.RowIndex < 0)
+                {
+                    return;
+                }
+                dgvDetails.Rows[hti.RowIndex].Selected = true;
+
+                if (glAudit.IsCompleted == true)
+                {
+
+                    MIeditDetail.Enabled = false;
+                }
+                else
+                {
+                    MIeditDetail.Enabled = true;
+                }
+
+            }
+        }
+
+        private void dgvHeaders_SortCompare(object sender, DataGridViewSortCompareEventArgs e)
+        {
+            if (e.Column.Name == "UpdDt")
+            {
+                e.SortResult = System.String.Compare(Convert.ToDateTime(e.CellValue1.ToString()).ToString("yyyyMMdd HHmmss"),
+                                                     Convert.ToDateTime(e.CellValue2.ToString()).ToString("yyyyMMdd HHmmss"));
+
+                e.Handled = true;
+            }
+        }
+
+        private void dgvDetails_SortCompare(object sender, DataGridViewSortCompareEventArgs e)
+        {
+            if (e.Column.Name == "DetailUpdDate" || e.Column.Name == "DetailActionDt")
+            {
+                e.SortResult = System.String.Compare(Convert.ToDateTime(e.CellValue1.ToString()).ToString("yyyyMMdd HHmmss"),
+                                                     Convert.ToDateTime(e.CellValue2.ToString()).ToString("yyyyMMdd HHmmss"));
+
+                e.Handled = true;
             }
         }
     }

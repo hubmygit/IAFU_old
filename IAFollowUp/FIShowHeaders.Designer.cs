@@ -65,9 +65,6 @@
             this.lblDetails = new System.Windows.Forms.Label();
             this.btnNewDetail = new System.Windows.Forms.Button();
             this.dgvDetails = new System.Windows.Forms.DataGridView();
-            this.cmsDetail = new System.Windows.Forms.ContextMenuStrip(this.components);
-            this.MIeditDetail = new System.Windows.Forms.ToolStripMenuItem();
-            this.MIattachments = new System.Windows.Forms.ToolStripMenuItem();
             this.DetailId = new System.Windows.Forms.DataGridViewTextBoxColumn();
             this.DetailRevNo = new System.Windows.Forms.DataGridViewTextBoxColumn();
             this.DetailDescription = new System.Windows.Forms.DataGridViewTextBoxColumn();
@@ -76,6 +73,9 @@
             this.DetailUpdUser = new System.Windows.Forms.DataGridViewTextBoxColumn();
             this.DetailUpdDate = new System.Windows.Forms.DataGridViewTextBoxColumn();
             this.AttCnt = new System.Windows.Forms.DataGridViewTextBoxColumn();
+            this.cmsDetail = new System.Windows.Forms.ContextMenuStrip(this.components);
+            this.MIeditDetail = new System.Windows.Forms.ToolStripMenuItem();
+            this.MIattachments = new System.Windows.Forms.ToolStripMenuItem();
             this.MIDetailRevisions = new System.Windows.Forms.ToolStripMenuItem();
             ((System.ComponentModel.ISupportInitialize)(this.dgvHeaders)).BeginInit();
             this.cmsHeader.SuspendLayout();
@@ -133,6 +133,7 @@
             this.dgvHeaders.Size = new System.Drawing.Size(1067, 250);
             this.dgvHeaders.TabIndex = 13;
             this.dgvHeaders.CellClick += new System.Windows.Forms.DataGridViewCellEventHandler(this.dgvHeaders_CellClick);
+            this.dgvHeaders.SortCompare += new System.Windows.Forms.DataGridViewSortCompareEventHandler(this.dgvHeaders_SortCompare);
             this.dgvHeaders.MouseDown += new System.Windows.Forms.MouseEventHandler(this.dgvHeaders_MouseDown);
             // 
             // HeaderId
@@ -414,29 +415,8 @@
             this.dgvDetails.SelectionMode = System.Windows.Forms.DataGridViewSelectionMode.FullRowSelect;
             this.dgvDetails.Size = new System.Drawing.Size(1067, 250);
             this.dgvDetails.TabIndex = 53;
-            // 
-            // cmsDetail
-            // 
-            this.cmsDetail.Items.AddRange(new System.Windows.Forms.ToolStripItem[] {
-            this.MIeditDetail,
-            this.MIattachments,
-            this.MIDetailRevisions});
-            this.cmsDetail.Name = "cmsHeader";
-            this.cmsDetail.Size = new System.Drawing.Size(181, 92);
-            // 
-            // MIeditDetail
-            // 
-            this.MIeditDetail.Name = "MIeditDetail";
-            this.MIeditDetail.Size = new System.Drawing.Size(180, 22);
-            this.MIeditDetail.Text = "Edit";
-            this.MIeditDetail.Click += new System.EventHandler(this.MIeditDetail_Click);
-            // 
-            // MIattachments
-            // 
-            this.MIattachments.Name = "MIattachments";
-            this.MIattachments.Size = new System.Drawing.Size(180, 22);
-            this.MIattachments.Text = "Attachments";
-            this.MIattachments.Click += new System.EventHandler(this.MIattachments_Click);
+            this.dgvDetails.SortCompare += new System.Windows.Forms.DataGridViewSortCompareEventHandler(this.dgvDetails_SortCompare);
+            this.dgvDetails.MouseDown += new System.Windows.Forms.MouseEventHandler(this.dgvDetails_MouseDown);
             // 
             // DetailId
             // 
@@ -488,10 +468,33 @@
             this.AttCnt.Name = "AttCnt";
             this.AttCnt.ReadOnly = true;
             // 
+            // cmsDetail
+            // 
+            this.cmsDetail.Items.AddRange(new System.Windows.Forms.ToolStripItem[] {
+            this.MIeditDetail,
+            this.MIattachments,
+            this.MIDetailRevisions});
+            this.cmsDetail.Name = "cmsHeader";
+            this.cmsDetail.Size = new System.Drawing.Size(143, 70);
+            // 
+            // MIeditDetail
+            // 
+            this.MIeditDetail.Name = "MIeditDetail";
+            this.MIeditDetail.Size = new System.Drawing.Size(142, 22);
+            this.MIeditDetail.Text = "Edit";
+            this.MIeditDetail.Click += new System.EventHandler(this.MIeditDetail_Click);
+            // 
+            // MIattachments
+            // 
+            this.MIattachments.Name = "MIattachments";
+            this.MIattachments.Size = new System.Drawing.Size(142, 22);
+            this.MIattachments.Text = "Attachments";
+            this.MIattachments.Click += new System.EventHandler(this.MIattachments_Click);
+            // 
             // MIDetailRevisions
             // 
             this.MIDetailRevisions.Name = "MIDetailRevisions";
-            this.MIDetailRevisions.Size = new System.Drawing.Size(180, 22);
+            this.MIDetailRevisions.Size = new System.Drawing.Size(142, 22);
             this.MIDetailRevisions.Text = "Revisions";
             this.MIDetailRevisions.Visible = false;
             this.MIDetailRevisions.Click += new System.EventHandler(this.MIDetailRevisions_Click);

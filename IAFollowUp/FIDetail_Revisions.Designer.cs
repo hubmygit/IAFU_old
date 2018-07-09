@@ -28,6 +28,7 @@
         /// </summary>
         private void InitializeComponent()
         {
+            this.components = new System.ComponentModel.Container();
             System.Windows.Forms.DataGridViewCellStyle dataGridViewCellStyle1 = new System.Windows.Forms.DataGridViewCellStyle();
             System.Windows.Forms.DataGridViewCellStyle dataGridViewCellStyle2 = new System.Windows.Forms.DataGridViewCellStyle();
             System.Windows.Forms.DataGridViewCellStyle dataGridViewCellStyle3 = new System.Windows.Forms.DataGridViewCellStyle();
@@ -55,6 +56,7 @@
             this.lblHeader = new System.Windows.Forms.Label();
             this.dgvDetails = new System.Windows.Forms.DataGridView();
             this.DetailId = new System.Windows.Forms.DataGridViewTextBoxColumn();
+            this.DetailDetailRevId = new System.Windows.Forms.DataGridViewTextBoxColumn();
             this.DetailRevNo = new System.Windows.Forms.DataGridViewTextBoxColumn();
             this.DetailDescription = new System.Windows.Forms.DataGridViewTextBoxColumn();
             this.DetailActionDt = new System.Windows.Forms.DataGridViewTextBoxColumn();
@@ -62,8 +64,10 @@
             this.DetailUpdUser = new System.Windows.Forms.DataGridViewTextBoxColumn();
             this.DetailUpdDate = new System.Windows.Forms.DataGridViewTextBoxColumn();
             this.AttCnt = new System.Windows.Forms.DataGridViewTextBoxColumn();
+            this.cmsDetailRev = new System.Windows.Forms.ContextMenuStrip(this.components);
+            this.MIattachments = new System.Windows.Forms.ToolStripMenuItem();
             this.lblFIDetailsRev = new System.Windows.Forms.Label();
-            this.dataGridView2 = new System.Windows.Forms.DataGridView();
+            this.dgvHeader = new System.Windows.Forms.DataGridView();
             this.HeaderId = new System.Windows.Forms.DataGridViewTextBoxColumn();
             this.HeaderTitle = new System.Windows.Forms.DataGridViewTextBoxColumn();
             this.HeaderCategory = new System.Windows.Forms.DataGridViewTextBoxColumn();
@@ -71,7 +75,8 @@
             this.HeaderUpdDt = new System.Windows.Forms.DataGridViewTextBoxColumn();
             ((System.ComponentModel.ISupportInitialize)(this.dgvAudits)).BeginInit();
             ((System.ComponentModel.ISupportInitialize)(this.dgvDetails)).BeginInit();
-            ((System.ComponentModel.ISupportInitialize)(this.dataGridView2)).BeginInit();
+            this.cmsDetailRev.SuspendLayout();
+            ((System.ComponentModel.ISupportInitialize)(this.dgvHeader)).BeginInit();
             this.SuspendLayout();
             // 
             // dgvAudits
@@ -247,6 +252,7 @@
             this.dgvDetails.ColumnHeadersHeightSizeMode = System.Windows.Forms.DataGridViewColumnHeadersHeightSizeMode.AutoSize;
             this.dgvDetails.Columns.AddRange(new System.Windows.Forms.DataGridViewColumn[] {
             this.DetailId,
+            this.DetailDetailRevId,
             this.DetailRevNo,
             this.DetailDescription,
             this.DetailActionDt,
@@ -254,6 +260,7 @@
             this.DetailUpdUser,
             this.DetailUpdDate,
             this.AttCnt});
+            this.dgvDetails.ContextMenuStrip = this.cmsDetailRev;
             dataGridViewCellStyle5.Alignment = System.Windows.Forms.DataGridViewContentAlignment.MiddleLeft;
             dataGridViewCellStyle5.BackColor = System.Drawing.SystemColors.Window;
             dataGridViewCellStyle5.Font = new System.Drawing.Font("Microsoft Sans Serif", 12F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(161)));
@@ -278,6 +285,8 @@
             this.dgvDetails.SelectionMode = System.Windows.Forms.DataGridViewSelectionMode.FullRowSelect;
             this.dgvDetails.Size = new System.Drawing.Size(1254, 365);
             this.dgvDetails.TabIndex = 54;
+            this.dgvDetails.SortCompare += new System.Windows.Forms.DataGridViewSortCompareEventHandler(this.dgvDetails_SortCompare);
+            this.dgvDetails.MouseDown += new System.Windows.Forms.MouseEventHandler(this.dgvDetails_MouseDown);
             // 
             // DetailId
             // 
@@ -285,6 +294,13 @@
             this.DetailId.Name = "DetailId";
             this.DetailId.ReadOnly = true;
             this.DetailId.Visible = false;
+            // 
+            // DetailDetailRevId
+            // 
+            this.DetailDetailRevId.HeaderText = "DetailId";
+            this.DetailDetailRevId.Name = "DetailDetailRevId";
+            this.DetailDetailRevId.ReadOnly = true;
+            this.DetailDetailRevId.Visible = false;
             // 
             // DetailRevNo
             // 
@@ -329,6 +345,20 @@
             this.AttCnt.Name = "AttCnt";
             this.AttCnt.ReadOnly = true;
             // 
+            // cmsDetailRev
+            // 
+            this.cmsDetailRev.Items.AddRange(new System.Windows.Forms.ToolStripItem[] {
+            this.MIattachments});
+            this.cmsDetailRev.Name = "cmsDetailRev";
+            this.cmsDetailRev.Size = new System.Drawing.Size(143, 26);
+            // 
+            // MIattachments
+            // 
+            this.MIattachments.Name = "MIattachments";
+            this.MIattachments.Size = new System.Drawing.Size(142, 22);
+            this.MIattachments.Text = "Attachments";
+            this.MIattachments.Click += new System.EventHandler(this.MIattachments_Click);
+            // 
             // lblFIDetailsRev
             // 
             this.lblFIDetailsRev.AutoSize = true;
@@ -339,14 +369,14 @@
             this.lblFIDetailsRev.TabIndex = 55;
             this.lblFIDetailsRev.Text = "Detail Revisions";
             // 
-            // dataGridView2
+            // dgvHeader
             // 
-            this.dataGridView2.AllowUserToAddRows = false;
-            this.dataGridView2.AllowUserToDeleteRows = false;
-            this.dataGridView2.AllowUserToOrderColumns = true;
-            this.dataGridView2.Anchor = ((System.Windows.Forms.AnchorStyles)(((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Left) 
+            this.dgvHeader.AllowUserToAddRows = false;
+            this.dgvHeader.AllowUserToDeleteRows = false;
+            this.dgvHeader.AllowUserToOrderColumns = true;
+            this.dgvHeader.Anchor = ((System.Windows.Forms.AnchorStyles)(((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Left) 
             | System.Windows.Forms.AnchorStyles.Right)));
-            this.dataGridView2.AutoSizeRowsMode = System.Windows.Forms.DataGridViewAutoSizeRowsMode.AllCellsExceptHeaders;
+            this.dgvHeader.AutoSizeRowsMode = System.Windows.Forms.DataGridViewAutoSizeRowsMode.AllCellsExceptHeaders;
             dataGridViewCellStyle7.Alignment = System.Windows.Forms.DataGridViewContentAlignment.MiddleLeft;
             dataGridViewCellStyle7.BackColor = System.Drawing.SystemColors.Control;
             dataGridViewCellStyle7.Font = new System.Drawing.Font("Microsoft Sans Serif", 9F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(161)));
@@ -354,8 +384,8 @@
             dataGridViewCellStyle7.SelectionBackColor = System.Drawing.SystemColors.Highlight;
             dataGridViewCellStyle7.SelectionForeColor = System.Drawing.SystemColors.HighlightText;
             dataGridViewCellStyle7.WrapMode = System.Windows.Forms.DataGridViewTriState.True;
-            this.dataGridView2.ColumnHeadersDefaultCellStyle = dataGridViewCellStyle7;
-            this.dataGridView2.Columns.AddRange(new System.Windows.Forms.DataGridViewColumn[] {
+            this.dgvHeader.ColumnHeadersDefaultCellStyle = dataGridViewCellStyle7;
+            this.dgvHeader.Columns.AddRange(new System.Windows.Forms.DataGridViewColumn[] {
             this.HeaderId,
             this.HeaderTitle,
             this.HeaderCategory,
@@ -368,11 +398,11 @@
             dataGridViewCellStyle8.SelectionBackColor = System.Drawing.SystemColors.HighlightText;
             dataGridViewCellStyle8.SelectionForeColor = System.Drawing.SystemColors.ControlText;
             dataGridViewCellStyle8.WrapMode = System.Windows.Forms.DataGridViewTriState.False;
-            this.dataGridView2.DefaultCellStyle = dataGridViewCellStyle8;
-            this.dataGridView2.Location = new System.Drawing.Point(2, 115);
-            this.dataGridView2.MultiSelect = false;
-            this.dataGridView2.Name = "dataGridView2";
-            this.dataGridView2.ReadOnly = true;
+            this.dgvHeader.DefaultCellStyle = dataGridViewCellStyle8;
+            this.dgvHeader.Location = new System.Drawing.Point(2, 115);
+            this.dgvHeader.MultiSelect = false;
+            this.dgvHeader.Name = "dgvHeader";
+            this.dgvHeader.ReadOnly = true;
             dataGridViewCellStyle9.Alignment = System.Windows.Forms.DataGridViewContentAlignment.MiddleLeft;
             dataGridViewCellStyle9.BackColor = System.Drawing.SystemColors.Control;
             dataGridViewCellStyle9.Font = new System.Drawing.Font("Microsoft Sans Serif", 8.25F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(161)));
@@ -380,12 +410,12 @@
             dataGridViewCellStyle9.SelectionBackColor = System.Drawing.SystemColors.Highlight;
             dataGridViewCellStyle9.SelectionForeColor = System.Drawing.SystemColors.HighlightText;
             dataGridViewCellStyle9.WrapMode = System.Windows.Forms.DataGridViewTriState.True;
-            this.dataGridView2.RowHeadersDefaultCellStyle = dataGridViewCellStyle9;
-            this.dataGridView2.RowHeadersWidth = 15;
-            this.dataGridView2.ScrollBars = System.Windows.Forms.ScrollBars.Horizontal;
-            this.dataGridView2.SelectionMode = System.Windows.Forms.DataGridViewSelectionMode.FullRowSelect;
-            this.dataGridView2.Size = new System.Drawing.Size(1254, 62);
-            this.dataGridView2.TabIndex = 57;
+            this.dgvHeader.RowHeadersDefaultCellStyle = dataGridViewCellStyle9;
+            this.dgvHeader.RowHeadersWidth = 15;
+            this.dgvHeader.ScrollBars = System.Windows.Forms.ScrollBars.Horizontal;
+            this.dgvHeader.SelectionMode = System.Windows.Forms.DataGridViewSelectionMode.FullRowSelect;
+            this.dgvHeader.Size = new System.Drawing.Size(1254, 62);
+            this.dgvHeader.TabIndex = 57;
             // 
             // HeaderId
             // 
@@ -428,7 +458,7 @@
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
             this.ClientSize = new System.Drawing.Size(1258, 580);
-            this.Controls.Add(this.dataGridView2);
+            this.Controls.Add(this.dgvHeader);
             this.Controls.Add(this.lblFIDetailsRev);
             this.Controls.Add(this.dgvDetails);
             this.Controls.Add(this.lblHeader);
@@ -438,9 +468,11 @@
             this.Name = "FIDetail_Revisions";
             this.StartPosition = System.Windows.Forms.FormStartPosition.CenterParent;
             this.Text = "FIDetail_Revisions";
+            this.Load += new System.EventHandler(this.FIDetail_Revisions_Load);
             ((System.ComponentModel.ISupportInitialize)(this.dgvAudits)).EndInit();
             ((System.ComponentModel.ISupportInitialize)(this.dgvDetails)).EndInit();
-            ((System.ComponentModel.ISupportInitialize)(this.dataGridView2)).EndInit();
+            this.cmsDetailRev.ResumeLayout(false);
+            ((System.ComponentModel.ISupportInitialize)(this.dgvHeader)).EndInit();
             this.ResumeLayout(false);
             this.PerformLayout();
 
@@ -464,7 +496,17 @@
         private System.Windows.Forms.Label lblAudit;
         private System.Windows.Forms.Label lblHeader;
         private System.Windows.Forms.DataGridView dgvDetails;
+        private System.Windows.Forms.Label lblFIDetailsRev;
+        private System.Windows.Forms.DataGridView dgvHeader;
+        private System.Windows.Forms.DataGridViewTextBoxColumn HeaderId;
+        private System.Windows.Forms.DataGridViewTextBoxColumn HeaderTitle;
+        private System.Windows.Forms.DataGridViewTextBoxColumn HeaderCategory;
+        private System.Windows.Forms.DataGridViewTextBoxColumn HeaderUpdUser;
+        private System.Windows.Forms.DataGridViewTextBoxColumn HeaderUpdDt;
+        public System.Windows.Forms.ContextMenuStrip cmsDetailRev;
+        private System.Windows.Forms.ToolStripMenuItem MIattachments;
         private System.Windows.Forms.DataGridViewTextBoxColumn DetailId;
+        private System.Windows.Forms.DataGridViewTextBoxColumn DetailDetailRevId;
         private System.Windows.Forms.DataGridViewTextBoxColumn DetailRevNo;
         private System.Windows.Forms.DataGridViewTextBoxColumn DetailDescription;
         private System.Windows.Forms.DataGridViewTextBoxColumn DetailActionDt;
@@ -472,12 +514,5 @@
         private System.Windows.Forms.DataGridViewTextBoxColumn DetailUpdUser;
         private System.Windows.Forms.DataGridViewTextBoxColumn DetailUpdDate;
         private System.Windows.Forms.DataGridViewTextBoxColumn AttCnt;
-        private System.Windows.Forms.Label lblFIDetailsRev;
-        private System.Windows.Forms.DataGridView dataGridView2;
-        private System.Windows.Forms.DataGridViewTextBoxColumn HeaderId;
-        private System.Windows.Forms.DataGridViewTextBoxColumn HeaderTitle;
-        private System.Windows.Forms.DataGridViewTextBoxColumn HeaderCategory;
-        private System.Windows.Forms.DataGridViewTextBoxColumn HeaderUpdUser;
-        private System.Windows.Forms.DataGridViewTextBoxColumn HeaderUpdDt;
     }
 }

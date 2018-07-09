@@ -776,6 +776,32 @@ namespace IAFollowUp
         }
     }
 
+    public class FIDetailRev
+    {
+        public int Id { get; set; }
+        public int FIDetailId { get; set; }
+        public string Description { get; set; }
+        public int FIHeaderId { get; set; }
+        public DateTime ActionDt { get; set; }
+        public string ActionReq { get; set; }
+
+        public int InsUserId { get; set; }
+        public Users InsUser { get; set; }
+        public DateTime InsDt { get; set; }
+
+        public int UpdUserId { get; set; }
+        public Users UpdUser { get; set; }
+        public DateTime UpdDt { get; set; }
+
+        public int RevNo { get; set; }
+
+        public int AttCnt { get; set; }
+        public FIDetailRev()
+        {
+
+        }
+
+    }
 
     public class FICategory
     {
