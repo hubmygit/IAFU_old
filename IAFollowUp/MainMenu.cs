@@ -119,6 +119,19 @@ namespace IAFollowUp
             ViewRole frmViewRole = new ViewRole();
             frmViewRole.ShowDialog();
         }
+
+        private void createUserToolStripMenuItem_Click(object sender, EventArgs e)
+        {
+            CreateUser frmCreateUser = new CreateUser();
+            frmCreateUser.ShowDialog();
+        }
+
+        private void viewUsersToolStripMenuItem_Click(object sender, EventArgs e)
+        {
+
+        }
+
+        
     }
 
     public class UserAuthorization

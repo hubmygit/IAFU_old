@@ -403,6 +403,18 @@ namespace IAFollowUp
             else
                 return false;
         }
+
+        public static List<ComboboxItem> GetRolesComboboxItemsList(List<Role> Roles)
+        {
+            List<ComboboxItem> ret = new List<ComboboxItem>();
+
+            foreach (Role c in Roles)
+            {
+                ret.Add(new ComboboxItem() { Value = c, Text = c.Name });
+            }
+
+            return ret;
+        }
     }
 
     public class User
@@ -412,6 +424,7 @@ namespace IAFollowUp
         public int RolesId { get; set; }
         public string FullName { get; set; }
         public string Email { get; set; }
+        public string InsDt { get; set; }
     }
 
     public class PasswordHistory

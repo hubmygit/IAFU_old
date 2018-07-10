@@ -170,12 +170,14 @@
             this.viewUsersToolStripMenuItem.Name = "viewUsersToolStripMenuItem";
             this.viewUsersToolStripMenuItem.Size = new System.Drawing.Size(310, 22);
             this.viewUsersToolStripMenuItem.Text = "View / Edit Users";
+            this.viewUsersToolStripMenuItem.Click += new System.EventHandler(this.viewUsersToolStripMenuItem_Click);
             // 
             // createUserToolStripMenuItem
             // 
             this.createUserToolStripMenuItem.Name = "createUserToolStripMenuItem";
             this.createUserToolStripMenuItem.Size = new System.Drawing.Size(310, 22);
             this.createUserToolStripMenuItem.Text = "Create New User";
+            this.createUserToolStripMenuItem.Click += new System.EventHandler(this.createUserToolStripMenuItem_Click);
             // 
             // helpToolStripMenuItem
             // 

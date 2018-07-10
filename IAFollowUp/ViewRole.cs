@@ -21,7 +21,7 @@ namespace IAFollowUp
 
         public List<Role> roleList = new List<Role>();
 
-        public List<Role> SelectRole()
+        public static List<Role> SelectRole()
         {
             List<Role> ret = new List<Role>();
 
