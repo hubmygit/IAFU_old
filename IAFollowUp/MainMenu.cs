@@ -107,6 +107,18 @@ namespace IAFollowUp
                 frmShowHeaders_Rev.ShowDialog();
             }
         }
+
+        private void createRoleToolStripMenuItem_Click(object sender, EventArgs e)
+        {
+            CreateRole frmNewRole = new CreateRole();
+            frmNewRole.ShowDialog();
+        }
+
+        private void viewRolesToolStripMenuItem_Click(object sender, EventArgs e)
+        {
+            ViewRole frmViewRole = new ViewRole();
+            frmViewRole.ShowDialog();
+        }
     }
 
     public class UserAuthorization

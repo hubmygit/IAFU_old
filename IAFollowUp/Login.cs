@@ -394,6 +394,7 @@ namespace IAFollowUp
         public bool IsAuditee { get; set; }
         public bool IsAdmin { get; set; }
         public int PasswordPeriod { get; set; }
+        public DateTime InsDt { get; set; }
 
         public static bool isEqual(Role x, Role y)
         {

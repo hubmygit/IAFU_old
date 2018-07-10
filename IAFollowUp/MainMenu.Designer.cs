@@ -40,14 +40,14 @@
             this.viewRevisionsToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.viewFIRevisionsToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.toolStripSeparator1 = new System.Windows.Forms.ToolStripSeparator();
+            this.viewRolesToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.createRoleToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
+            this.viewUsersToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.createUserToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.helpToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.changePasswordToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.statusStrip1 = new System.Windows.Forms.StatusStrip();
             this.tsStatusLblUser = new System.Windows.Forms.ToolStripStatusLabel();
-            this.viewRolesToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
-            this.viewUsersToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.menuStrip.SuspendLayout();
             this.statusStrip1.SuspendLayout();
             this.SuspendLayout();
@@ -151,11 +151,25 @@
             this.toolStripSeparator1.Name = "toolStripSeparator1";
             this.toolStripSeparator1.Size = new System.Drawing.Size(307, 6);
             // 
+            // viewRolesToolStripMenuItem
+            // 
+            this.viewRolesToolStripMenuItem.Name = "viewRolesToolStripMenuItem";
+            this.viewRolesToolStripMenuItem.Size = new System.Drawing.Size(310, 22);
+            this.viewRolesToolStripMenuItem.Text = "View / Edit Roles";
+            this.viewRolesToolStripMenuItem.Click += new System.EventHandler(this.viewRolesToolStripMenuItem_Click);
+            // 
             // createRoleToolStripMenuItem
             // 
             this.createRoleToolStripMenuItem.Name = "createRoleToolStripMenuItem";
             this.createRoleToolStripMenuItem.Size = new System.Drawing.Size(310, 22);
             this.createRoleToolStripMenuItem.Text = "Create New Role";
+            this.createRoleToolStripMenuItem.Click += new System.EventHandler(this.createRoleToolStripMenuItem_Click);
+            // 
+            // viewUsersToolStripMenuItem
+            // 
+            this.viewUsersToolStripMenuItem.Name = "viewUsersToolStripMenuItem";
+            this.viewUsersToolStripMenuItem.Size = new System.Drawing.Size(310, 22);
+            this.viewUsersToolStripMenuItem.Text = "View / Edit Users";
             // 
             // createUserToolStripMenuItem
             // 
@@ -196,18 +210,6 @@
             this.tsStatusLblUser.RightToLeft = System.Windows.Forms.RightToLeft.No;
             this.tsStatusLblUser.Size = new System.Drawing.Size(103, 17);
             this.tsStatusLblUser.Text = "User: Unknown";
-            // 
-            // viewRolesToolStripMenuItem
-            // 
-            this.viewRolesToolStripMenuItem.Name = "viewRolesToolStripMenuItem";
-            this.viewRolesToolStripMenuItem.Size = new System.Drawing.Size(310, 22);
-            this.viewRolesToolStripMenuItem.Text = "View / Edit Roles";
-            // 
-            // viewUsersToolStripMenuItem
-            // 
-            this.viewUsersToolStripMenuItem.Name = "viewUsersToolStripMenuItem";
-            this.viewUsersToolStripMenuItem.Size = new System.Drawing.Size(310, 22);
-            this.viewUsersToolStripMenuItem.Text = "View / Edit Users";
             // 
             // MainMenu
             // 
