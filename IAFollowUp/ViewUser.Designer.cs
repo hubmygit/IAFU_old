@@ -35,14 +35,14 @@
             System.ComponentModel.ComponentResourceManager resources = new System.ComponentModel.ComponentResourceManager(typeof(ViewUser));
             this.dgvUserView = new System.Windows.Forms.DataGridView();
             this.btnNew = new System.Windows.Forms.Button();
+            this.cmsOnGrid = new System.Windows.Forms.ContextMenuStrip(this.components);
+            this.MIupdate = new System.Windows.Forms.ToolStripMenuItem();
             this.Id = new System.Windows.Forms.DataGridViewTextBoxColumn();
             this.UserName = new System.Windows.Forms.DataGridViewTextBoxColumn();
             this.FullName = new System.Windows.Forms.DataGridViewTextBoxColumn();
             this.Email = new System.Windows.Forms.DataGridViewTextBoxColumn();
             this.Role = new System.Windows.Forms.DataGridViewTextBoxColumn();
             this.InsDate = new System.Windows.Forms.DataGridViewTextBoxColumn();
-            this.cmsOnGrid = new System.Windows.Forms.ContextMenuStrip(this.components);
-            this.MIupdate = new System.Windows.Forms.ToolStripMenuItem();
             ((System.ComponentModel.ISupportInitialize)(this.dgvUserView)).BeginInit();
             this.cmsOnGrid.SuspendLayout();
             this.SuspendLayout();
@@ -81,7 +81,7 @@
             dataGridViewCellStyle2.SelectionForeColor = System.Drawing.SystemColors.HighlightText;
             dataGridViewCellStyle2.WrapMode = System.Windows.Forms.DataGridViewTriState.True;
             this.dgvUserView.DefaultCellStyle = dataGridViewCellStyle2;
-            this.dgvUserView.Location = new System.Drawing.Point(12, 61);
+            this.dgvUserView.Location = new System.Drawing.Point(0, 49);
             this.dgvUserView.MultiSelect = false;
             this.dgvUserView.Name = "dgvUserView";
             this.dgvUserView.ReadOnly = true;
@@ -94,7 +94,7 @@
             dataGridViewCellStyle3.WrapMode = System.Windows.Forms.DataGridViewTriState.True;
             this.dgvUserView.RowHeadersDefaultCellStyle = dataGridViewCellStyle3;
             this.dgvUserView.SelectionMode = System.Windows.Forms.DataGridViewSelectionMode.FullRowSelect;
-            this.dgvUserView.Size = new System.Drawing.Size(887, 349);
+            this.dgvUserView.Size = new System.Drawing.Size(964, 393);
             this.dgvUserView.TabIndex = 14;
             this.dgvUserView.MouseDown += new System.Windows.Forms.MouseEventHandler(this.dgvUserView_MouseDown);
             // 
@@ -108,47 +108,6 @@
             this.btnNew.Text = "New User";
             this.btnNew.UseVisualStyleBackColor = true;
             this.btnNew.Click += new System.EventHandler(this.btnNew_Click);
-            // 
-            // Id
-            // 
-            this.Id.HeaderText = "Id";
-            this.Id.Name = "Id";
-            this.Id.ReadOnly = true;
-            this.Id.Visible = false;
-            this.Id.Width = 50;
-            // 
-            // UserName
-            // 
-            this.UserName.HeaderText = "User";
-            this.UserName.Name = "UserName";
-            this.UserName.ReadOnly = true;
-            this.UserName.Width = 280;
-            // 
-            // FullName
-            // 
-            this.FullName.HeaderText = "Full Name";
-            this.FullName.Name = "FullName";
-            this.FullName.ReadOnly = true;
-            this.FullName.Width = 140;
-            // 
-            // Email
-            // 
-            this.Email.HeaderText = "Email";
-            this.Email.Name = "Email";
-            this.Email.ReadOnly = true;
-            // 
-            // Role
-            // 
-            this.Role.HeaderText = "Role";
-            this.Role.Name = "Role";
-            this.Role.ReadOnly = true;
-            // 
-            // InsDate
-            // 
-            this.InsDate.HeaderText = "InsDate";
-            this.InsDate.Name = "InsDate";
-            this.InsDate.ReadOnly = true;
-            this.InsDate.Width = 170;
             // 
             // cmsOnGrid
             // 
@@ -164,14 +123,58 @@
             this.MIupdate.Text = "Edit";
             this.MIupdate.Click += new System.EventHandler(this.MIupdate_Click);
             // 
+            // Id
+            // 
+            this.Id.HeaderText = "Id";
+            this.Id.Name = "Id";
+            this.Id.ReadOnly = true;
+            this.Id.Visible = false;
+            this.Id.Width = 50;
+            // 
+            // UserName
+            // 
+            this.UserName.HeaderText = "User";
+            this.UserName.Name = "UserName";
+            this.UserName.ReadOnly = true;
+            this.UserName.Width = 180;
+            // 
+            // FullName
+            // 
+            this.FullName.HeaderText = "Full Name";
+            this.FullName.Name = "FullName";
+            this.FullName.ReadOnly = true;
+            this.FullName.Width = 260;
+            // 
+            // Email
+            // 
+            this.Email.HeaderText = "Email";
+            this.Email.Name = "Email";
+            this.Email.ReadOnly = true;
+            this.Email.Width = 150;
+            // 
+            // Role
+            // 
+            this.Role.HeaderText = "Role";
+            this.Role.Name = "Role";
+            this.Role.ReadOnly = true;
+            this.Role.Width = 130;
+            // 
+            // InsDate
+            // 
+            this.InsDate.HeaderText = "InsDate";
+            this.InsDate.Name = "InsDate";
+            this.InsDate.ReadOnly = true;
+            this.InsDate.Width = 170;
+            // 
             // ViewUser
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
-            this.ClientSize = new System.Drawing.Size(911, 440);
+            this.ClientSize = new System.Drawing.Size(964, 442);
             this.Controls.Add(this.btnNew);
             this.Controls.Add(this.dgvUserView);
             this.Icon = ((System.Drawing.Icon)(resources.GetObject("$this.Icon")));
+            this.MinimumSize = new System.Drawing.Size(980, 480);
             this.Name = "ViewUser";
             this.StartPosition = System.Windows.Forms.FormStartPosition.CenterParent;
             this.Text = "View User";
@@ -186,13 +189,13 @@
 
         public System.Windows.Forms.DataGridView dgvUserView;
         private System.Windows.Forms.Button btnNew;
+        public System.Windows.Forms.ContextMenuStrip cmsOnGrid;
+        private System.Windows.Forms.ToolStripMenuItem MIupdate;
         private System.Windows.Forms.DataGridViewTextBoxColumn Id;
         private System.Windows.Forms.DataGridViewTextBoxColumn UserName;
         private System.Windows.Forms.DataGridViewTextBoxColumn FullName;
         private System.Windows.Forms.DataGridViewTextBoxColumn Email;
         private System.Windows.Forms.DataGridViewTextBoxColumn Role;
         private System.Windows.Forms.DataGridViewTextBoxColumn InsDate;
-        public System.Windows.Forms.ContextMenuStrip cmsOnGrid;
-        private System.Windows.Forms.ToolStripMenuItem MIupdate;
     }
 }

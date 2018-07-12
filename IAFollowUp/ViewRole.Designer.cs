@@ -34,8 +34,6 @@
             System.Windows.Forms.DataGridViewCellStyle dataGridViewCellStyle3 = new System.Windows.Forms.DataGridViewCellStyle();
             System.ComponentModel.ComponentResourceManager resources = new System.ComponentModel.ComponentResourceManager(typeof(ViewRole));
             this.dgvRoleView = new System.Windows.Forms.DataGridView();
-            this.cmsOnGrid = new System.Windows.Forms.ContextMenuStrip(this.components);
-            this.MIupdate = new System.Windows.Forms.ToolStripMenuItem();
             this.Id = new System.Windows.Forms.DataGridViewTextBoxColumn();
             this.RoleName = new System.Windows.Forms.DataGridViewTextBoxColumn();
             this.IsAuditor = new System.Windows.Forms.DataGridViewCheckBoxColumn();
@@ -43,6 +41,8 @@
             this.IsAdmin = new System.Windows.Forms.DataGridViewCheckBoxColumn();
             this.PassExp = new System.Windows.Forms.DataGridViewTextBoxColumn();
             this.InsDate = new System.Windows.Forms.DataGridViewTextBoxColumn();
+            this.cmsOnGrid = new System.Windows.Forms.ContextMenuStrip(this.components);
+            this.MIupdate = new System.Windows.Forms.ToolStripMenuItem();
             this.btnNew = new System.Windows.Forms.Button();
             ((System.ComponentModel.ISupportInitialize)(this.dgvRoleView)).BeginInit();
             this.cmsOnGrid.SuspendLayout();
@@ -96,23 +96,9 @@
             dataGridViewCellStyle3.WrapMode = System.Windows.Forms.DataGridViewTriState.True;
             this.dgvRoleView.RowHeadersDefaultCellStyle = dataGridViewCellStyle3;
             this.dgvRoleView.SelectionMode = System.Windows.Forms.DataGridViewSelectionMode.FullRowSelect;
-            this.dgvRoleView.Size = new System.Drawing.Size(966, 401);
+            this.dgvRoleView.Size = new System.Drawing.Size(964, 393);
             this.dgvRoleView.TabIndex = 13;
             this.dgvRoleView.MouseDown += new System.Windows.Forms.MouseEventHandler(this.dgvAuditView_MouseDown);
-            // 
-            // cmsOnGrid
-            // 
-            this.cmsOnGrid.Items.AddRange(new System.Windows.Forms.ToolStripItem[] {
-            this.MIupdate});
-            this.cmsOnGrid.Name = "cmsOnGrid";
-            this.cmsOnGrid.Size = new System.Drawing.Size(95, 26);
-            // 
-            // MIupdate
-            // 
-            this.MIupdate.Name = "MIupdate";
-            this.MIupdate.Size = new System.Drawing.Size(94, 22);
-            this.MIupdate.Text = "Edit";
-            this.MIupdate.Click += new System.EventHandler(this.MIupdate_Click);
             // 
             // Id
             // 
@@ -163,6 +149,20 @@
             this.InsDate.ReadOnly = true;
             this.InsDate.Width = 170;
             // 
+            // cmsOnGrid
+            // 
+            this.cmsOnGrid.Items.AddRange(new System.Windows.Forms.ToolStripItem[] {
+            this.MIupdate});
+            this.cmsOnGrid.Name = "cmsOnGrid";
+            this.cmsOnGrid.Size = new System.Drawing.Size(95, 26);
+            // 
+            // MIupdate
+            // 
+            this.MIupdate.Name = "MIupdate";
+            this.MIupdate.Size = new System.Drawing.Size(94, 22);
+            this.MIupdate.Text = "Edit";
+            this.MIupdate.Click += new System.EventHandler(this.MIupdate_Click);
+            // 
             // btnNew
             // 
             this.btnNew.Font = new System.Drawing.Font("Microsoft Sans Serif", 9.75F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(161)));
@@ -178,10 +178,11 @@
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
-            this.ClientSize = new System.Drawing.Size(966, 450);
+            this.ClientSize = new System.Drawing.Size(964, 442);
             this.Controls.Add(this.btnNew);
             this.Controls.Add(this.dgvRoleView);
             this.Icon = ((System.Drawing.Icon)(resources.GetObject("$this.Icon")));
+            this.MinimumSize = new System.Drawing.Size(980, 480);
             this.Name = "ViewRole";
             this.StartPosition = System.Windows.Forms.FormStartPosition.CenterParent;
             this.Text = "View / Edit Role";

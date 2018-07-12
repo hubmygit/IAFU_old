@@ -153,7 +153,7 @@ namespace IAFollowUp
             SqlConnection sqlConn = new SqlConnection(SqlDBInfo.connectionString);
             string InsSt = "UPDATE [dbo].[Users] SET [UserName] =  encryptByPassPhrase(@passPhrase, convert(varchar(500), @UserName)), " +
                 "[FullName] =  encryptByPassPhrase(@passPhrase, convert(varchar(500), @FullName)), [Email] =encryptByPassPhrase(@passPhrase, convert(varchar(500), @Email)) , " +
-                "[RolesId] = @RolesId, " +
+                "[RolesId] = @RolesId " +
                 "WHERE id = @id ";
             try
             {
