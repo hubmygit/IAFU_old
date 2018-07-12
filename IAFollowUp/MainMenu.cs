@@ -128,10 +128,10 @@ namespace IAFollowUp
 
         private void viewUsersToolStripMenuItem_Click(object sender, EventArgs e)
         {
-
+            ViewUser frmViewUser = new ViewUser();
+            frmViewUser.ShowDialog();
         }
 
-        
     }
 
     public class UserAuthorization

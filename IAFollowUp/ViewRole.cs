@@ -96,6 +96,7 @@ namespace IAFollowUp
                 Role thisRole = roleList.Where(i => i.Id == thisId).First();
 
                 CreateRole frmCreateRole = new CreateRole(thisRole);
+                frmCreateRole.Text = "Edit Role";
                 frmCreateRole.ShowDialog();
 
                 if (frmCreateRole.success)

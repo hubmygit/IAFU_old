@@ -87,7 +87,7 @@ namespace IAFollowUp
             {
                 if (UpdateTable_Role(newRoleRecord))
                 {
-                    MessageBox.Show("Audit updated successfully!");
+                    MessageBox.Show("Role updated successfully!");
                     success = true;
                     Close();
                 }

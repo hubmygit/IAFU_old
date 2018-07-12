@@ -72,6 +72,7 @@
             this.btnSave.Text = "Save";
             this.btnSave.TextAlign = System.Drawing.ContentAlignment.MiddleRight;
             this.btnSave.UseVisualStyleBackColor = true;
+            this.btnSave.Click += new System.EventHandler(this.btnSave_Click);
             // 
             // lblFullName
             // 
@@ -87,7 +88,7 @@
             // 
             this.txtFullName.Font = new System.Drawing.Font("Microsoft Sans Serif", 9.75F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(161)));
             this.txtFullName.Location = new System.Drawing.Point(134, 77);
-            this.txtFullName.MaxLength = 50;
+            this.txtFullName.MaxLength = 100;
             this.txtFullName.Name = "txtFullName";
             this.txtFullName.Size = new System.Drawing.Size(300, 22);
             this.txtFullName.TabIndex = 2;

@@ -396,6 +396,40 @@ namespace IAFollowUp
         public int PasswordPeriod { get; set; }
         public DateTime InsDt { get; set; }
 
+        public Role ()
+        { }
+
+        public Role(int givenId)
+        {
+            SqlConnection sqlConn = new SqlConnection(SqlDBInfo.connectionString);
+            string SelectSt = "SELECT [Id], [Name], [IsAuditor], [IsAuditee], [IsAdmin], [PasswordPeriod], [InsDt] " +
+                              "FROM [dbo].[Roles] " +
+                              "WHERE Id = " + givenId.ToString();
+            SqlCommand cmd = new SqlCommand(SelectSt, sqlConn);
+            try
+            {
+                sqlConn.Open();
+
+                SqlDataReader reader = cmd.ExecuteReader();
+                while (reader.Read())
+                {
+                    Name = reader["Name"].ToString();
+                    IsAuditor = Convert.ToBoolean(reader["IsAuditor"].ToString());
+                    IsAuditee = Convert.ToBoolean(reader["IsAuditee"].ToString());
+                    IsAdmin = Convert.ToBoolean(reader["IsAdmin"].ToString());
+                    PasswordPeriod = Convert.ToInt32(reader["PasswordPeriod"].ToString());
+                    InsDt = Convert.ToDateTime(reader["InsDt"].ToString());
+                }
+                reader.Close();
+                sqlConn.Close();
+            }
+            catch (Exception ex)
+            {
+                MessageBox.Show("The following error occurred: " + ex.Message);
+            }
+
+        }
+
         public static bool isEqual(Role x, Role y)
         {
             if (x.Id == y.Id && x.Name == y.Name && x.IsAuditor == y.IsAuditor && x.IsAuditee == y.IsAuditee && x.IsAdmin == y.IsAdmin && x.PasswordPeriod == y.PasswordPeriod)
@@ -421,10 +455,11 @@ namespace IAFollowUp
     {
         public int Id { get; set; }
         public string UserName { get; set; }
+        public Role Role { get; set; }
         public int RolesId { get; set; }
         public string FullName { get; set; }
         public string Email { get; set; }
-        public string InsDt { get; set; }
+        public DateTime InsDt { get; set; }
     }
 
     public class PasswordHistory
