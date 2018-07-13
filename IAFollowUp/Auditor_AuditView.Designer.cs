@@ -69,6 +69,7 @@
             this.Auditor1 = new System.Windows.Forms.DataGridViewTextBoxColumn();
             this.Auditor2 = new System.Windows.Forms.DataGridViewTextBoxColumn();
             this.Supervisor = new System.Windows.Forms.DataGridViewTextBoxColumn();
+            this.Rating = new System.Windows.Forms.DataGridViewTextBoxColumn();
             this.IsCompleted = new System.Windows.Forms.DataGridViewCheckBoxColumn();
             this.RevNo = new System.Windows.Forms.DataGridViewTextBoxColumn();
             this.AttCnt = new System.Windows.Forms.DataGridViewTextBoxColumn();
@@ -107,6 +108,7 @@
             this.Auditor1,
             this.Auditor2,
             this.Supervisor,
+            this.Rating,
             this.IsCompleted,
             this.RevNo,
             this.AttCnt});
@@ -437,6 +439,12 @@
             this.Supervisor.Name = "Supervisor";
             this.Supervisor.ReadOnly = true;
             // 
+            // Rating
+            // 
+            this.Rating.HeaderText = "Rating";
+            this.Rating.Name = "Rating";
+            this.Rating.ReadOnly = true;
+            // 
             // IsCompleted
             // 
             this.IsCompleted.HeaderText = "Completed";
@@ -531,6 +539,7 @@
         private System.Windows.Forms.DataGridViewTextBoxColumn Auditor1;
         private System.Windows.Forms.DataGridViewTextBoxColumn Auditor2;
         private System.Windows.Forms.DataGridViewTextBoxColumn Supervisor;
+        private System.Windows.Forms.DataGridViewTextBoxColumn Rating;
         private System.Windows.Forms.DataGridViewCheckBoxColumn IsCompleted;
         private System.Windows.Forms.DataGridViewTextBoxColumn RevNo;
         private System.Windows.Forms.DataGridViewTextBoxColumn AttCnt;

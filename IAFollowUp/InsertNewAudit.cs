@@ -49,6 +49,10 @@ namespace IAFollowUp
             {
                 cbSupervisor.SelectedIndex = cbSupervisor.FindStringExact(audit.Supervisor.FullName);
             }
+            if (audit.AuditRating != null)
+            {
+                cbRating.SelectedIndex = cbRating.FindStringExact(audit.AuditRating.Name);
+            }
         }
 
 
@@ -63,6 +67,7 @@ namespace IAFollowUp
             cbAuditor1.Items.AddRange(Users.GetUsersComboboxItemsList(usersList).ToArray<ComboboxItem>());
             cbAuditor2.Items.AddRange(Users.GetUsersComboboxItemsList(usersList).ToArray<ComboboxItem>());
             cbSupervisor.Items.AddRange(Users.GetUsersComboboxItemsList(usersList).ToArray<ComboboxItem>());
+            cbRating.Items.AddRange(AuditRating.GetAuditRatingComboboxItemsList(auditRatingList).ToArray<ComboboxItem>());
         }
 
         //public User user = new User();
@@ -72,6 +77,8 @@ namespace IAFollowUp
         public List<AuditTypes> auditTypesList = AuditTypes.GetSqlAuditTypesList();
 
         public List<Users> usersList = Users.GetUsersByRole(UserRole.IsAuditor); //Users.GetSqlUsersList();
+
+        public List<AuditRating> auditRatingList = AuditRating.GetSqlAuditRatingList();
 
         public bool isInsert = false;
         public int AuditUpdId = 0;
@@ -142,7 +149,6 @@ namespace IAFollowUp
                 Id = AuditUpdId, //only on update
                 RevNo = oldAuditRecord.RevNo,
                 AttCnt= oldAuditRecord.AttCnt
-
             };
 
             if (cbAuditor2.SelectedIndex > -1)
@@ -163,6 +169,15 @@ namespace IAFollowUp
             else
             {
                 newAuditRecord.Supervisor = new Users();
+            }
+            if(cbRating.SelectedIndex > -1)
+            {
+                newAuditRecord.AuditRating = getComboboxItem<AuditRating>(cbRating);
+                newAuditRecord.AuditRatingId = getComboboxItem<AuditRating>(cbRating).Id;
+            }
+            else
+            {
+                newAuditRecord.AuditRating = new AuditRating();
             }
 
             if (isInsert) //insert
@@ -264,10 +279,10 @@ namespace IAFollowUp
 
             SqlConnection sqlConn = new SqlConnection(SqlDBInfo.connectionString);
             string InsSt = "INSERT INTO [dbo].[Audit] ([Year],[CompanyID],[AuditTypeID],[Title],[ReportDt] ," +
-                "[Auditor1ID],[Auditor2ID],[SupervisorID],[IsCompleted],[AuditNumber],[IASentNumber],[InsUserID],[InsDt],[UpdUserID],[UpdDt], [RevNo]) VALUES " +
+                "[Auditor1ID],[Auditor2ID],[SupervisorID],[IsCompleted],[AuditNumber],[IASentNumber],[InsUserID],[InsDt],[UpdUserID],[UpdDt], [RevNo], [AuditRatingId]) VALUES " +
                            "(@Year, @CompanyID, @AuditTypeID, " +
                            "encryptByPassPhrase(@passPhrase, convert(varchar(500), @Title)), " +
-                           "@ReportDt, @Auditor1ID, @Auditor2ID, @SupervisorID, @IsCompleted, @AuditNumber, @IASentNumber, @InsUserID, getDate(), @InsUserID, getDate(), 1 ) ";
+                           "@ReportDt, @Auditor1ID, @Auditor2ID, @SupervisorID, @IsCompleted, @AuditNumber, @IASentNumber, @InsUserID, getDate(), @InsUserID, getDate(), 1 ,@AuditRatingId) ";
             try
             {
                 sqlConn.Open();
@@ -298,6 +313,14 @@ namespace IAFollowUp
                 else
                 {
                     cmd.Parameters.AddWithValue("@SupervisorID", audit.SupervisorID);
+                }
+                if (audit.AuditRatingId ==null)
+                {
+                    cmd.Parameters.AddWithValue("@AuditRatingId", DBNull.Value);
+                }
+                else
+                {
+                    cmd.Parameters.AddWithValue("@AuditRatingId", audit.AuditRatingId);
                 }
 
                 cmd.Parameters.AddWithValue("@IsCompleted",audit.IsCompleted);
@@ -330,15 +353,15 @@ namespace IAFollowUp
 
             SqlConnection sqlConn = new SqlConnection(SqlDBInfo.connectionString);
             string InsSt = "UPDATE [dbo].[Audit] SET [Year] = @Year, [CompanyID] = @CompanyID, [AuditTypeID] = @AuditTypeID, " +
-                "[Title] = encryptByPassPhrase(@passPhrase, convert(varchar(500), @Title))," + 
+                "[Title] = encryptByPassPhrase(@passPhrase, convert(varchar(500), @Title))," +
                 "[ReportDt] = @ReportDt, " +
                 "[Auditor1ID] = @Auditor1ID, [Auditor2ID] = @Auditor2ID, [SupervisorID] = @SupervisorID, [IsCompleted] = @IsCompleted, [AuditNumber] = @AuditNumber, " +
-                "[IASentNumber] = @IASentNumber, [UpdUserID] = @UpdUserID, [UpdDt] = getDate(), [RevNo] = RevNo+1, [UseUpdTrigger] = 1 " + 
+                "[IASentNumber] = @IASentNumber, [UpdUserID] = @UpdUserID, [UpdDt] = getDate(), [RevNo] = RevNo+1, [UseUpdTrigger] = 1, [AuditRatingId]= @AuditRatingId " +
                 "WHERE id=@id";
             try
             {
                 sqlConn.Open();
-                
+
                 SqlCommand cmd = new SqlCommand(InsSt, sqlConn);
 
                 cmd.Parameters.AddWithValue("@passPhrase", SqlDBInfo.passPhrase);
@@ -367,6 +390,14 @@ namespace IAFollowUp
                 else
                 {
                     cmd.Parameters.AddWithValue("@SupervisorID", audit.SupervisorID);
+                }
+                if (audit.AuditRatingId == null)
+                {
+                    cmd.Parameters.AddWithValue("@AuditRatingId", DBNull.Value);
+                }
+                else
+                {
+                    cmd.Parameters.AddWithValue("@AuditRatingID", audit.AuditRatingId);
                 }
 
                 cmd.Parameters.AddWithValue("@IsCompleted", audit.IsCompleted);
@@ -398,6 +429,11 @@ namespace IAFollowUp
             T ret = ((T)((ComboboxItem)cb.SelectedItem).Value);
 
             return ret;
+        }
+
+        private void btnEraseRating_Click(object sender, EventArgs e)
+        {
+            cbRating.SelectedIndex = -1;
         }
     }
 

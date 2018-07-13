@@ -52,6 +52,9 @@
             this.btnEraseAuditor2 = new System.Windows.Forms.Button();
             this.btnEraseSupervisor = new System.Windows.Forms.Button();
             this.btnSave = new System.Windows.Forms.Button();
+            this.cbRating = new System.Windows.Forms.ComboBox();
+            this.lblRating = new System.Windows.Forms.Label();
+            this.btnEraseRating = new System.Windows.Forms.Button();
             this.SuspendLayout();
             // 
             // dtpYear
@@ -292,12 +295,46 @@
             this.btnSave.UseVisualStyleBackColor = true;
             this.btnSave.Click += new System.EventHandler(this.btnSave_Click);
             // 
+            // cbRating
+            // 
+            this.cbRating.DropDownStyle = System.Windows.Forms.ComboBoxStyle.DropDownList;
+            this.cbRating.Font = new System.Drawing.Font("Microsoft Sans Serif", 9.75F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(161)));
+            this.cbRating.FormattingEnabled = true;
+            this.cbRating.Location = new System.Drawing.Point(529, 341);
+            this.cbRating.Name = "cbRating";
+            this.cbRating.Size = new System.Drawing.Size(184, 24);
+            this.cbRating.TabIndex = 23;
+            // 
+            // lblRating
+            // 
+            this.lblRating.AutoSize = true;
+            this.lblRating.Font = new System.Drawing.Font("Microsoft Sans Serif", 9.75F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(161)));
+            this.lblRating.Location = new System.Drawing.Point(428, 344);
+            this.lblRating.Name = "lblRating";
+            this.lblRating.Size = new System.Drawing.Size(80, 16);
+            this.lblRating.TabIndex = 24;
+            this.lblRating.Text = "Audit Rating";
+            // 
+            // btnEraseRating
+            // 
+            this.btnEraseRating.Font = new System.Drawing.Font("Microsoft Sans Serif", 9.75F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(161)));
+            this.btnEraseRating.Location = new System.Drawing.Point(735, 341);
+            this.btnEraseRating.Name = "btnEraseRating";
+            this.btnEraseRating.Size = new System.Drawing.Size(59, 23);
+            this.btnEraseRating.TabIndex = 25;
+            this.btnEraseRating.Text = "Clear";
+            this.btnEraseRating.UseVisualStyleBackColor = true;
+            this.btnEraseRating.Click += new System.EventHandler(this.btnEraseRating_Click);
+            // 
             // InsertNewAudit
             // 
             this.AcceptButton = this.btnSave;
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
             this.ClientSize = new System.Drawing.Size(823, 508);
+            this.Controls.Add(this.btnEraseRating);
+            this.Controls.Add(this.cbRating);
+            this.Controls.Add(this.lblRating);
             this.Controls.Add(this.btnSave);
             this.Controls.Add(this.btnEraseSupervisor);
             this.Controls.Add(this.btnEraseAuditor2);
@@ -354,5 +391,8 @@
         private System.Windows.Forms.ComboBox cbAuditor1;
         private System.Windows.Forms.ComboBox cbAuditor2;
         private System.Windows.Forms.ComboBox cbSupervisor;
+        private System.Windows.Forms.ComboBox cbRating;
+        private System.Windows.Forms.Label lblRating;
+        private System.Windows.Forms.Button btnEraseRating;
     }
 }

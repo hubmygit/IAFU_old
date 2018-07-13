@@ -108,7 +108,7 @@ namespace IAFollowUp
                               "[ReportDt], " +
                               "[Auditor1Id], [Auditor2Id], [SupervisorId], " +
                               "[IsCompleted], [AuditNumber], [IASentNumber], [RevNo], " +
-                              "(SELECT count(*) FROM [dbo].[Audit_Attachments] T WHERE a.id = T.AuditID and A.RevNo = T.RevNo) as AttCnt " +
+                              "(SELECT count(*) FROM [dbo].[Audit_Attachments] T WHERE a.id = T.AuditID and A.RevNo = T.RevNo) as AttCnt, [AuditRatingId] " +
                               "FROM [dbo].[Audit] A " +
                               "ORDER BY Id "; //ToDo
             SqlCommand cmd = new SqlCommand(SelectSt, sqlConn);
@@ -120,6 +120,10 @@ namespace IAFollowUp
                 while (reader.Read())
                 {
                     int? Auditor2_Id, Supervisor_Id;
+                    int? AuditRating_Id;
+
+                    AuditRating AuditRating_rating;
+
                     Users Auditor2_User, Supervisor_User;
                     if (reader["Auditor2Id"] == System.DBNull.Value)
                     {
@@ -141,7 +145,16 @@ namespace IAFollowUp
                         Supervisor_Id = Convert.ToInt32(reader["SupervisorId"].ToString());
                         Supervisor_User = new Users(Convert.ToInt32(reader["SupervisorId"].ToString()));
                     }
-
+                    if ( reader["AuditRatingId"] == System.DBNull.Value)
+                    {
+                        AuditRating_Id = null;
+                        AuditRating_rating = new AuditRating();
+                    }
+                    else
+                    {
+                        AuditRating_Id = Convert.ToInt32(reader["AuditRatingId"].ToString());
+                        AuditRating_rating = new AuditRating(Convert.ToInt32(reader["AuditRatingId"].ToString()));
+                    }
                     ret.Add(new Audit()
                     {
                         Id = Convert.ToInt32(reader["Id"].ToString()),
@@ -165,7 +178,10 @@ namespace IAFollowUp
                         AuditNumber = reader["AuditNumber"].ToString(),
                         IASentNumber = reader["IASentNumber"].ToString(),
                         RevNo = Convert.ToInt32(reader["RevNo"].ToString()),
-                        AttCnt = Convert.ToInt32(reader["AttCnt"].ToString())
+                        AttCnt = Convert.ToInt32(reader["AttCnt"].ToString()),
+
+                        AuditRatingId = AuditRating_Id,
+                        AuditRating = AuditRating_rating
                     });
                 }
                 reader.Close();
@@ -201,6 +217,7 @@ namespace IAFollowUp
                 dgvDictList.Add(new dgvDictionary() { dbfield = thisRecord.IASentNumber, dgvColumnHeader = "IASentNumber" });
                 dgvDictList.Add(new dgvDictionary() { dbfield = thisRecord.RevNo, dgvColumnHeader = "RevNo" });
                 dgvDictList.Add(new dgvDictionary() { dbfield = thisRecord.AttCnt, dgvColumnHeader = "AttCnt" });
+                dgvDictList.Add(new dgvDictionary() { dbfield = thisRecord.AuditRating.Name, dgvColumnHeader = "Rating" });
 
                 string aaaa = thisRecord.Year.ToString() + "." + thisRecord.Company.NameShort + "." + thisRecord.AuditNumber + "." + thisRecord.AuditType.NameShort + "-" + thisRecord.IASentNumber;
 
@@ -239,6 +256,7 @@ namespace IAFollowUp
             dgvDictList.Add(new dgvDictionary() { dbfield = givenAudit.IASentNumber, dgvColumnHeader = "IASentNumber" });
             dgvDictList.Add(new dgvDictionary() { dbfield = givenAudit.RevNo, dgvColumnHeader = "RevNo" });
             dgvDictList.Add(new dgvDictionary() { dbfield = givenAudit.AttCnt, dgvColumnHeader = "AttCnt" });
+            dgvDictList.Add(new dgvDictionary() { dbfield = givenAudit.AuditRating.Name, dgvColumnHeader = "Rating" });
 
             object[] obj = new object[dgv.Columns.Count];
 
@@ -274,6 +292,7 @@ namespace IAFollowUp
             dgvDictList.Add(new dgvDictionary() { dbfield = Audit.IASentNumber, dgvColumnHeader = "IASentNumber" });
             dgvDictList.Add(new dgvDictionary() { dbfield = Audit.RevNo, dgvColumnHeader = "RevNo" });
             dgvDictList.Add(new dgvDictionary() { dbfield = Audit.AttCnt, dgvColumnHeader = "AttCnt" });
+            dgvDictList.Add(new dgvDictionary() { dbfield = Audit.AuditRating.Name, dgvColumnHeader = "Rating" });
 
             string aaaa = Audit.Year.ToString() + "." + Audit.Company.NameShort + "." + Audit.AuditNumber + "." + Audit.AuditType.NameShort + "-" + Audit.IASentNumber;
 
@@ -543,6 +562,86 @@ namespace IAFollowUp
 
     }
 
+    public class AuditRating
+    {
+        public int Id { get; set; }
+        public string Name { get; set; }
+        public AuditRating()
+        { }
+
+        public static bool isEqual(AuditRating x, AuditRating y)
+        {
+            if (x.Id == y.Id && x.Name == y.Name)
+                return true;
+            else
+                return false;
+        }
+
+        public static List<ComboboxItem> GetAuditRatingComboboxItemsList(List<AuditRating> rating)
+        {
+            List<ComboboxItem> ret = new List<ComboboxItem>();
+
+            foreach (AuditRating c in rating)
+            {
+                ret.Add(new ComboboxItem() { Value = c, Text = c.Name });
+            }
+
+            return ret;
+        }
+
+        public AuditRating(int givenId)
+        {
+            SqlConnection sqlConn = new SqlConnection(SqlDBInfo.connectionString);
+            string SelectSt = "SELECT [id], [Name] " +
+                              "FROM [dbo].[AuditRating] " +
+                              "WHERE Id = " + givenId.ToString();
+            SqlCommand cmd = new SqlCommand(SelectSt, sqlConn);
+            try
+            {
+                sqlConn.Open();
+                SqlDataReader reader = cmd.ExecuteReader();
+                while (reader.Read())
+                {
+                    Id = Convert.ToInt32(reader["Id"].ToString());
+                    Name = reader["Name"].ToString();
+                }
+                reader.Close();
+                sqlConn.Close();
+            }
+            catch (Exception ex)
+            {
+                MessageBox.Show("The following error occurred: " + ex.Message);
+            }
+        }
+
+        public static List<AuditRating> GetSqlAuditRatingList()
+        {
+            List<AuditRating> ret = new List<AuditRating>();
+
+            SqlConnection sqlConn = new SqlConnection(SqlDBInfo.connectionString);
+            string SelectSt = "SELECT [Id], [Name] "+
+                              "FROM [dbo].[AuditRating] ";
+            SqlCommand cmd = new SqlCommand(SelectSt, sqlConn);
+            try
+            {
+                sqlConn.Open();
+                SqlDataReader reader = cmd.ExecuteReader();
+                while (reader.Read())
+                {
+                    ret.Add(new AuditRating() { Id = Convert.ToInt32(reader["Id"].ToString()), Name = reader["Name"].ToString() });
+                }
+                reader.Close();
+                sqlConn.Close();
+            }
+            catch (Exception ex)
+            {
+                MessageBox.Show("The following error occurred: " + ex.Message);
+            }
+
+            return ret;
+        }
+    }
+
     public class Audit
     {
         public int Id { get; set; }
@@ -565,18 +664,19 @@ namespace IAFollowUp
         public int RevNo { get; set; }
         public int AttCnt { get; set; }
 
+        public int? AuditRatingId { get; set; }
+        public AuditRating AuditRating { get; set; }
+
         public static bool isEqual(Audit x, Audit y)
         {
             if (x.Id == y.Id && x.Year == y.Year && x.CompanyId == y.CompanyId && Companies.isEqual( x.Company , y.Company) && x.AuditTypeId == y.AuditTypeId && AuditTypes.isEqual( x.AuditType , y.AuditType) &&
                 x.Title == y.Title && x.ReportDt == y.ReportDt && x.Auditor1ID == y.Auditor1ID && Users.isEqual( x.Auditor1 , y.Auditor1) && x.Auditor2ID == y.Auditor2ID && Users.isEqual(x.Auditor2, y.Auditor2) &&
-                x.SupervisorID == y.SupervisorID && Users.isEqual(x.Supervisor, y.Supervisor) && x.IsCompleted == y.IsCompleted && x.AuditNumber == y.AuditNumber && x.IASentNumber == y.IASentNumber && x.RevNo == y.RevNo)
+                x.SupervisorID == y.SupervisorID && Users.isEqual(x.Supervisor, y.Supervisor) && x.IsCompleted == y.IsCompleted && x.AuditNumber == y.AuditNumber && x.IASentNumber == y.IASentNumber && x.RevNo == y.RevNo &&
+                x.AuditRatingId == y.AuditRatingId && AuditRating.isEqual( x.AuditRating, y.AuditRating))
                 return true;
             else
                 return false;
         }
-
-
-
 
     }
 
@@ -610,18 +710,8 @@ namespace IAFollowUp
         public DateTime UpdDt { get; set; }
         public int AttCnt { get; set; }
 
-        //public override bool Equals(object obj)
-        //{
-        //    if (obj == null || GetType() != obj.GetType())
-        //        return false;
-
-        //    return base.Equals(obj);
-        //}
-
-        //public override int GetHashCode()
-        //{
-        //    return this.GetHashCode();
-        //}
+        public int? AuditRatingId { get; set; }
+        public AuditRating AuditRating { get; set; }
     }
 
     public class Companies

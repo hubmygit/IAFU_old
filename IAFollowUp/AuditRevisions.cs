@@ -65,7 +65,7 @@ namespace IAFollowUp
                               "[ReportDt], " +
                               "[Auditor1Id], [Auditor2Id], [SupervisorId], " +
                               "[IsCompleted], [AuditNumber], [IASentNumber],[InsUserId],[UpdUserId],[InsDt], [UpdDt], [RevNo], " +
-                              "(SELECT count(*) FROM [dbo].[Audit_Attachments] T WHERE a.id = T.AuditID and A.RevNo = T.RevNo) as AttCnt " +
+                              "(SELECT count(*) FROM [dbo].[Audit_Attachments] T WHERE a.id = T.AuditID and A.RevNo = T.RevNo) as AttCnt, [AuditRatingId]" +
                               "FROM [dbo].[Audit] A " +
                               "WHERE Id = " + Id.ToString() + 
 
@@ -76,7 +76,7 @@ namespace IAFollowUp
                               "R.[ReportDt], " +
                               "R.[Auditor1Id], R.[Auditor2Id], R.[SupervisorId], " +
                               "R.[IsCompleted], R.[AuditNumber], R.[IASentNumber], R.[InsUserId], R.[UpdUserId], R.[InsDt], R.[UpdDt], R.[RevNo], " +
-                              "(SELECT count(*) FROM [dbo].[Audit_Attachments] T WHERE R.AuditId = T.AuditID and R.RevNo = T.RevNo) as AttCnt " +
+                              "(SELECT count(*) FROM [dbo].[Audit_Attachments] T WHERE R.AuditId = T.AuditID and R.RevNo = T.RevNo) as AttCnt,R.[AuditRatingId] " +
                               "FROM [dbo].[AuditRev] R " +
                               "WHERE R.AuditId = " + Id.ToString() +
                               
@@ -90,6 +90,9 @@ namespace IAFollowUp
                 while (reader.Read())
                 {
                     int? Auditor2_Id, Supervisor_Id;
+                    int? AuditRating_Id;
+                    AuditRating AuditRating_rating;
+
                     Users Auditor2_User, Supervisor_User;
                     if (reader["Auditor2Id"] == System.DBNull.Value)
                     {
@@ -110,6 +113,16 @@ namespace IAFollowUp
                     {
                         Supervisor_Id = Convert.ToInt32(reader["SupervisorId"].ToString());
                         Supervisor_User = new Users(Convert.ToInt32(reader["SupervisorId"].ToString()));
+                    }
+                    if (reader["AuditRatingId"]==System.DBNull.Value)
+                    {
+                        AuditRating_Id = null;
+                        AuditRating_rating = new AuditRating();
+                    }
+                    else
+                    {
+                        AuditRating_Id = Convert.ToInt32(reader["AuditRatingId"].ToString());
+                        AuditRating_rating = new AuditRating(Convert.ToInt32(reader["AuditRatingId"].ToString()));
                     }
                     //if (reader["UpdUserId"] == System.DBNull.Value)
                     //{
@@ -162,7 +175,10 @@ namespace IAFollowUp
                         //UpdDt = UpdateDt,
 
                         RevNo = Convert.ToInt32(reader["RevNo"].ToString()),
-                        AttCnt = Convert.ToInt32(reader["AttCnt"].ToString())
+                        AttCnt = Convert.ToInt32(reader["AttCnt"].ToString()),
+
+                        AuditRatingId = AuditRating_Id,
+                        AuditRating = AuditRating_rating
                     });
                 }
                 reader.Close();
@@ -216,6 +232,7 @@ namespace IAFollowUp
                 dgvDictList.Add(new dgvDictionary() { dbfield = thisRecord.IASentNumber, dgvColumnHeader = "IASentNumber" });
                 dgvDictList.Add(new dgvDictionary() { dbfield = thisRecord.RevNo, dgvColumnHeader = "RevNo" });
                 dgvDictList.Add(new dgvDictionary() { dbfield = thisRecord.AttCnt, dgvColumnHeader = "AttCnt" });
+                dgvDictList.Add(new dgvDictionary() { dbfield = thisRecord.AuditRating.Name, dgvColumnHeader = "AuditRating" });
 
 
                 string aaaa = thisRecord.Year.ToString() + "." + thisRecord.Company.NameShort + "." + thisRecord.AuditNumber + "." + thisRecord.AuditType.NameShort + "-" + thisRecord.IASentNumber;

@@ -73,6 +73,8 @@ namespace IAFollowUp
             txtSupervisor.Text = selectedAudit.Supervisor.FullName;
             txtAuditType.Text = selectedAudit.AuditType.Name;
             txtIASentNumber.Text = selectedAudit.IASentNumber;
+            txtRating.Text = selectedAudit.AuditRating.Name;
+            
 
         }
 
@@ -210,5 +212,6 @@ namespace IAFollowUp
 
 
         }
+
     }
 }
