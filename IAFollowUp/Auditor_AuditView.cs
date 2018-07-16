@@ -841,16 +841,10 @@ namespace IAFollowUp
         public int FIHeaderId { get; set; }
         public DateTime ActionDt { get; set; }
         public string ActionReq { get; set; }
-
-
-        public string ActionCode { get; set; }
-        public int Owner1Id { get; set; }
-        public Users Owner1 { get; set; }
-        public int Owner2Id { get; set; }
-        public Users Owner2 { get; set; }
-        public int Owner3Id { get; set; }
-        public Users Owner3 { get; set; }
         
+        public string ActionCode { get; set; }
+        public List<Users> Owners { get; set; }
+        public int OwnersCnt { get; set; }
 
         public int InsUserId { get; set; }
         public Users InsUser { get; set; }
@@ -869,7 +863,8 @@ namespace IAFollowUp
         }
         public static bool isEqual(FIDetail x, FIDetail y)
         {
-            if (x.Id == y.Id && x.FIHeaderId == y.FIHeaderId && x.Description == y.Description && x.ActionReq == y.ActionReq && x.ActionDt == y.ActionDt && x.RevNo == y.RevNo)
+            if (x.Id == y.Id && x.FIHeaderId == y.FIHeaderId && x.Description == y.Description && x.ActionReq == y.ActionReq && x.ActionDt == y.ActionDt && x.RevNo == y.RevNo && 
+                x.ActionCode == y.ActionCode && x.Owners == y.Owners)
                 return true;
             else
                 return false;
@@ -884,6 +879,10 @@ namespace IAFollowUp
         public int FIHeaderId { get; set; }
         public DateTime ActionDt { get; set; }
         public string ActionReq { get; set; }
+
+        public string ActionCode { get; set; }
+        public List<Users> Owners { get; set; }
+        public int OwnersCnt { get; set; }
 
         public int InsUserId { get; set; }
         public Users InsUser { get; set; }

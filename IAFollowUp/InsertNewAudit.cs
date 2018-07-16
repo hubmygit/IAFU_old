@@ -45,7 +45,7 @@ namespace IAFollowUp
             {
                 cbAuditor2.SelectedIndex = cbAuditor2.FindStringExact(audit.Auditor2.FullName);
             }
-            if (audit.Supervisor!= null)
+            if (audit.Supervisor != null)
             {
                 cbSupervisor.SelectedIndex = cbSupervisor.FindStringExact(audit.Supervisor.FullName);
             }
@@ -170,6 +170,7 @@ namespace IAFollowUp
             {
                 newAuditRecord.Supervisor = new Users();
             }
+
             if(cbRating.SelectedIndex > -1)
             {
                 newAuditRecord.AuditRating = getComboboxItem<AuditRating>(cbRating);
@@ -391,6 +392,7 @@ namespace IAFollowUp
                 {
                     cmd.Parameters.AddWithValue("@SupervisorID", audit.SupervisorID);
                 }
+
                 if (audit.AuditRatingId == null)
                 {
                     cmd.Parameters.AddWithValue("@AuditRatingId", DBNull.Value);

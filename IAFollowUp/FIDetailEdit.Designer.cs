@@ -41,6 +41,8 @@
             this.lblActionReq = new System.Windows.Forms.Label();
             this.txtActionReq = new System.Windows.Forms.TextBox();
             this.btnSave = new System.Windows.Forms.Button();
+            this.lblActionCode = new System.Windows.Forms.Label();
+            this.txtActionCode = new System.Windows.Forms.TextBox();
             this.SuspendLayout();
             // 
             // txtHeaderTitle
@@ -98,7 +100,7 @@
             // txtDescription
             // 
             this.txtDescription.Font = new System.Drawing.Font("Microsoft Sans Serif", 12F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(161)));
-            this.txtDescription.Location = new System.Drawing.Point(229, 233);
+            this.txtDescription.Location = new System.Drawing.Point(226, 234);
             this.txtDescription.MaxLength = 500;
             this.txtDescription.Multiline = true;
             this.txtDescription.Name = "txtDescription";
@@ -122,7 +124,7 @@
             this.dtpActionDate.CustomFormat = "dd.MM.yyyy";
             this.dtpActionDate.Font = new System.Drawing.Font("Microsoft Sans Serif", 9.75F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(161)));
             this.dtpActionDate.Format = System.Windows.Forms.DateTimePickerFormat.Custom;
-            this.dtpActionDate.Location = new System.Drawing.Point(229, 443);
+            this.dtpActionDate.Location = new System.Drawing.Point(226, 442);
             this.dtpActionDate.Name = "dtpActionDate";
             this.dtpActionDate.Size = new System.Drawing.Size(184, 22);
             this.dtpActionDate.TabIndex = 3;
@@ -150,7 +152,7 @@
             // txtActionReq
             // 
             this.txtActionReq.Font = new System.Drawing.Font("Microsoft Sans Serif", 12F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(161)));
-            this.txtActionReq.Location = new System.Drawing.Point(229, 338);
+            this.txtActionReq.Location = new System.Drawing.Point(226, 337);
             this.txtActionReq.MaxLength = 500;
             this.txtActionReq.Multiline = true;
             this.txtActionReq.Name = "txtActionReq";
@@ -164,7 +166,7 @@
             this.btnSave.Font = new System.Drawing.Font("Microsoft Sans Serif", 12F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(161)));
             this.btnSave.Image = global::IAFollowUp.Properties.Resources.Save_32x;
             this.btnSave.ImageAlign = System.Drawing.ContentAlignment.MiddleLeft;
-            this.btnSave.Location = new System.Drawing.Point(729, 444);
+            this.btnSave.Location = new System.Drawing.Point(752, 508);
             this.btnSave.Name = "btnSave";
             this.btnSave.Size = new System.Drawing.Size(132, 60);
             this.btnSave.TabIndex = 4;
@@ -173,12 +175,33 @@
             this.btnSave.UseVisualStyleBackColor = true;
             this.btnSave.Click += new System.EventHandler(this.btnSave_Click);
             // 
+            // lblActionCode
+            // 
+            this.lblActionCode.AutoSize = true;
+            this.lblActionCode.Font = new System.Drawing.Font("Microsoft Sans Serif", 12F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(161)));
+            this.lblActionCode.Location = new System.Drawing.Point(112, 492);
+            this.lblActionCode.Name = "lblActionCode";
+            this.lblActionCode.Size = new System.Drawing.Size(96, 20);
+            this.lblActionCode.TabIndex = 55;
+            this.lblActionCode.Text = "Action Code";
+            // 
+            // txtActionCode
+            // 
+            this.txtActionCode.Font = new System.Drawing.Font("Microsoft Sans Serif", 9.75F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(161)));
+            this.txtActionCode.Location = new System.Drawing.Point(226, 492);
+            this.txtActionCode.MaxLength = 3;
+            this.txtActionCode.Name = "txtActionCode";
+            this.txtActionCode.Size = new System.Drawing.Size(184, 22);
+            this.txtActionCode.TabIndex = 56;
+            // 
             // FIDetailEdit
             // 
             this.AcceptButton = this.btnSave;
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
-            this.ClientSize = new System.Drawing.Size(896, 535);
+            this.ClientSize = new System.Drawing.Size(896, 580);
+            this.Controls.Add(this.txtActionCode);
+            this.Controls.Add(this.lblActionCode);
             this.Controls.Add(this.btnSave);
             this.Controls.Add(this.txtActionReq);
             this.Controls.Add(this.lblActionReq);
@@ -193,7 +216,7 @@
             this.Controls.Add(this.txtHeaderTitle);
             this.Icon = ((System.Drawing.Icon)(resources.GetObject("$this.Icon")));
             this.Name = "FIDetailEdit";
-            this.Text = "FIDetailEdit";
+            this.Text = "Findings and Improvements Detail Edit";
             this.ResumeLayout(false);
             this.PerformLayout();
 
@@ -213,5 +236,7 @@
         private System.Windows.Forms.Label lblActionReq;
         private System.Windows.Forms.TextBox txtActionReq;
         private System.Windows.Forms.Button btnSave;
+        private System.Windows.Forms.Label lblActionCode;
+        private System.Windows.Forms.TextBox txtActionCode;
     }
 }

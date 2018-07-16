@@ -71,8 +71,9 @@ namespace IAFollowUp
             string SelectSt = "SELECT 0 as [Id], [Id] as [FIDetailId], " +
                 "CONVERT(varchar(500), DECRYPTBYPASSPHRASE(@passPhrase, [Description])) as [Description], " +
                 "[FIHeaderId], [InsUserId], [InsDt], [UpdUserId], [UpdDt], [ActionDt], " +
-                "CONVERT(varchar(500), DECRYPTBYPASSPHRASE(@passPhrase , [ActionReq])) as [ActionReq], [RevNo], " +
-                "(SELECT count(*) FROM[dbo].[FIDetail_Attachments] T WHERE d.id = T.FIDetailID and d.RevNo = T.RevNo) as AttCnt " +
+                "CONVERT(varchar(500), DECRYPTBYPASSPHRASE(@passPhrase , [ActionReq])) as [ActionReq], [ActionCode], [RevNo], " +
+                "(SELECT count(*) FROM [dbo].[FIDetail_Attachments] T WHERE d.id = T.FIDetailID and d.RevNo = T.RevNo) as AttCnt, " +
+                "(SELECT count(*) FROM [dbo].[FIDetail_Owners] T WHERE d.id = T.FIDetailID and d.RevNo = T.RevNo) as OwnersCnt " +
                 "FROM [dbo].[FIDetail] d WHERE Id = " + Id.ToString() + 
 
                 " UNION ALL " +
@@ -80,8 +81,9 @@ namespace IAFollowUp
                 "SELECT [Id], [FIDetailId], " +
                 "CONVERT(varchar(500), DECRYPTBYPASSPHRASE(@passPhrase, [Description])) as [Description], " +
                 "[FIHeaderId], [InsUserId], [InsDt], [UpdUserId], [UpdDt], [ActionDt], " +
-                "CONVERT(varchar(500), DECRYPTBYPASSPHRASE(@passPhrase, [ActionReq])) as [ActionReq], [RevNo], " +
-	            "(SELECT count(*) FROM[dbo].[FIDetail_Attachments] T WHERE r.[FIDetailId] = T.FIDetailID and r.RevNo = T.RevNo) as AttCnt " +
+                "CONVERT(varchar(500), DECRYPTBYPASSPHRASE(@passPhrase, [ActionReq])) as [ActionReq], [ActionCode], [RevNo], " +
+	            "(SELECT count(*) FROM [dbo].[FIDetail_Attachments] T WHERE r.[FIDetailId] = T.FIDetailID and r.RevNo = T.RevNo) as AttCnt, " +
+                "(SELECT count(*) FROM [dbo].[FIDetail_Owners] T WHERE r.[FIDetailId] = T.FIDetailID and r.RevNo = T.RevNo) as OwnersCnt " +
                 "FROM [dbo].[FIDetailRev] r WHERE [FIDetailId] = " + Id.ToString() +
 
                 "ORDER BY RevNo DESC ";
@@ -113,6 +115,10 @@ namespace IAFollowUp
 
                         ActionDt = Convert.ToDateTime(reader["ActionDt"].ToString()),
                         ActionReq = reader["ActionReq"].ToString(),
+
+                        ActionCode = reader["ActionCode"].ToString(),
+                        OwnersCnt = Convert.ToInt32(reader["OwnersCnt"].ToString()),
+
                         RevNo = Convert.ToInt32(reader["RevNo"].ToString()),
 
                         AttCnt = Convert.ToInt32(reader["AttCnt"].ToString())
@@ -146,6 +152,8 @@ namespace IAFollowUp
                 dgvDictList.Add(new dgvDictionary() { dbfield = thisRecord.UpdDt.ToString("dd.MM.yyyy HH:mm:ss"), dgvColumnHeader = "DetailUpdDate" });
                 dgvDictList.Add(new dgvDictionary() { dbfield = thisRecord.RevNo, dgvColumnHeader = "DetailRevNo" });
                 dgvDictList.Add(new dgvDictionary() { dbfield = thisRecord.AttCnt, dgvColumnHeader = "AttCnt" });
+                dgvDictList.Add(new dgvDictionary() { dbfield = thisRecord.ActionCode, dgvColumnHeader = "DetailActionCode" });
+                dgvDictList.Add(new dgvDictionary() { dbfield = thisRecord.OwnersCnt, dgvColumnHeader = "OwnersCnt" });
 
                 object[] obj = new object[dgv.Columns.Count];
 

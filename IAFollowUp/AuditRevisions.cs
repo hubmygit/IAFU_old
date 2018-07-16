@@ -76,7 +76,7 @@ namespace IAFollowUp
                               "R.[ReportDt], " +
                               "R.[Auditor1Id], R.[Auditor2Id], R.[SupervisorId], " +
                               "R.[IsCompleted], R.[AuditNumber], R.[IASentNumber], R.[InsUserId], R.[UpdUserId], R.[InsDt], R.[UpdDt], R.[RevNo], " +
-                              "(SELECT count(*) FROM [dbo].[Audit_Attachments] T WHERE R.AuditId = T.AuditID and R.RevNo = T.RevNo) as AttCnt,R.[AuditRatingId] " +
+                              "(SELECT count(*) FROM [dbo].[Audit_Attachments] T WHERE R.AuditId = T.AuditID and R.RevNo = T.RevNo) as AttCnt, R.[AuditRatingId] " +
                               "FROM [dbo].[AuditRev] R " +
                               "WHERE R.AuditId = " + Id.ToString() +
                               

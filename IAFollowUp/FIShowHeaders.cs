@@ -75,9 +75,10 @@ namespace IAFollowUp
 
             SqlConnection sqlConn = new SqlConnection(SqlDBInfo.connectionString);
             string SelectSt = "SELECT [Id], CONVERT(varchar(500), DECRYPTBYPASSPHRASE( @passPhrase , [Description])) as Description, " +
-                              "CONVERT(varchar(500), DECRYPTBYPASSPHRASE( @passPhrase , [ActionReq])) as ActionReq, [ActionDt], [RevNo], " +
+                              "CONVERT(varchar(500), DECRYPTBYPASSPHRASE( @passPhrase , [ActionReq])) as ActionReq, [ActionDt], [ActionCode], [RevNo], " +
                               "[FIHeaderId],[InsUserId],[InsDt], [UpdUserId], [UpdDt], " +
-                              "(SELECT count(*) FROM [dbo].[FIDetail_Attachments] T WHERE a.id = T.FIDetailID and A.RevNo = T.RevNo) as AttCnt " +
+                              "(SELECT count(*) FROM [dbo].[FIDetail_Attachments] T WHERE a.id = T.FIDetailID and A.RevNo = T.RevNo) as AttCnt, " +
+                              "(SELECT count(*) FROM [dbo].[FIDetail_Owners] T WHERE a.id = T.FIDetailID and A.RevNo = T.RevNo) as OwnersCnt " +
                               "FROM [dbo].[FIDetail] a " +
                               "WHERE [FIHeaderId] = @HeaderId " +
                               "ORDER BY [InsDt] ";
@@ -104,8 +105,10 @@ namespace IAFollowUp
                         ActionDt = Convert.ToDateTime(reader["ActionDt"].ToString()),
                         Description = reader["Description"].ToString(),
                         ActionReq = reader["ActionReq"].ToString(),
+                        ActionCode = reader["ActionCode"].ToString(),
                         RevNo = Convert.ToInt32(reader["RevNo"].ToString()),
-                        AttCnt = Convert.ToInt32(reader["AttCnt"].ToString())
+                        AttCnt = Convert.ToInt32(reader["AttCnt"].ToString()),
+                        OwnersCnt = Convert.ToInt32(reader["OwnersCnt"].ToString())
                     });
                 }
                 reader.Close();
@@ -135,6 +138,8 @@ namespace IAFollowUp
                 dgvDictList.Add(new dgvDictionary() { dbfield = thisRecord.UpdDt.ToString("dd.MM.yyyy HH:mm:ss"), dgvColumnHeader = "DetailUpdDate" });
                 dgvDictList.Add(new dgvDictionary() { dbfield = thisRecord.RevNo, dgvColumnHeader = "DetailRevNo" });
                 dgvDictList.Add(new dgvDictionary() { dbfield = thisRecord.AttCnt, dgvColumnHeader = "AttCnt" });
+                dgvDictList.Add(new dgvDictionary() { dbfield = thisRecord.ActionCode, dgvColumnHeader = "DetailActionCode" });
+                dgvDictList.Add(new dgvDictionary() { dbfield = thisRecord.OwnersCnt, dgvColumnHeader = "DetailOwnersCnt" });
 
                 object[] obj = new object[dgv.Columns.Count];
 
@@ -163,6 +168,8 @@ namespace IAFollowUp
                 dgvDictList.Add(new dgvDictionary() { dbfield = Detail.UpdDt.ToString("dd.MM.yyyy HH:mm:ss"), dgvColumnHeader = "DetailUpdDate" });
                 dgvDictList.Add(new dgvDictionary() { dbfield = Detail.RevNo, dgvColumnHeader = "DetailRevNo" });
                 dgvDictList.Add(new dgvDictionary() { dbfield = Detail.AttCnt, dgvColumnHeader = "AttCnt" });
+                dgvDictList.Add(new dgvDictionary() { dbfield = Detail.ActionCode, dgvColumnHeader = "DetailActionCode" });
+                dgvDictList.Add(new dgvDictionary() { dbfield = Detail.OwnersCnt, dgvColumnHeader = "DetailOwnersCnt" });
 
             object[] obj = new object[dgv.Columns.Count];
 
@@ -474,7 +481,7 @@ namespace IAFollowUp
         {
             if (dgvDetails.SelectedRows.Count > 0)
             {
-                int detailId = Convert.ToInt32(dgvDetails.SelectedRows[0].Cells["DetailDetailRevId"].Value.ToString());
+                int detailId = Convert.ToInt32(dgvDetails.SelectedRows[0].Cells["DetailId"].Value.ToString());
                 int revNo = Convert.ToInt32(dgvDetails.SelectedRows[0].Cells["DetailRevNo"].Value.ToString());
 
                 Attachments attachedFiles = new Attachments(detailId, revNo, AttachmentsTableName.FIDetail_Attachments);

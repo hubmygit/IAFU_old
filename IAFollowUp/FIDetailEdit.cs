@@ -35,6 +35,7 @@ namespace IAFollowUp
 
             txtDescription.Text = fIDetail.Description;
             txtActionReq.Text = fIDetail.ActionReq;
+            txtActionCode.Text = fIDetail.ActionCode;
             dtpActionDate.Value = fIDetail.ActionDt;
 
             oldFIDetailRecord = fIDetail;
@@ -58,9 +59,9 @@ namespace IAFollowUp
             bool ret = false;
 
             SqlConnection sqlConn = new SqlConnection(SqlDBInfo.connectionString);
-            string InsSt = "INSERT INTO [dbo].[FIDetail] ([FIHeaderId],[Description],[ActionReq],[ActionDt],[InsUserId], [InsDt],[UpdUserId], [UpdDt], [RevNo]) VALUES " +
+            string InsSt = "INSERT INTO [dbo].[FIDetail] ([FIHeaderId],[Description],[ActionReq], [ActionDt], [ActionCode], [InsUserId], [InsDt],[UpdUserId], [UpdDt], [RevNo]) VALUES " +
                            "(@HeaderId,encryptByPassPhrase(@passPhrase, convert(varchar(500), @Description)), encryptByPassPhrase(@passPhrase, convert(varchar(500), @ActionReq))," +
-                           "@ActionDt, @InsUserId, getDate(), @InsUserId, getDate(), 1 ) ";
+                           "@ActionDt, @ActionCode, @InsUserId, getDate(), @InsUserId, getDate(), 1 ) ";
             try
             {
                 sqlConn.Open();
@@ -72,6 +73,7 @@ namespace IAFollowUp
                 cmd.Parameters.AddWithValue("@Description", fiDetail.Description);
                 cmd.Parameters.AddWithValue("@ActionReq", fiDetail.ActionReq);
                 cmd.Parameters.AddWithValue("@ActionDt", fiDetail.ActionDt);
+                cmd.Parameters.AddWithValue("@ActionCode", fiDetail.ActionCode);
                 cmd.Parameters.AddWithValue("@InsUserId", UserInfo.userDetails.Id);
 
                 cmd.CommandType = CommandType.Text;
@@ -97,9 +99,9 @@ namespace IAFollowUp
 
             SqlConnection sqlConn = new SqlConnection(SqlDBInfo.connectionString);
             string InsSt = "UPDATE [dbo].[FIDetail] SET [Description] = encryptByPassPhrase(@passPhrase, convert(varchar(500), @Description)), " +
-                          "[ActionReq] = encryptByPassPhrase(@passPhrase, convert(varchar(500), @ActionReq)), [ActionDt] = @ActionDt, " + 
-                          "[UpdUserId] = @UpdUserId, [UpdDt] = getDate(), [RevNo] = RevNo+1, [UseUpdTrigger] = 1" +
-                "WHERE id=@id";
+                          "[ActionReq] = encryptByPassPhrase(@passPhrase, convert(varchar(500), @ActionReq)), [ActionDt] = @ActionDt, [ActionCode] = @ActionCode, " + 
+                          "[UpdUserId] = @UpdUserId, [UpdDt] = getDate(), [RevNo] = RevNo+1, [UseUpdTrigger] = 1 " +
+                          "WHERE id=@id";
             try
             {
                 sqlConn.Open();
@@ -112,6 +114,7 @@ namespace IAFollowUp
                 cmd.Parameters.AddWithValue("@ActionDt", detail.ActionDt);
                 cmd.Parameters.AddWithValue("@Description", detail.Description);
                 cmd.Parameters.AddWithValue("@ActionReq", detail.ActionReq);
+                cmd.Parameters.AddWithValue("@ActionCode", detail.ActionCode);
                 cmd.Parameters.AddWithValue("@UpdUserId", UserInfo.userDetails.Id);
 
                 cmd.CommandType = CommandType.Text;
@@ -189,6 +192,8 @@ namespace IAFollowUp
                 Description = txtDescription.Text,
                 ActionReq = txtActionReq.Text,
                 ActionDt = dtpActionDate.Value,
+                ActionCode = txtActionCode.Text,
+                OwnersCnt = oldFIDetailRecord.OwnersCnt,
                 RevNo = oldFIDetailRecord.RevNo,
                 FIHeaderId = currentHeader.Id,
                 AttCnt = oldFIDetailRecord.AttCnt
