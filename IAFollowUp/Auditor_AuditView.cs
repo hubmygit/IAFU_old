@@ -859,15 +859,47 @@ namespace IAFollowUp
         public int AttCnt { get; set; }
         public FIDetail()
         {
-
+            Owners = new List<Users>();
         }
         public static bool isEqual(FIDetail x, FIDetail y)
         {
             if (x.Id == y.Id && x.FIHeaderId == y.FIHeaderId && x.Description == y.Description && x.ActionReq == y.ActionReq && x.ActionDt == y.ActionDt && x.RevNo == y.RevNo && 
-                x.ActionCode == y.ActionCode && x.Owners == y.Owners)
+                x.ActionCode == y.ActionCode && Users.isListEqual(x.Owners, y.Owners))
                 return true;
             else
                 return false;
+        }
+
+        public List<Users> getOwners(int detail_Id, int detail_RevNo)
+        {
+            List<Users> ret = new List<Users>();
+
+            SqlConnection sqlConn = new SqlConnection(SqlDBInfo.connectionString);
+            string SelectSt = "SELECT [OwnerId] " +
+                              "FROM [dbo].[FIDetail_Owners] " +
+                              "WHERE FIDetailId = @detail_Id AND RevNo = @detail_RevNo ";
+            SqlCommand cmd = new SqlCommand(SelectSt, sqlConn);
+            try
+            {
+                sqlConn.Open();
+
+                cmd.Parameters.AddWithValue("@detail_Id", detail_Id);
+                cmd.Parameters.AddWithValue("@detail_RevNo", detail_RevNo);
+
+                SqlDataReader reader = cmd.ExecuteReader();
+                while (reader.Read())
+                {
+                    ret.Add(new Users(Convert.ToInt32(reader["OwnerId"].ToString())));
+                }
+                reader.Close();
+                sqlConn.Close();
+            }
+            catch (Exception ex)
+            {
+                MessageBox.Show("The following error occurred: " + ex.Message);
+            }
+
+            return ret;
         }
     }
 
@@ -1095,15 +1127,18 @@ namespace IAFollowUp
     {
         public int Id { get; set; }
         public string FullName { get; set; }
+
+        public string RoleName { get; set; }
+
         public Users()
         {
         }
         public Users(int givenId)
         {
             SqlConnection sqlConn = new SqlConnection(SqlDBInfo.connectionString);
-            string SelectSt = "SELECT [Id], CONVERT(varchar(500), DECRYPTBYPASSPHRASE( @passPhrase , [FullName])) as FullName " +
-                              "FROM [dbo].[Users] " +
-                              "WHERE Id = " + givenId.ToString();
+            string SelectSt = "SELECT U.[Id], CONVERT(varchar(500), DECRYPTBYPASSPHRASE( @passPhrase , U.[FullName])) as FullName, R.Name as RoleName " +
+                              "FROM [dbo].[Roles] R, [dbo].[Users] U  " +
+                              "WHERE R.Id = U.RolesId AND U.Id = " + givenId.ToString();
             SqlCommand cmd = new SqlCommand(SelectSt, sqlConn);
             try
             {
@@ -1116,6 +1151,7 @@ namespace IAFollowUp
                 {
                     Id = Convert.ToInt32(reader["Id"].ToString());
                     FullName = reader["FullName"].ToString();
+                    RoleName = reader["RoleName"].ToString();
                 }
                 reader.Close();
                 sqlConn.Close();
@@ -1132,6 +1168,26 @@ namespace IAFollowUp
                 return true;
             else
                 return false;
+        }
+
+        public static bool isListEqual(List<Users> x, List<Users> y)
+        {
+            if (x.Count == y.Count)// && x.Id == y.Id && x.FullName == y.FullName)
+            {
+                for(int i = 0; i< x.Count; i++)
+                {
+                    if (isEqual(x[i], y[i]) == false)
+                    {
+                        return false;
+                    }
+                }
+
+                return true;
+            }
+            else
+            {
+                return false;
+            }
         }
 
         public static List<Users> GetSqlUsersList()
@@ -1167,7 +1223,7 @@ namespace IAFollowUp
             List<Users> ret = new List<Users>();
 
             SqlConnection sqlConn = new SqlConnection(SqlDBInfo.connectionString);
-            string SelectSt = "SELECT U.[Id], CONVERT(varchar(500), DECRYPTBYPASSPHRASE( @passPhrase , U.[FullName])) as FullName " +
+            string SelectSt = "SELECT U.[Id], CONVERT(varchar(500), DECRYPTBYPASSPHRASE( @passPhrase , U.[FullName])) as FullName, R.Name as RoleName " +
                               "FROM [dbo].[Roles] R, [dbo].[Users] U " +
                               "WHERE R.Id = U.RolesId ";
 
@@ -1184,7 +1240,12 @@ namespace IAFollowUp
                 SqlDataReader reader = cmd.ExecuteReader();
                 while (reader.Read())
                 {
-                    ret.Add(new Users() { Id = Convert.ToInt32(reader["Id"].ToString()), FullName = reader["FullName"].ToString() });
+                    ret.Add(new Users()
+                    {
+                        Id = Convert.ToInt32(reader["Id"].ToString()),
+                        FullName = reader["FullName"].ToString(),
+                        RoleName = reader["RoleName"].ToString()
+                    });
                 }
                 reader.Close();
                 sqlConn.Close();

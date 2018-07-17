@@ -37,6 +37,8 @@ namespace IAFollowUp
             FIShowHeaders.FillHeadersDataGridView(dgvHeader, glHeader);
 
             FillDetailsDataGridViewRev(dgvDetails, DetailRevList);
+
+            toolStripCounter.Text = "Records: " + DetailRevList.Count.ToString();
         }
 
         private void dgvDetails_MouseDown(object sender, MouseEventArgs e)
@@ -206,6 +208,30 @@ namespace IAFollowUp
                                                      Convert.ToDateTime(e.CellValue2.ToString()).ToString("yyyyMMdd HHmmss"));
 
                 e.Handled = true;
+            }
+        }
+
+        private void ownersToolStripMenuItem_Click(object sender, EventArgs e)
+        {
+            if (dgvDetails.SelectedRows.Count > 0)
+            {
+                if (Convert.ToInt32(dgvDetails.SelectedRows[0].Cells["OwnersCnt"].Value.ToString()) > 0)
+                {
+                    int detailId = Convert.ToInt32(dgvDetails.SelectedRows[0].Cells["DetailDetailRevId"].Value.ToString());
+                    int revNo = Convert.ToInt32(dgvDetails.SelectedRows[0].Cells["DetailRevNo"].Value.ToString());
+
+                //    Attachments attachedFiles = new Attachments(detailId, revNo, AttachmentsTableName.FIDetail_Attachments);
+                //    attachedFiles.btnAddFiles.Enabled = false;
+                //    attachedFiles.btnRemoveAll.Enabled = false;
+                //    attachedFiles.btnRemoveFile.Enabled = false;
+                //    attachedFiles.btnSave.Enabled = false;
+
+                //    attachedFiles.ShowDialog();
+                }
+                else
+                {
+                    MessageBox.Show("No Owners found!"); //will never be here! 
+                }
             }
         }
     }

@@ -76,10 +76,14 @@
             this.HeaderCategory = new System.Windows.Forms.DataGridViewTextBoxColumn();
             this.HeaderUpdUser = new System.Windows.Forms.DataGridViewTextBoxColumn();
             this.HeaderUpdDt = new System.Windows.Forms.DataGridViewTextBoxColumn();
+            this.statusStrip1 = new System.Windows.Forms.StatusStrip();
+            this.toolStripCounter = new System.Windows.Forms.ToolStripStatusLabel();
+            this.ownersToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             ((System.ComponentModel.ISupportInitialize)(this.dgvAudits)).BeginInit();
             ((System.ComponentModel.ISupportInitialize)(this.dgvDetails)).BeginInit();
             this.cmsDetailRev.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)(this.dgvHeader)).BeginInit();
+            this.statusStrip1.SuspendLayout();
             this.SuspendLayout();
             // 
             // dgvAudits
@@ -248,7 +252,8 @@
             this.dgvDetails.AllowUserToAddRows = false;
             this.dgvDetails.AllowUserToDeleteRows = false;
             this.dgvDetails.AllowUserToOrderColumns = true;
-            this.dgvDetails.Anchor = ((System.Windows.Forms.AnchorStyles)(((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Left) 
+            this.dgvDetails.Anchor = ((System.Windows.Forms.AnchorStyles)((((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Bottom) 
+            | System.Windows.Forms.AnchorStyles.Left) 
             | System.Windows.Forms.AnchorStyles.Right)));
             this.dgvDetails.AutoSizeRowsMode = System.Windows.Forms.DataGridViewAutoSizeRowsMode.AllCellsExceptHeaders;
             dataGridViewCellStyle4.Alignment = System.Windows.Forms.DataGridViewContentAlignment.MiddleLeft;
@@ -274,7 +279,7 @@
             this.OwnersCnt});
             this.dgvDetails.ContextMenuStrip = this.cmsDetailRev;
             dataGridViewCellStyle5.Alignment = System.Windows.Forms.DataGridViewContentAlignment.MiddleLeft;
-            dataGridViewCellStyle5.BackColor = System.Drawing.SystemColors.Window;
+            dataGridViewCellStyle5.BackColor = System.Drawing.Color.LightSteelBlue;
             dataGridViewCellStyle5.Font = new System.Drawing.Font("Microsoft Sans Serif", 12F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(161)));
             dataGridViewCellStyle5.ForeColor = System.Drawing.SystemColors.ControlText;
             dataGridViewCellStyle5.SelectionBackColor = System.Drawing.SystemColors.Highlight;
@@ -295,7 +300,7 @@
             this.dgvDetails.RowHeadersDefaultCellStyle = dataGridViewCellStyle6;
             this.dgvDetails.RowHeadersWidth = 15;
             this.dgvDetails.SelectionMode = System.Windows.Forms.DataGridViewSelectionMode.FullRowSelect;
-            this.dgvDetails.Size = new System.Drawing.Size(1254, 365);
+            this.dgvDetails.Size = new System.Drawing.Size(1254, 339);
             this.dgvDetails.TabIndex = 54;
             this.dgvDetails.SortCompare += new System.Windows.Forms.DataGridViewSortCompareEventHandler(this.dgvDetails_SortCompare);
             this.dgvDetails.MouseDown += new System.Windows.Forms.MouseEventHandler(this.dgvDetails_MouseDown);
@@ -376,14 +381,15 @@
             // cmsDetailRev
             // 
             this.cmsDetailRev.Items.AddRange(new System.Windows.Forms.ToolStripItem[] {
-            this.MIattachments});
+            this.MIattachments,
+            this.ownersToolStripMenuItem});
             this.cmsDetailRev.Name = "cmsDetailRev";
-            this.cmsDetailRev.Size = new System.Drawing.Size(143, 26);
+            this.cmsDetailRev.Size = new System.Drawing.Size(181, 70);
             // 
             // MIattachments
             // 
             this.MIattachments.Name = "MIattachments";
-            this.MIattachments.Size = new System.Drawing.Size(142, 22);
+            this.MIattachments.Size = new System.Drawing.Size(180, 22);
             this.MIattachments.Text = "Attachments";
             this.MIattachments.Click += new System.EventHandler(this.MIattachments_Click);
             // 
@@ -481,11 +487,34 @@
             this.HeaderUpdDt.ReadOnly = true;
             this.HeaderUpdDt.Width = 150;
             // 
+            // statusStrip1
+            // 
+            this.statusStrip1.Items.AddRange(new System.Windows.Forms.ToolStripItem[] {
+            this.toolStripCounter});
+            this.statusStrip1.Location = new System.Drawing.Point(0, 558);
+            this.statusStrip1.Name = "statusStrip1";
+            this.statusStrip1.Size = new System.Drawing.Size(1258, 22);
+            this.statusStrip1.TabIndex = 58;
+            this.statusStrip1.Text = "statusStrip1";
+            // 
+            // toolStripCounter
+            // 
+            this.toolStripCounter.Name = "toolStripCounter";
+            this.toolStripCounter.Size = new System.Drawing.Size(0, 17);
+            // 
+            // ownersToolStripMenuItem
+            // 
+            this.ownersToolStripMenuItem.Name = "ownersToolStripMenuItem";
+            this.ownersToolStripMenuItem.Size = new System.Drawing.Size(180, 22);
+            this.ownersToolStripMenuItem.Text = "Owners";
+            this.ownersToolStripMenuItem.Click += new System.EventHandler(this.ownersToolStripMenuItem_Click);
+            // 
             // FIDetail_Revisions
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
             this.ClientSize = new System.Drawing.Size(1258, 580);
+            this.Controls.Add(this.statusStrip1);
             this.Controls.Add(this.dgvHeader);
             this.Controls.Add(this.lblFIDetailsRev);
             this.Controls.Add(this.dgvDetails);
@@ -501,6 +530,8 @@
             ((System.ComponentModel.ISupportInitialize)(this.dgvDetails)).EndInit();
             this.cmsDetailRev.ResumeLayout(false);
             ((System.ComponentModel.ISupportInitialize)(this.dgvHeader)).EndInit();
+            this.statusStrip1.ResumeLayout(false);
+            this.statusStrip1.PerformLayout();
             this.ResumeLayout(false);
             this.PerformLayout();
 
@@ -545,5 +576,8 @@
         private System.Windows.Forms.DataGridViewTextBoxColumn Supervisor;
         private System.Windows.Forms.DataGridViewTextBoxColumn Rating;
         private System.Windows.Forms.DataGridViewCheckBoxColumn IsCompleted;
+        private System.Windows.Forms.StatusStrip statusStrip1;
+        private System.Windows.Forms.ToolStripStatusLabel toolStripCounter;
+        private System.Windows.Forms.ToolStripMenuItem ownersToolStripMenuItem;
     }
 }
