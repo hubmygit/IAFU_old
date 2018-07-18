@@ -346,6 +346,15 @@ namespace IAFollowUp
 
             }
         }
+
+        private void MIdelete_Click(object sender, EventArgs e)
+        {
+            if (dgvAuditView.SelectedRows.Count > 0)
+            {
+                //delete Audit...
+            }
+        }
+
         private void MIshowFindings_Click(object sender, EventArgs e)
         {
             if (dgvAuditView.SelectedRows.Count > 0)
@@ -481,6 +490,7 @@ namespace IAFollowUp
                 if (Convert.ToBoolean(dgvAuditView.SelectedRows[0].Cells["IsCompleted"].Value) == true)
                 {
                     MIupdate.Enabled = false;
+                    MIdelete.Enabled = false;
                     MIfinalizeAudit.Enabled = false;
 
                     //if (auditList.Exists(i => i.Id == Convert.ToInt32(dgvAuditView.SelectedRows[0].Cells["Id"].Value) && i.HasFindings))
@@ -495,6 +505,7 @@ namespace IAFollowUp
                 else
                 {
                     MIupdate.Enabled = true;
+                    MIdelete.Enabled = true;
                     MIfinalizeAudit.Enabled = true;
                 }
             }
@@ -560,6 +571,7 @@ namespace IAFollowUp
             }
         }
 
+        
     }
 
     public class AuditRating
