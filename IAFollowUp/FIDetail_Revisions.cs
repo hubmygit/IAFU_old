@@ -220,13 +220,18 @@ namespace IAFollowUp
                     int detailId = Convert.ToInt32(dgvDetails.SelectedRows[0].Cells["DetailDetailRevId"].Value.ToString());
                     int revNo = Convert.ToInt32(dgvDetails.SelectedRows[0].Cells["DetailRevNo"].Value.ToString());
 
-                //    Attachments attachedFiles = new Attachments(detailId, revNo, AttachmentsTableName.FIDetail_Attachments);
-                //    attachedFiles.btnAddFiles.Enabled = false;
-                //    attachedFiles.btnRemoveAll.Enabled = false;
-                //    attachedFiles.btnRemoveFile.Enabled = false;
-                //    attachedFiles.btnSave.Enabled = false;
+                    FIDetailRev detRev = DetailRevList.Where(i => i.FIDetailId == detailId && i.RevNo == revNo).First();
+                    FIDetail det = new FIDetail(detRev);
+                    FIDetailEdit frmShowDetails = new FIDetailEdit(glHeader, det);
 
-                //    attachedFiles.ShowDialog();
+                    frmShowDetails.txtDescription.ReadOnly = true;
+                    frmShowDetails.txtActionReq.ReadOnly = true;
+                    frmShowDetails.txtActionCode.Enabled = false;
+                    frmShowDetails.dtpActionDate.Enabled = false;
+                    frmShowDetails.dgvOwners.Enabled = false;
+                    frmShowDetails.btnSave.Enabled = false;
+
+                    frmShowDetails.ShowDialog();
                 }
                 else
                 {

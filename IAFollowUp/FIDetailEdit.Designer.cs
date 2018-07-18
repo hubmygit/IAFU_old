@@ -47,10 +47,10 @@
             this.lblActionCode = new System.Windows.Forms.Label();
             this.txtActionCode = new System.Windows.Forms.TextBox();
             this.dgvOwners = new System.Windows.Forms.DataGridView();
-            this.lblOwners = new System.Windows.Forms.Label();
             this.Id = new System.Windows.Forms.DataGridViewTextBoxColumn();
             this.FullName = new System.Windows.Forms.DataGridViewComboBoxColumn();
             this.Role = new System.Windows.Forms.DataGridViewTextBoxColumn();
+            this.lblOwners = new System.Windows.Forms.Label();
             ((System.ComponentModel.ISupportInitialize)(this.dgvOwners)).BeginInit();
             this.SuspendLayout();
             // 
@@ -247,16 +247,6 @@
             this.dgvOwners.CellValueChanged += new System.Windows.Forms.DataGridViewCellEventHandler(this.dgvOwners_CellValueChanged);
             this.dgvOwners.CurrentCellDirtyStateChanged += new System.EventHandler(this.dgvOwners_CurrentCellDirtyStateChanged);
             // 
-            // lblOwners
-            // 
-            this.lblOwners.AutoSize = true;
-            this.lblOwners.Font = new System.Drawing.Font("Microsoft Sans Serif", 12F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(161)));
-            this.lblOwners.Location = new System.Drawing.Point(73, 504);
-            this.lblOwners.Name = "lblOwners";
-            this.lblOwners.Size = new System.Drawing.Size(63, 20);
-            this.lblOwners.TabIndex = 58;
-            this.lblOwners.Text = "Owners";
-            // 
             // Id
             // 
             this.Id.HeaderText = "Id";
@@ -278,6 +268,16 @@
             this.Role.Name = "Role";
             this.Role.ReadOnly = true;
             this.Role.Width = 190;
+            // 
+            // lblOwners
+            // 
+            this.lblOwners.AutoSize = true;
+            this.lblOwners.Font = new System.Drawing.Font("Microsoft Sans Serif", 12F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(161)));
+            this.lblOwners.Location = new System.Drawing.Point(73, 504);
+            this.lblOwners.Name = "lblOwners";
+            this.lblOwners.Size = new System.Drawing.Size(63, 20);
+            this.lblOwners.TabIndex = 58;
+            this.lblOwners.Text = "Owners";
             // 
             // FIDetailEdit
             // 
@@ -317,19 +317,19 @@
         private System.Windows.Forms.TextBox txtCategory;
         private System.Windows.Forms.Label lblCategory;
         private System.Windows.Forms.Label lblDetails;
-        private System.Windows.Forms.TextBox txtDescription;
         private System.Windows.Forms.Label lblDetailDescription;
-        private System.Windows.Forms.DateTimePicker dtpActionDate;
         private System.Windows.Forms.Label lblActionDate;
         private System.Windows.Forms.Label lblActionReq;
-        private System.Windows.Forms.TextBox txtActionReq;
-        private System.Windows.Forms.Button btnSave;
         private System.Windows.Forms.Label lblActionCode;
-        private System.Windows.Forms.TextBox txtActionCode;
         public System.Windows.Forms.DataGridView dgvOwners;
         private System.Windows.Forms.DataGridViewTextBoxColumn Id;
         private System.Windows.Forms.DataGridViewComboBoxColumn FullName;
         private System.Windows.Forms.DataGridViewTextBoxColumn Role;
         private System.Windows.Forms.Label lblOwners;
+        public System.Windows.Forms.TextBox txtDescription;
+        public System.Windows.Forms.DateTimePicker dtpActionDate;
+        public System.Windows.Forms.TextBox txtActionReq;
+        public System.Windows.Forms.Button btnSave;
+        public System.Windows.Forms.TextBox txtActionCode;
     }
 }

@@ -861,6 +861,29 @@ namespace IAFollowUp
         {
             Owners = new List<Users>();
         }
+
+        public FIDetail(FIDetailRev fiDetailRev)
+        {
+            //Id = fiDetailRev.Id;
+            Id = fiDetailRev.FIDetailId;
+            
+            Description = fiDetailRev.Description;
+            FIHeaderId = fiDetailRev.FIHeaderId;
+            ActionDt = fiDetailRev.ActionDt;
+            ActionReq = fiDetailRev.ActionReq;
+            ActionCode = fiDetailRev.ActionCode;
+            Owners = fiDetailRev.Owners;
+            OwnersCnt = fiDetailRev.OwnersCnt;
+            InsUserId = fiDetailRev.InsUserId;
+            InsUser = fiDetailRev.InsUser;
+            InsDt = fiDetailRev.InsDt;
+            UpdUserId = fiDetailRev.UpdUserId;
+            UpdUser = fiDetailRev.UpdUser;
+            UpdDt = fiDetailRev.UpdDt;
+            RevNo = fiDetailRev.RevNo;
+            AttCnt = fiDetailRev.AttCnt;
+        }
+
         public static bool isEqual(FIDetail x, FIDetail y)
         {
             if (x.Id == y.Id && x.FIHeaderId == y.FIHeaderId && x.Description == y.Description && x.ActionReq == y.ActionReq && x.ActionDt == y.ActionDt && x.RevNo == y.RevNo && 
@@ -929,7 +952,7 @@ namespace IAFollowUp
         public int AttCnt { get; set; }
         public FIDetailRev()
         {
-
+            Owners = new List<Users>();
         }
 
     }
