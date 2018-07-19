@@ -322,7 +322,7 @@ namespace IAFollowUp
 
             List<FIHeader> Audit_HeadersList = SelectHeaders(glAudit.Id);
 
-            if (glAudit.IsCompleted)
+            if (glAudit.IsCompleted || glAudit.IsDeleted)
             {
                 if (Audit_HeadersList.Count > 0)
                 {
@@ -448,7 +448,7 @@ namespace IAFollowUp
                 dgvHeaders.Rows[hti.RowIndex].Selected = true;
 
                 //if (Convert.ToBoolean(dgvAudits.SelectedRows[0].Cells["IsCompleted"].Value) == true)
-                if(glAudit.IsCompleted == true)
+                if(glAudit.IsCompleted == true || glAudit.IsDeleted == true)
                 {
                     MIeditHeader.Enabled = false;
                 }
@@ -486,7 +486,7 @@ namespace IAFollowUp
 
                 Attachments attachedFiles = new Attachments(detailId, revNo, AttachmentsTableName.FIDetail_Attachments);
 
-                if (glAudit.IsCompleted)
+                if (glAudit.IsCompleted || glAudit.IsDeleted)
                 {
                     attachedFiles.btnAddFiles.Enabled = false;
                     attachedFiles.btnRemoveAll.Enabled = false;
@@ -533,7 +533,7 @@ namespace IAFollowUp
                 }
                 dgvDetails.Rows[hti.RowIndex].Selected = true;
 
-                if (glAudit.IsCompleted == true)
+                if (glAudit.IsCompleted == true || glAudit.IsDeleted == true)
                 {
 
                     MIeditDetail.Enabled = false;

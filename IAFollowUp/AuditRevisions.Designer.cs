@@ -59,6 +59,7 @@
             this.Supervisor = new System.Windows.Forms.DataGridViewTextBoxColumn();
             this.AuditRating = new System.Windows.Forms.DataGridViewTextBoxColumn();
             this.IsCompleted = new System.Windows.Forms.DataGridViewCheckBoxColumn();
+            this.IsDeleted = new System.Windows.Forms.DataGridViewCheckBoxColumn();
             this.AttCnt = new System.Windows.Forms.DataGridViewTextBoxColumn();
             this.UpdUser = new System.Windows.Forms.DataGridViewTextBoxColumn();
             this.UpdDt = new System.Windows.Forms.DataGridViewTextBoxColumn();
@@ -101,6 +102,7 @@
             this.Supervisor,
             this.AuditRating,
             this.IsCompleted,
+            this.IsDeleted,
             this.AttCnt,
             this.UpdUser,
             this.UpdDt});
@@ -322,6 +324,12 @@
             this.IsCompleted.Resizable = System.Windows.Forms.DataGridViewTriState.True;
             this.IsCompleted.SortMode = System.Windows.Forms.DataGridViewColumnSortMode.Automatic;
             // 
+            // IsDeleted
+            // 
+            this.IsDeleted.HeaderText = "Deleted";
+            this.IsDeleted.Name = "IsDeleted";
+            this.IsDeleted.ReadOnly = true;
+            // 
             // AttCnt
             // 
             this.AttCnt.HeaderText = "Att";
@@ -395,6 +403,7 @@
         private System.Windows.Forms.DataGridViewTextBoxColumn Supervisor;
         private System.Windows.Forms.DataGridViewTextBoxColumn AuditRating;
         private System.Windows.Forms.DataGridViewCheckBoxColumn IsCompleted;
+        private System.Windows.Forms.DataGridViewCheckBoxColumn IsDeleted;
         private System.Windows.Forms.DataGridViewTextBoxColumn AttCnt;
         private System.Windows.Forms.DataGridViewTextBoxColumn UpdUser;
         private System.Windows.Forms.DataGridViewTextBoxColumn UpdDt;

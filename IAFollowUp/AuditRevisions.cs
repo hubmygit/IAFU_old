@@ -28,8 +28,6 @@ namespace IAFollowUp
 
 
             FillDataGridViewRev(dgvAuditRevView, auditRevList);
-
-
         }
 
         public List<Users> usersList = Users.GetSqlUsersList();
@@ -65,7 +63,8 @@ namespace IAFollowUp
                               "[ReportDt], " +
                               "[Auditor1Id], [Auditor2Id], [SupervisorId], " +
                               "[IsCompleted], [AuditNumber], [IASentNumber],[InsUserId],[UpdUserId],[InsDt], [UpdDt], [RevNo], " +
-                              "(SELECT count(*) FROM [dbo].[Audit_Attachments] T WHERE a.id = T.AuditID and A.RevNo = T.RevNo) as AttCnt, [AuditRatingId]" +
+                              "(SELECT count(*) FROM [dbo].[Audit_Attachments] T WHERE a.id = T.AuditID and A.RevNo = T.RevNo) as AttCnt, " + 
+                              "[AuditRatingId], isnull([IsDeleted], 'FALSE') as IsDeleted " +
                               "FROM [dbo].[Audit] A " +
                               "WHERE Id = " + Id.ToString() + 
 
@@ -76,7 +75,8 @@ namespace IAFollowUp
                               "R.[ReportDt], " +
                               "R.[Auditor1Id], R.[Auditor2Id], R.[SupervisorId], " +
                               "R.[IsCompleted], R.[AuditNumber], R.[IASentNumber], R.[InsUserId], R.[UpdUserId], R.[InsDt], R.[UpdDt], R.[RevNo], " +
-                              "(SELECT count(*) FROM [dbo].[Audit_Attachments] T WHERE R.AuditId = T.AuditID and R.RevNo = T.RevNo) as AttCnt, R.[AuditRatingId] " +
+                              "(SELECT count(*) FROM [dbo].[Audit_Attachments] T WHERE R.AuditId = T.AuditID and R.RevNo = T.RevNo) as AttCnt, " +
+                              "R.[AuditRatingId], 'FALSE' as IsDeleted " +
                               "FROM [dbo].[AuditRev] R " +
                               "WHERE R.AuditId = " + Id.ToString() +
                               
@@ -178,7 +178,8 @@ namespace IAFollowUp
                         AttCnt = Convert.ToInt32(reader["AttCnt"].ToString()),
 
                         AuditRatingId = AuditRating_Id,
-                        AuditRating = AuditRating_rating
+                        AuditRating = AuditRating_rating,
+                        IsDeleted = Convert.ToBoolean(reader["IsDeleted"].ToString())
                     });
                 }
                 reader.Close();
@@ -233,7 +234,7 @@ namespace IAFollowUp
                 dgvDictList.Add(new dgvDictionary() { dbfield = thisRecord.RevNo, dgvColumnHeader = "RevNo" });
                 dgvDictList.Add(new dgvDictionary() { dbfield = thisRecord.AttCnt, dgvColumnHeader = "AttCnt" });
                 dgvDictList.Add(new dgvDictionary() { dbfield = thisRecord.AuditRating.Name, dgvColumnHeader = "AuditRating" });
-
+                dgvDictList.Add(new dgvDictionary() { dbfield = thisRecord.IsDeleted, dgvColumnHeader = "IsDeleted" });
 
                 string aaaa = thisRecord.Year.ToString() + "." + thisRecord.Company.NameShort + "." + thisRecord.AuditNumber + "." + thisRecord.AuditType.NameShort + "-" + thisRecord.IASentNumber;
 

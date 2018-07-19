@@ -39,15 +39,12 @@ namespace IAFollowUp
             cbCompanies.Items.AddRange(Companies.GetCompaniesComboboxItemsList(companiesList).ToArray<ComboboxItem>());
             cbAuditor1.Items.Add("All");
             cbAuditor1.Items.AddRange(Users.GetUsersComboboxItemsList(usersList).ToArray<ComboboxItem>());
-
-
+            
             DateTime dtToday = DateTime.Now.Date;
             dtFrom.Value = new DateTime(dtToday.Year, 1, 1).AddYears(-1);
-
-
-
+            
             FillDataGridView(dgvAuditView, filteredLines);
-
+            toolStripCounter.Text = "Records: " + filteredLines.Count.ToString();
 
         }
 
@@ -108,7 +105,8 @@ namespace IAFollowUp
                               "[ReportDt], " +
                               "[Auditor1Id], [Auditor2Id], [SupervisorId], " +
                               "[IsCompleted], [AuditNumber], [IASentNumber], [RevNo], " +
-                              "(SELECT count(*) FROM [dbo].[Audit_Attachments] T WHERE a.id = T.AuditID and A.RevNo = T.RevNo) as AttCnt, [AuditRatingId] " +
+                              "(SELECT count(*) FROM [dbo].[Audit_Attachments] T WHERE a.id = T.AuditID and A.RevNo = T.RevNo) as AttCnt, " + 
+                              "[AuditRatingId], isnull([IsDeleted], 0) as IsDeleted " +
                               "FROM [dbo].[Audit] A " +
                               "ORDER BY Id "; //ToDo
             SqlCommand cmd = new SqlCommand(SelectSt, sqlConn);
@@ -181,7 +179,8 @@ namespace IAFollowUp
                         AttCnt = Convert.ToInt32(reader["AttCnt"].ToString()),
 
                         AuditRatingId = AuditRating_Id,
-                        AuditRating = AuditRating_rating
+                        AuditRating = AuditRating_rating,
+                        IsDeleted = Convert.ToBoolean(reader["IsDeleted"].ToString())
                     });
                 }
                 reader.Close();
@@ -218,6 +217,7 @@ namespace IAFollowUp
                 dgvDictList.Add(new dgvDictionary() { dbfield = thisRecord.RevNo, dgvColumnHeader = "RevNo" });
                 dgvDictList.Add(new dgvDictionary() { dbfield = thisRecord.AttCnt, dgvColumnHeader = "AttCnt" });
                 dgvDictList.Add(new dgvDictionary() { dbfield = thisRecord.AuditRating.Name, dgvColumnHeader = "Rating" });
+                dgvDictList.Add(new dgvDictionary() { dbfield = thisRecord.IsDeleted, dgvColumnHeader = "IsDeleted" });
 
                 string aaaa = thisRecord.Year.ToString() + "." + thisRecord.Company.NameShort + "." + thisRecord.AuditNumber + "." + thisRecord.AuditType.NameShort + "-" + thisRecord.IASentNumber;
 
@@ -257,6 +257,7 @@ namespace IAFollowUp
             dgvDictList.Add(new dgvDictionary() { dbfield = givenAudit.RevNo, dgvColumnHeader = "RevNo" });
             dgvDictList.Add(new dgvDictionary() { dbfield = givenAudit.AttCnt, dgvColumnHeader = "AttCnt" });
             dgvDictList.Add(new dgvDictionary() { dbfield = givenAudit.AuditRating.Name, dgvColumnHeader = "Rating" });
+            dgvDictList.Add(new dgvDictionary() { dbfield = givenAudit.IsDeleted, dgvColumnHeader = "IsDeleted" });
 
             object[] obj = new object[dgv.Columns.Count];
 
@@ -293,6 +294,7 @@ namespace IAFollowUp
             dgvDictList.Add(new dgvDictionary() { dbfield = Audit.RevNo, dgvColumnHeader = "RevNo" });
             dgvDictList.Add(new dgvDictionary() { dbfield = Audit.AttCnt, dgvColumnHeader = "AttCnt" });
             dgvDictList.Add(new dgvDictionary() { dbfield = Audit.AuditRating.Name, dgvColumnHeader = "Rating" });
+            dgvDictList.Add(new dgvDictionary() { dbfield = Audit.IsDeleted, dgvColumnHeader = "IsDeleted" });
 
             string aaaa = Audit.Year.ToString() + "." + Audit.Company.NameShort + "." + Audit.AuditNumber + "." + Audit.AuditType.NameShort + "-" + Audit.IASentNumber;
 
@@ -350,8 +352,48 @@ namespace IAFollowUp
         private void MIdelete_Click(object sender, EventArgs e)
         {
             if (dgvAuditView.SelectedRows.Count > 0)
-            {
-                //delete Audit...
+            {                
+                if (dgvAuditView.SelectedRows[0].Cells["IsDeleted"].Value.ToString() == "True")
+                {
+                    MessageBox.Show("The audit has already been deleted!");
+                    return;
+                }
+
+                int id = Convert.ToInt32(dgvAuditView.SelectedRows[0].Cells["Id"].Value.ToString());
+
+                if (DeleteAudit(id))
+                {
+                    //auditList[auditList.FindIndex(w => w.Id == id)].IsDeleted = true;
+                    //dgvAuditView["IsCompleted", dgvAuditView.SelectedRows[0].Index].Value = true;
+
+                    int rev = auditList[auditList.FindIndex(w => w.Id == id)].RevNo;
+
+                    if (auditList[auditList.FindIndex(w => w.Id == id)].AttCnt > 0)
+                    {
+                        if (new InsertNewAudit().InsertIntoTable_Att(id, rev, UserInfo.userDetails.Id) == false)
+                        {
+                            MessageBox.Show("The Deletion of attachments failed!");
+                        }
+                    }
+                    else
+                    {
+                        MessageBox.Show("The Deletion was successful!");
+                    }
+
+                    //rev += 1;
+                    //auditList[auditList.FindIndex(w => w.Id == id)].RevNo = rev;
+                    //dgvAuditView["RevNo", dgvAuditView.SelectedRows[0].Index].Value = rev;
+
+                    auditList.RemoveAt(auditList.FindIndex(w => w.Id == id));
+                    dgvAuditView.Rows.RemoveAt(dgvAuditView.SelectedRows[0].Index);
+
+                    filteredLines.RemoveAt(filteredLines.FindIndex(w => w.Id == id));
+                    toolStripCounter.Text = "Records: " + filteredLines.Count.ToString();
+                }
+                else
+                {
+                    MessageBox.Show("The Deletion was not successful!");
+                }
             }
         }
 
@@ -376,7 +418,7 @@ namespace IAFollowUp
 
                 Attachments attachedFiles = new Attachments(auditId, revNo, AttachmentsTableName.Audit_Attachments);
 
-                if (Convert.ToBoolean(dgvAuditView.SelectedRows[0].Cells["IsCompleted"].Value.ToString()) == true)
+                if (Convert.ToBoolean(dgvAuditView.SelectedRows[0].Cells["IsCompleted"].Value.ToString()) == true || Convert.ToBoolean(dgvAuditView.SelectedRows[0].Cells["IsDeleted"].Value.ToString()) == true)
                 {
                     attachedFiles.btnAddFiles.Enabled = false;
                     attachedFiles.btnRemoveAll.Enabled = false;
@@ -398,12 +440,19 @@ namespace IAFollowUp
 
         private void MIfinalizeAudit_Click(object sender, EventArgs e)
         {
-            int id = Convert.ToInt32(dgvAuditView.SelectedRows[0].Cells["Id"].Value.ToString());
             if (dgvAuditView.SelectedRows[0].Cells["IsCompleted"].Value.ToString() == "True")
             {
-                MessageBox.Show("The audit has already been completed");
+                MessageBox.Show("The audit has already been completed!");
                 return;
             }
+
+            if (dgvAuditView.SelectedRows[0].Cells["IsDeleted"].Value.ToString() == "True")
+            {
+                MessageBox.Show("The audit has been deleted!");
+                return;
+            }
+
+            int id = Convert.ToInt32(dgvAuditView.SelectedRows[0].Cells["Id"].Value.ToString());
 
             if (UpdateAuditCompleted(id))
             {
@@ -476,6 +525,42 @@ namespace IAFollowUp
             return ret;
         }
 
+        private bool DeleteAudit(int id)
+        {
+            bool ret = false;
+
+            SqlConnection sqlConn = new SqlConnection(SqlDBInfo.connectionString);
+            string InsSt = "UPDATE [dbo].[Audit] SET [IsDeleted] = 1, " + 
+                "[UpdUserID] = @UpdUserID, [UpdDt] = getDate(), [DelUserID] = @UpdUserID, [DelDt] = getDate(), [RevNo] = RevNo+1, [UseUpdTrigger] = 1 " +
+                "WHERE id = @id";
+            try
+            {
+                sqlConn.Open();
+
+                SqlCommand cmd = new SqlCommand(InsSt, sqlConn);
+
+                cmd.Parameters.AddWithValue("@id", id);
+
+                cmd.Parameters.AddWithValue("@UpdUserID", UserInfo.userDetails.Id);
+
+                cmd.CommandType = CommandType.Text;
+                int rowsAffected = cmd.ExecuteNonQuery();
+
+                if (rowsAffected > 0)
+                {
+                    ret = true;
+                }
+            }
+            catch (Exception ex)
+            {
+                MessageBox.Show("The following error occurred: " + ex.Message);
+
+            }
+            sqlConn.Close();
+
+            return ret;
+        }
+
         private void dgvAuditView_MouseDown(object sender, MouseEventArgs e)
         {
             if (e.Button == MouseButtons.Right)
@@ -487,7 +572,7 @@ namespace IAFollowUp
                 }
                 dgvAuditView.Rows[hti.RowIndex].Selected = true;
 
-                if (Convert.ToBoolean(dgvAuditView.SelectedRows[0].Cells["IsCompleted"].Value) == true)
+                if (Convert.ToBoolean(dgvAuditView.SelectedRows[0].Cells["IsCompleted"].Value) == true || Convert.ToBoolean(dgvAuditView.SelectedRows[0].Cells["IsDeleted"].Value) == true)
                 {
                     MIupdate.Enabled = false;
                     MIdelete.Enabled = false;
@@ -679,6 +764,8 @@ namespace IAFollowUp
         public int? AuditRatingId { get; set; }
         public AuditRating AuditRating { get; set; }
 
+        public bool IsDeleted { get; set; }
+
         public static bool isEqual(Audit x, Audit y)
         {
             if (x.Id == y.Id && x.Year == y.Year && x.CompanyId == y.CompanyId && Companies.isEqual( x.Company , y.Company) && x.AuditTypeId == y.AuditTypeId && AuditTypes.isEqual( x.AuditType , y.AuditType) &&
@@ -724,6 +811,8 @@ namespace IAFollowUp
 
         public int? AuditRatingId { get; set; }
         public AuditRating AuditRating { get; set; }
+
+        public bool IsDeleted { get; set; }
     }
 
     public class Companies

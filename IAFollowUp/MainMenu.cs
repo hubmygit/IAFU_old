@@ -47,6 +47,7 @@ namespace IAFollowUp
         private void auditViewToolStripMenuItem_Click(object sender, EventArgs e)
         {
             Auditor_AuditView frmAuditorAuditView = new Auditor_AuditView();
+            frmAuditorAuditView.auditList = frmAuditorAuditView.auditList.Where(i => i.IsDeleted == false).ToList();
             frmAuditorAuditView.ShowDialog();
 
         }
@@ -62,6 +63,7 @@ namespace IAFollowUp
             Auditor_AuditView frmAuditorAuditView_Rev = new Auditor_AuditView();
 
             frmAuditorAuditView_Rev.cmsOnGrid.Items["MIRevisions"].Visible = true;
+            frmAuditorAuditView_Rev.dgvAuditView.Columns["IsDeleted"].Visible = true;
 
             frmAuditorAuditView_Rev.ShowDialog();
         }
@@ -70,6 +72,9 @@ namespace IAFollowUp
         {
             Auditor_AuditView frmAuditView = new Auditor_AuditView();
             frmAuditView.Text = "Select Audit";
+
+            frmAuditView.auditList = frmAuditView.auditList.Where(i => i.IsDeleted == false).ToList();
+
             frmAuditView.toolStripMessage.Visible = true;
             frmAuditView.chbCompleted.CheckState = CheckState.Unchecked;
             frmAuditView.dgvAuditView.ContextMenuStrip = null;
@@ -94,6 +99,7 @@ namespace IAFollowUp
             Auditor_AuditView frmAuditView = new Auditor_AuditView();
             frmAuditView.Text = "Select Audit";
             frmAuditView.toolStripMessage.Visible = true;
+            frmAuditView.dgvAuditView.Columns["IsDeleted"].Visible = true;
             frmAuditView.chbCompleted.CheckState = CheckState.Unchecked;
             frmAuditView.dgvAuditView.ContextMenuStrip = null;
             frmAuditView.dgvAuditView.CellDoubleClick += new DataGridViewCellEventHandler(frmAuditView.dgvAuditView_CellDoubleClick);

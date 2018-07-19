@@ -34,29 +34,15 @@
             System.Windows.Forms.DataGridViewCellStyle dataGridViewCellStyle3 = new System.Windows.Forms.DataGridViewCellStyle();
             System.ComponentModel.ComponentResourceManager resources = new System.ComponentModel.ComponentResourceManager(typeof(Auditor_AuditView));
             this.dgvAuditView = new System.Windows.Forms.DataGridView();
-            this.Id = new System.Windows.Forms.DataGridViewTextBoxColumn();
-            this.Year = new System.Windows.Forms.DataGridViewTextBoxColumn();
-            this.Company = new System.Windows.Forms.DataGridViewTextBoxColumn();
-            this.AuditNumber = new System.Windows.Forms.DataGridViewTextBoxColumn();
-            this.AuditType = new System.Windows.Forms.DataGridViewTextBoxColumn();
-            this.IASentNumber = new System.Windows.Forms.DataGridViewTextBoxColumn();
-            this.Title = new System.Windows.Forms.DataGridViewTextBoxColumn();
-            this.ReportDt = new System.Windows.Forms.DataGridViewTextBoxColumn();
-            this.Auditor1 = new System.Windows.Forms.DataGridViewTextBoxColumn();
-            this.Auditor2 = new System.Windows.Forms.DataGridViewTextBoxColumn();
-            this.Supervisor = new System.Windows.Forms.DataGridViewTextBoxColumn();
-            this.Rating = new System.Windows.Forms.DataGridViewTextBoxColumn();
-            this.IsCompleted = new System.Windows.Forms.DataGridViewCheckBoxColumn();
-            this.RevNo = new System.Windows.Forms.DataGridViewTextBoxColumn();
-            this.AttCnt = new System.Windows.Forms.DataGridViewTextBoxColumn();
             this.cmsOnGrid = new System.Windows.Forms.ContextMenuStrip(this.components);
             this.MIupdate = new System.Windows.Forms.ToolStripMenuItem();
-            this.MIattachments = new System.Windows.Forms.ToolStripMenuItem();
+            this.MIdelete = new System.Windows.Forms.ToolStripMenuItem();
             this.tsSep1 = new System.Windows.Forms.ToolStripSeparator();
+            this.MIattachments = new System.Windows.Forms.ToolStripMenuItem();
+            this.tsSep2 = new System.Windows.Forms.ToolStripSeparator();
             this.MIshowFindings = new System.Windows.Forms.ToolStripMenuItem();
             this.MIfinalizeAudit = new System.Windows.Forms.ToolStripMenuItem();
             this.MIRevisions = new System.Windows.Forms.ToolStripMenuItem();
-            this.MIdelete = new System.Windows.Forms.ToolStripMenuItem();
             this.lblDtTo = new System.Windows.Forms.Label();
             this.lblDtFrom = new System.Windows.Forms.Label();
             this.dtTo = new System.Windows.Forms.DateTimePicker();
@@ -74,7 +60,22 @@
             this.txtTitle = new System.Windows.Forms.TextBox();
             this.lblTitle = new System.Windows.Forms.Label();
             this.btnTitleSearch = new System.Windows.Forms.Button();
-            this.tsSep2 = new System.Windows.Forms.ToolStripSeparator();
+            this.Id = new System.Windows.Forms.DataGridViewTextBoxColumn();
+            this.Year = new System.Windows.Forms.DataGridViewTextBoxColumn();
+            this.Company = new System.Windows.Forms.DataGridViewTextBoxColumn();
+            this.AuditNumber = new System.Windows.Forms.DataGridViewTextBoxColumn();
+            this.AuditType = new System.Windows.Forms.DataGridViewTextBoxColumn();
+            this.IASentNumber = new System.Windows.Forms.DataGridViewTextBoxColumn();
+            this.Title = new System.Windows.Forms.DataGridViewTextBoxColumn();
+            this.ReportDt = new System.Windows.Forms.DataGridViewTextBoxColumn();
+            this.Auditor1 = new System.Windows.Forms.DataGridViewTextBoxColumn();
+            this.Auditor2 = new System.Windows.Forms.DataGridViewTextBoxColumn();
+            this.Supervisor = new System.Windows.Forms.DataGridViewTextBoxColumn();
+            this.Rating = new System.Windows.Forms.DataGridViewTextBoxColumn();
+            this.IsCompleted = new System.Windows.Forms.DataGridViewCheckBoxColumn();
+            this.IsDeleted = new System.Windows.Forms.DataGridViewCheckBoxColumn();
+            this.RevNo = new System.Windows.Forms.DataGridViewTextBoxColumn();
+            this.AttCnt = new System.Windows.Forms.DataGridViewTextBoxColumn();
             ((System.ComponentModel.ISupportInitialize)(this.dgvAuditView)).BeginInit();
             this.cmsOnGrid.SuspendLayout();
             this.statusStrip1.SuspendLayout();
@@ -112,6 +113,7 @@
             this.Supervisor,
             this.Rating,
             this.IsCompleted,
+            this.IsDeleted,
             this.RevNo,
             this.AttCnt});
             this.dgvAuditView.ContextMenuStrip = this.cmsOnGrid;
@@ -141,106 +143,6 @@
             this.dgvAuditView.SortCompare += new System.Windows.Forms.DataGridViewSortCompareEventHandler(this.dgvAuditView_SortCompare);
             this.dgvAuditView.MouseDown += new System.Windows.Forms.MouseEventHandler(this.dgvAuditView_MouseDown);
             // 
-            // Id
-            // 
-            this.Id.HeaderText = "Id";
-            this.Id.Name = "Id";
-            this.Id.ReadOnly = true;
-            this.Id.Visible = false;
-            this.Id.Width = 50;
-            // 
-            // Year
-            // 
-            this.Year.HeaderText = "Year";
-            this.Year.Name = "Year";
-            this.Year.ReadOnly = true;
-            this.Year.Width = 60;
-            // 
-            // Company
-            // 
-            this.Company.HeaderText = "Company";
-            this.Company.Name = "Company";
-            this.Company.ReadOnly = true;
-            this.Company.Width = 80;
-            // 
-            // AuditNumber
-            // 
-            this.AuditNumber.HeaderText = "Audit Number";
-            this.AuditNumber.Name = "AuditNumber";
-            this.AuditNumber.ReadOnly = true;
-            this.AuditNumber.Width = 80;
-            // 
-            // AuditType
-            // 
-            this.AuditType.HeaderText = "Audit Type";
-            this.AuditType.Name = "AuditType";
-            this.AuditType.ReadOnly = true;
-            // 
-            // IASentNumber
-            // 
-            this.IASentNumber.HeaderText = "IASentNumber";
-            this.IASentNumber.Name = "IASentNumber";
-            this.IASentNumber.ReadOnly = true;
-            this.IASentNumber.Width = 120;
-            // 
-            // Title
-            // 
-            this.Title.HeaderText = "Title";
-            this.Title.Name = "Title";
-            this.Title.ReadOnly = true;
-            this.Title.Width = 200;
-            // 
-            // ReportDt
-            // 
-            this.ReportDt.HeaderText = "Report Date";
-            this.ReportDt.Name = "ReportDt";
-            this.ReportDt.ReadOnly = true;
-            // 
-            // Auditor1
-            // 
-            this.Auditor1.HeaderText = "Auditor1";
-            this.Auditor1.Name = "Auditor1";
-            this.Auditor1.ReadOnly = true;
-            // 
-            // Auditor2
-            // 
-            this.Auditor2.HeaderText = "Auditor2";
-            this.Auditor2.Name = "Auditor2";
-            this.Auditor2.ReadOnly = true;
-            // 
-            // Supervisor
-            // 
-            this.Supervisor.HeaderText = "Supervisor";
-            this.Supervisor.Name = "Supervisor";
-            this.Supervisor.ReadOnly = true;
-            // 
-            // Rating
-            // 
-            this.Rating.HeaderText = "Rating";
-            this.Rating.Name = "Rating";
-            this.Rating.ReadOnly = true;
-            // 
-            // IsCompleted
-            // 
-            this.IsCompleted.HeaderText = "Completed";
-            this.IsCompleted.Name = "IsCompleted";
-            this.IsCompleted.ReadOnly = true;
-            this.IsCompleted.Resizable = System.Windows.Forms.DataGridViewTriState.True;
-            this.IsCompleted.SortMode = System.Windows.Forms.DataGridViewColumnSortMode.Automatic;
-            // 
-            // RevNo
-            // 
-            this.RevNo.HeaderText = "Rev No";
-            this.RevNo.Name = "RevNo";
-            this.RevNo.ReadOnly = true;
-            this.RevNo.Visible = false;
-            // 
-            // AttCnt
-            // 
-            this.AttCnt.HeaderText = "Att";
-            this.AttCnt.Name = "AttCnt";
-            this.AttCnt.ReadOnly = true;
-            // 
             // cmsOnGrid
             // 
             this.cmsOnGrid.Items.AddRange(new System.Windows.Forms.ToolStripItem[] {
@@ -262,6 +164,18 @@
             this.MIupdate.Text = "Edit";
             this.MIupdate.Click += new System.EventHandler(this.MIupdate_Click);
             // 
+            // MIdelete
+            // 
+            this.MIdelete.Name = "MIdelete";
+            this.MIdelete.Size = new System.Drawing.Size(207, 22);
+            this.MIdelete.Text = "Delete";
+            this.MIdelete.Click += new System.EventHandler(this.MIdelete_Click);
+            // 
+            // tsSep1
+            // 
+            this.tsSep1.Name = "tsSep1";
+            this.tsSep1.Size = new System.Drawing.Size(204, 6);
+            // 
             // MIattachments
             // 
             this.MIattachments.Name = "MIattachments";
@@ -269,10 +183,10 @@
             this.MIattachments.Text = "Attachments";
             this.MIattachments.Click += new System.EventHandler(this.MIattachments_Click);
             // 
-            // tsSep1
+            // tsSep2
             // 
-            this.tsSep1.Name = "tsSep1";
-            this.tsSep1.Size = new System.Drawing.Size(204, 6);
+            this.tsSep2.Name = "tsSep2";
+            this.tsSep2.Size = new System.Drawing.Size(204, 6);
             // 
             // MIshowFindings
             // 
@@ -295,13 +209,6 @@
             this.MIRevisions.Text = "Revisions";
             this.MIRevisions.Visible = false;
             this.MIRevisions.Click += new System.EventHandler(this.MIRevisions_Click);
-            // 
-            // MIdelete
-            // 
-            this.MIdelete.Name = "MIdelete";
-            this.MIdelete.Size = new System.Drawing.Size(207, 22);
-            this.MIdelete.Text = "Delete";
-            this.MIdelete.Click += new System.EventHandler(this.MIdelete_Click);
             // 
             // lblDtTo
             // 
@@ -477,10 +384,112 @@
             this.btnTitleSearch.UseVisualStyleBackColor = true;
             this.btnTitleSearch.Click += new System.EventHandler(this.btnTitleSearch_Click);
             // 
-            // tsSep2
+            // Id
             // 
-            this.tsSep2.Name = "tsSep2";
-            this.tsSep2.Size = new System.Drawing.Size(204, 6);
+            this.Id.HeaderText = "Id";
+            this.Id.Name = "Id";
+            this.Id.ReadOnly = true;
+            this.Id.Visible = false;
+            this.Id.Width = 50;
+            // 
+            // Year
+            // 
+            this.Year.HeaderText = "Year";
+            this.Year.Name = "Year";
+            this.Year.ReadOnly = true;
+            this.Year.Width = 60;
+            // 
+            // Company
+            // 
+            this.Company.HeaderText = "Company";
+            this.Company.Name = "Company";
+            this.Company.ReadOnly = true;
+            this.Company.Width = 80;
+            // 
+            // AuditNumber
+            // 
+            this.AuditNumber.HeaderText = "Audit Number";
+            this.AuditNumber.Name = "AuditNumber";
+            this.AuditNumber.ReadOnly = true;
+            this.AuditNumber.Width = 80;
+            // 
+            // AuditType
+            // 
+            this.AuditType.HeaderText = "Audit Type";
+            this.AuditType.Name = "AuditType";
+            this.AuditType.ReadOnly = true;
+            // 
+            // IASentNumber
+            // 
+            this.IASentNumber.HeaderText = "IASentNumber";
+            this.IASentNumber.Name = "IASentNumber";
+            this.IASentNumber.ReadOnly = true;
+            this.IASentNumber.Width = 120;
+            // 
+            // Title
+            // 
+            this.Title.HeaderText = "Title";
+            this.Title.Name = "Title";
+            this.Title.ReadOnly = true;
+            this.Title.Width = 200;
+            // 
+            // ReportDt
+            // 
+            this.ReportDt.HeaderText = "Report Date";
+            this.ReportDt.Name = "ReportDt";
+            this.ReportDt.ReadOnly = true;
+            // 
+            // Auditor1
+            // 
+            this.Auditor1.HeaderText = "Auditor1";
+            this.Auditor1.Name = "Auditor1";
+            this.Auditor1.ReadOnly = true;
+            // 
+            // Auditor2
+            // 
+            this.Auditor2.HeaderText = "Auditor2";
+            this.Auditor2.Name = "Auditor2";
+            this.Auditor2.ReadOnly = true;
+            // 
+            // Supervisor
+            // 
+            this.Supervisor.HeaderText = "Supervisor";
+            this.Supervisor.Name = "Supervisor";
+            this.Supervisor.ReadOnly = true;
+            // 
+            // Rating
+            // 
+            this.Rating.HeaderText = "Rating";
+            this.Rating.Name = "Rating";
+            this.Rating.ReadOnly = true;
+            // 
+            // IsCompleted
+            // 
+            this.IsCompleted.HeaderText = "Completed";
+            this.IsCompleted.Name = "IsCompleted";
+            this.IsCompleted.ReadOnly = true;
+            this.IsCompleted.Resizable = System.Windows.Forms.DataGridViewTriState.True;
+            this.IsCompleted.SortMode = System.Windows.Forms.DataGridViewColumnSortMode.Automatic;
+            // 
+            // IsDeleted
+            // 
+            this.IsDeleted.HeaderText = "Deleted";
+            this.IsDeleted.Name = "IsDeleted";
+            this.IsDeleted.ReadOnly = true;
+            this.IsDeleted.Visible = false;
+            // 
+            // RevNo
+            // 
+            this.RevNo.HeaderText = "Rev No";
+            this.RevNo.Name = "RevNo";
+            this.RevNo.ReadOnly = true;
+            this.RevNo.Visible = false;
+            // 
+            // AttCnt
+            // 
+            this.AttCnt.HeaderText = "Att";
+            this.AttCnt.Name = "AttCnt";
+            this.AttCnt.ReadOnly = true;
             // 
             // Auditor_AuditView
             // 
@@ -544,6 +553,8 @@
         public System.Windows.Forms.CheckBox chbCompleted;
         public System.Windows.Forms.DataGridView dgvAuditView;
         public System.Windows.Forms.ToolStripStatusLabel toolStripMessage;
+        private System.Windows.Forms.ToolStripMenuItem MIdelete;
+        private System.Windows.Forms.ToolStripSeparator tsSep2;
         private System.Windows.Forms.DataGridViewTextBoxColumn Id;
         private System.Windows.Forms.DataGridViewTextBoxColumn Year;
         private System.Windows.Forms.DataGridViewTextBoxColumn Company;
@@ -557,9 +568,8 @@
         private System.Windows.Forms.DataGridViewTextBoxColumn Supervisor;
         private System.Windows.Forms.DataGridViewTextBoxColumn Rating;
         private System.Windows.Forms.DataGridViewCheckBoxColumn IsCompleted;
+        private System.Windows.Forms.DataGridViewCheckBoxColumn IsDeleted;
         private System.Windows.Forms.DataGridViewTextBoxColumn RevNo;
         private System.Windows.Forms.DataGridViewTextBoxColumn AttCnt;
-        private System.Windows.Forms.ToolStripMenuItem MIdelete;
-        private System.Windows.Forms.ToolStripSeparator tsSep2;
     }
 }
