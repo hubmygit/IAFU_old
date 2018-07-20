@@ -359,40 +359,45 @@ namespace IAFollowUp
                     return;
                 }
 
-                int id = Convert.ToInt32(dgvAuditView.SelectedRows[0].Cells["Id"].Value.ToString());
+                DialogResult dialogResult = MessageBox.Show("Are you sure you want to permanently delete this record?", "Audit Deletion", MessageBoxButtons.YesNo);
 
-                if (DeleteAudit(id))
+                if (dialogResult == DialogResult.Yes)
                 {
-                    //auditList[auditList.FindIndex(w => w.Id == id)].IsDeleted = true;
-                    //dgvAuditView["IsCompleted", dgvAuditView.SelectedRows[0].Index].Value = true;
+                    int id = Convert.ToInt32(dgvAuditView.SelectedRows[0].Cells["Id"].Value.ToString());
 
-                    int rev = auditList[auditList.FindIndex(w => w.Id == id)].RevNo;
-
-                    if (auditList[auditList.FindIndex(w => w.Id == id)].AttCnt > 0)
+                    if (DeleteAudit(id))
                     {
-                        if (new InsertNewAudit().InsertIntoTable_Att(id, rev, UserInfo.userDetails.Id) == false)
+                        //auditList[auditList.FindIndex(w => w.Id == id)].IsDeleted = true;
+                        //dgvAuditView["IsCompleted", dgvAuditView.SelectedRows[0].Index].Value = true;
+
+                        int rev = auditList[auditList.FindIndex(w => w.Id == id)].RevNo;
+
+                        if (auditList[auditList.FindIndex(w => w.Id == id)].AttCnt > 0)
                         {
-                            MessageBox.Show("The Deletion of attachments failed!");
+                            if (new InsertNewAudit().InsertIntoTable_Att(id, rev, UserInfo.userDetails.Id) == false)
+                            {
+                                MessageBox.Show("The Deletion of attachments failed!");
+                            }
                         }
+                        else
+                        {
+                            MessageBox.Show("The Deletion was successful!");
+                        }
+
+                        //rev += 1;
+                        //auditList[auditList.FindIndex(w => w.Id == id)].RevNo = rev;
+                        //dgvAuditView["RevNo", dgvAuditView.SelectedRows[0].Index].Value = rev;
+
+                        auditList.RemoveAt(auditList.FindIndex(w => w.Id == id));
+                        dgvAuditView.Rows.RemoveAt(dgvAuditView.SelectedRows[0].Index);
+
+                        filteredLines.RemoveAt(filteredLines.FindIndex(w => w.Id == id));
+                        toolStripCounter.Text = "Records: " + filteredLines.Count.ToString();
                     }
                     else
                     {
-                        MessageBox.Show("The Deletion was successful!");
+                        MessageBox.Show("The Deletion was not successful!");
                     }
-
-                    //rev += 1;
-                    //auditList[auditList.FindIndex(w => w.Id == id)].RevNo = rev;
-                    //dgvAuditView["RevNo", dgvAuditView.SelectedRows[0].Index].Value = rev;
-
-                    auditList.RemoveAt(auditList.FindIndex(w => w.Id == id));
-                    dgvAuditView.Rows.RemoveAt(dgvAuditView.SelectedRows[0].Index);
-
-                    filteredLines.RemoveAt(filteredLines.FindIndex(w => w.Id == id));
-                    toolStripCounter.Text = "Records: " + filteredLines.Count.ToString();
-                }
-                else
-                {
-                    MessageBox.Show("The Deletion was not successful!");
                 }
             }
         }
@@ -920,6 +925,7 @@ namespace IAFollowUp
         public Users UpdUser { get; set; }
         public DateTime UpdDt { get; set; }
 
+        public bool IsDeleted { get; set; }
 
         public FIHeader()
         {
@@ -958,6 +964,8 @@ namespace IAFollowUp
         public int RevNo { get; set; }
 
         public int AttCnt { get; set; }
+
+        public bool IsDeleted { get; set; }
         public FIDetail()
         {
             Owners = new List<Users>();
@@ -1051,6 +1059,9 @@ namespace IAFollowUp
         public int RevNo { get; set; }
 
         public int AttCnt { get; set; }
+
+        public bool IsDeleted { get; set; }
+
         public FIDetailRev()
         {
             Owners = new List<Users>();

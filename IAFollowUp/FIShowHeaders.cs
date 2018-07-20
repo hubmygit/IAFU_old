@@ -78,7 +78,8 @@ namespace IAFollowUp
                               "CONVERT(varchar(500), DECRYPTBYPASSPHRASE( @passPhrase , [ActionReq])) as ActionReq, [ActionDt], [ActionCode], [RevNo], " +
                               "[FIHeaderId],[InsUserId],[InsDt], [UpdUserId], [UpdDt], " +
                               "(SELECT count(*) FROM [dbo].[FIDetail_Attachments] T WHERE a.id = T.FIDetailID and A.RevNo = T.RevNo) as AttCnt, " +
-                              "(SELECT count(*) FROM [dbo].[FIDetail_Owners] T WHERE a.id = T.FIDetailID and A.RevNo = T.RevNo) as OwnersCnt " +
+                              "(SELECT count(*) FROM [dbo].[FIDetail_Owners] T WHERE a.id = T.FIDetailID and A.RevNo = T.RevNo) as OwnersCnt, " +
+                              "isnull([IsDeleted], 0) as IsDeleted " + 
                               "FROM [dbo].[FIDetail] a " +
                               "WHERE [FIHeaderId] = @HeaderId " +
                               "ORDER BY [InsDt] ";
@@ -108,7 +109,8 @@ namespace IAFollowUp
                         ActionCode = reader["ActionCode"].ToString(),
                         RevNo = Convert.ToInt32(reader["RevNo"].ToString()),
                         AttCnt = Convert.ToInt32(reader["AttCnt"].ToString()),
-                        OwnersCnt = Convert.ToInt32(reader["OwnersCnt"].ToString())
+                        OwnersCnt = Convert.ToInt32(reader["OwnersCnt"].ToString()),
+                        IsDeleted = Convert.ToBoolean(reader["IsDeleted"].ToString())
                     });
                 }
                 reader.Close();
@@ -140,6 +142,7 @@ namespace IAFollowUp
                 dgvDictList.Add(new dgvDictionary() { dbfield = thisRecord.AttCnt, dgvColumnHeader = "AttCnt" });
                 dgvDictList.Add(new dgvDictionary() { dbfield = thisRecord.ActionCode, dgvColumnHeader = "DetailActionCode" });
                 dgvDictList.Add(new dgvDictionary() { dbfield = thisRecord.OwnersCnt, dgvColumnHeader = "DetailOwnersCnt" });
+                dgvDictList.Add(new dgvDictionary() { dbfield = thisRecord.IsDeleted, dgvColumnHeader = "DetailIsDeleted" });
 
                 object[] obj = new object[dgv.Columns.Count];
 
@@ -158,18 +161,19 @@ namespace IAFollowUp
         {
             //dgv.Rows.Clear();
 
-                List<dgvDictionary> dgvDictList = new List<dgvDictionary>();
+            List<dgvDictionary> dgvDictList = new List<dgvDictionary>();
 
-                dgvDictList.Add(new dgvDictionary() { dbfield = Detail.Id, dgvColumnHeader = "DetailId" });
-                dgvDictList.Add(new dgvDictionary() { dbfield = Detail.Description, dgvColumnHeader = "DetailDescription" });
-                dgvDictList.Add(new dgvDictionary() { dbfield = Detail.ActionReq, dgvColumnHeader = "DetailActionReq" });
-                dgvDictList.Add(new dgvDictionary() { dbfield = Detail.ActionDt.ToString("dd.MM.yyyy"), dgvColumnHeader = "DetailActionDt" });
-                dgvDictList.Add(new dgvDictionary() { dbfield = Detail.UpdUser.FullName, dgvColumnHeader = "DetailUpdUser" });
-                dgvDictList.Add(new dgvDictionary() { dbfield = Detail.UpdDt.ToString("dd.MM.yyyy HH:mm:ss"), dgvColumnHeader = "DetailUpdDate" });
-                dgvDictList.Add(new dgvDictionary() { dbfield = Detail.RevNo, dgvColumnHeader = "DetailRevNo" });
-                dgvDictList.Add(new dgvDictionary() { dbfield = Detail.AttCnt, dgvColumnHeader = "AttCnt" });
-                dgvDictList.Add(new dgvDictionary() { dbfield = Detail.ActionCode, dgvColumnHeader = "DetailActionCode" });
-                dgvDictList.Add(new dgvDictionary() { dbfield = Detail.OwnersCnt, dgvColumnHeader = "DetailOwnersCnt" });
+            dgvDictList.Add(new dgvDictionary() { dbfield = Detail.Id, dgvColumnHeader = "DetailId" });
+            dgvDictList.Add(new dgvDictionary() { dbfield = Detail.Description, dgvColumnHeader = "DetailDescription" });
+            dgvDictList.Add(new dgvDictionary() { dbfield = Detail.ActionReq, dgvColumnHeader = "DetailActionReq" });
+            dgvDictList.Add(new dgvDictionary() { dbfield = Detail.ActionDt.ToString("dd.MM.yyyy"), dgvColumnHeader = "DetailActionDt" });
+            dgvDictList.Add(new dgvDictionary() { dbfield = Detail.UpdUser.FullName, dgvColumnHeader = "DetailUpdUser" });
+            dgvDictList.Add(new dgvDictionary() { dbfield = Detail.UpdDt.ToString("dd.MM.yyyy HH:mm:ss"), dgvColumnHeader = "DetailUpdDate" });
+            dgvDictList.Add(new dgvDictionary() { dbfield = Detail.RevNo, dgvColumnHeader = "DetailRevNo" });
+            dgvDictList.Add(new dgvDictionary() { dbfield = Detail.AttCnt, dgvColumnHeader = "AttCnt" });
+            dgvDictList.Add(new dgvDictionary() { dbfield = Detail.ActionCode, dgvColumnHeader = "DetailActionCode" });
+            dgvDictList.Add(new dgvDictionary() { dbfield = Detail.OwnersCnt, dgvColumnHeader = "DetailOwnersCnt" });
+            dgvDictList.Add(new dgvDictionary() { dbfield = Detail.IsDeleted, dgvColumnHeader = "DetailIsDeleted" });
 
             object[] obj = new object[dgv.Columns.Count];
 
@@ -273,7 +277,7 @@ namespace IAFollowUp
             SqlConnection sqlConn = new SqlConnection(SqlDBInfo.connectionString);
             string SelectSt = "SELECT [Id], [AuditId], " +
                               "CONVERT(varchar(500), DECRYPTBYPASSPHRASE( @passPhrase , [Title])) as Title, " +
-                              "[FICategoryId],[InsUserId],[InsDt], [UpdUserId], [UpdDt] " +
+                              "[FICategoryId],[InsUserId],[InsDt], [UpdUserId], [UpdDt], isnull([IsDeleted], 0) as IsDeleted " +
                               "FROM [dbo].[FIHeader] " +
                               "WHERE [AuditId] = @AuditId " +
                               "ORDER BY [InsDt] ";
@@ -302,7 +306,9 @@ namespace IAFollowUp
                         UpdUser = new Users(Convert.ToInt32(reader["UpdUserId"].ToString())),
                         UpdDt = Convert.ToDateTime(reader["UpdDt"].ToString()),
 
-                        Title = reader["Title"].ToString()
+                        Title = reader["Title"].ToString(),
+
+                        IsDeleted = Convert.ToBoolean(reader["IsDeleted"].ToString())
                     });
                 }
                 reader.Close();
@@ -370,7 +376,7 @@ namespace IAFollowUp
                 dgvDictList.Add(new dgvDictionary() { dbfield = thisRecord.FICategory.Name, dgvColumnHeader = "HeaderCategory" });
                 dgvDictList.Add(new dgvDictionary() { dbfield = thisRecord.UpdUser.FullName, dgvColumnHeader = "UpdUser" });
                 dgvDictList.Add(new dgvDictionary() { dbfield = thisRecord.UpdDt.ToString("dd.MM.yyyy HH:mm:ss"), dgvColumnHeader = "UpdDt" });
-
+                dgvDictList.Add(new dgvDictionary() { dbfield = thisRecord.IsDeleted, dgvColumnHeader = "HeaderIsDeleted" });
 
                 object[] obj = new object[dgv.Columns.Count];
 
@@ -396,6 +402,7 @@ namespace IAFollowUp
             dgvDictList.Add(new dgvDictionary() { dbfield = Header.FICategory.Name, dgvColumnHeader = "HeaderCategory" });
             dgvDictList.Add(new dgvDictionary() { dbfield = Header.UpdUser.FullName, dgvColumnHeader = "HeaderUpdUser" });
             dgvDictList.Add(new dgvDictionary() { dbfield = Header.UpdDt.ToString("dd.MM.yyyy HH:mm:ss"), dgvColumnHeader = "HeaderUpdDt" });
+            dgvDictList.Add(new dgvDictionary() { dbfield = Header.IsDeleted, dgvColumnHeader = "HeaderIsDeleted" });
 
 
             object[] obj = new object[dgv.Columns.Count];
@@ -566,6 +573,133 @@ namespace IAFollowUp
 
                 e.Handled = true;
             }
+        }
+
+        private bool DeleteFIHeader(int id)
+        {
+            bool ret = false;
+
+            SqlConnection sqlConn = new SqlConnection(SqlDBInfo.connectionString);
+            string InsSt = "UPDATE [dbo].[FIHeader] SET [IsDeleted] = 1, " +
+                "[UpdUserID] = @UpdUserID, [UpdDt] = getDate(), [DelUserID] = @UpdUserID, [DelDt] = getDate() " +
+                "WHERE id = @id";
+            try
+            {
+                sqlConn.Open();
+
+                SqlCommand cmd = new SqlCommand(InsSt, sqlConn);
+
+                cmd.Parameters.AddWithValue("@id", id);
+
+                cmd.Parameters.AddWithValue("@UpdUserID", UserInfo.userDetails.Id);
+
+                cmd.CommandType = CommandType.Text;
+                int rowsAffected = cmd.ExecuteNonQuery();
+
+                if (rowsAffected > 0)
+                {
+                    ret = true;
+                }
+            }
+            catch (Exception ex)
+            {
+                MessageBox.Show("The following error occurred: " + ex.Message);
+
+            }
+            sqlConn.Close();
+
+            return ret;
+        }
+
+        private bool DeleteFIDetail(int id)
+        {
+            bool ret = false;
+
+            SqlConnection sqlConn = new SqlConnection(SqlDBInfo.connectionString);
+            string InsSt = "UPDATE [dbo].[FIDetail] SET [IsDeleted] = 1, " +
+                "[UpdUserID] = @UpdUserID, [UpdDt] = getDate(), [DelUserID] = @UpdUserID, [DelDt] = getDate(), [RevNo] = RevNo+1, [UseUpdTrigger] = 1 " +
+                "WHERE id = @id";
+            try
+            {
+                sqlConn.Open();
+
+                SqlCommand cmd = new SqlCommand(InsSt, sqlConn);
+
+                cmd.Parameters.AddWithValue("@id", id);
+
+                cmd.Parameters.AddWithValue("@UpdUserID", UserInfo.userDetails.Id);
+
+                cmd.CommandType = CommandType.Text;
+                int rowsAffected = cmd.ExecuteNonQuery();
+
+                if (rowsAffected > 0)
+                {
+                    ret = true;
+                }
+            }
+            catch (Exception ex)
+            {
+                MessageBox.Show("The following error occurred: " + ex.Message);
+
+            }
+            sqlConn.Close();
+
+            return ret;
+        }
+
+        private void MIdeleteHeader_Click(object sender, EventArgs e)
+        {
+            if (dgvHeaders.SelectedRows.Count > 0)
+            {
+                if (dgvHeaders.SelectedRows[0].Cells["IsDeleted"].Value.ToString() == "True")
+                {
+                    MessageBox.Show("The F/I header has already been deleted!");
+                    return;
+                }
+
+                DialogResult dialogResult = MessageBox.Show("Are you sure you want to permanently delete this record?", "F/I Header Deletion", MessageBoxButtons.YesNo);
+
+                if (dialogResult == DialogResult.Yes)
+                {
+                    int id = Convert.ToInt32(dgvHeaders.SelectedRows[0].Cells["HeaderId"].Value.ToString());
+
+                    if (DeleteFIHeader(id))
+                    {
+                        //int rev = auditList[auditList.FindIndex(w => w.Id == id)].RevNo;
+
+                        //if (auditList[auditList.FindIndex(w => w.Id == id)].AttCnt > 0)
+                        //{
+                        //    if (new InsertNewAudit().InsertIntoTable_Att(id, rev, UserInfo.userDetails.Id) == false)
+                        //    {
+                        //        MessageBox.Show("The Deletion of attachments failed!");
+                        //    }
+                        //}
+                        //else
+                        //{
+                        MessageBox.Show("The Deletion was successful!");
+                        //}
+
+                        Audit_Headers.RemoveAt(Audit_Headers.FindIndex(w => w.Id == id));
+                        dgvHeaders.Rows.RemoveAt(dgvHeaders.SelectedRows[0].Index);
+
+                        Header_Details.RemoveAt(Header_Details.FindIndex(w => w.FIHeaderId == id));
+                        dgvDetails.Rows.Clear();
+
+                        //delete header and clear details grid too!!!
+                        //to delete ston admin den tha prepei na trwei tin eggrafi, aplws na markarei to flag IsDeleted
+                        //check: to deksi klik sta headers emfanizei ta details??
+                    }
+                    else
+                    {
+                        MessageBox.Show("The Deletion was not successful!");
+                    }
+                }
+            }
+        }
+
+        private void MIdeleteDetail_Click(object sender, EventArgs e)
+        {
+            //...
         }
     }
 }

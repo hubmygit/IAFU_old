@@ -40,11 +40,6 @@
             System.Windows.Forms.DataGridViewCellStyle dataGridViewCellStyle9 = new System.Windows.Forms.DataGridViewCellStyle();
             System.ComponentModel.ComponentResourceManager resources = new System.ComponentModel.ComponentResourceManager(typeof(FIShowHeaders));
             this.dgvHeaders = new System.Windows.Forms.DataGridView();
-            this.HeaderId = new System.Windows.Forms.DataGridViewTextBoxColumn();
-            this.HeaderTitle = new System.Windows.Forms.DataGridViewTextBoxColumn();
-            this.HeaderCategory = new System.Windows.Forms.DataGridViewTextBoxColumn();
-            this.UpdUser = new System.Windows.Forms.DataGridViewTextBoxColumn();
-            this.UpdDt = new System.Windows.Forms.DataGridViewTextBoxColumn();
             this.cmsHeader = new System.Windows.Forms.ContextMenuStrip(this.components);
             this.MIeditHeader = new System.Windows.Forms.ToolStripMenuItem();
             this.lblHeaders = new System.Windows.Forms.Label();
@@ -66,6 +61,20 @@
             this.lblDetails = new System.Windows.Forms.Label();
             this.btnNewDetail = new System.Windows.Forms.Button();
             this.dgvDetails = new System.Windows.Forms.DataGridView();
+            this.cmsDetail = new System.Windows.Forms.ContextMenuStrip(this.components);
+            this.MIeditDetail = new System.Windows.Forms.ToolStripMenuItem();
+            this.MIattachments = new System.Windows.Forms.ToolStripMenuItem();
+            this.MIDetailRevisions = new System.Windows.Forms.ToolStripMenuItem();
+            this.MIdeleteHeader = new System.Windows.Forms.ToolStripMenuItem();
+            this.MIdeleteDetail = new System.Windows.Forms.ToolStripMenuItem();
+            this.toolStripSeparator1 = new System.Windows.Forms.ToolStripSeparator();
+            this.toolStripSeparator2 = new System.Windows.Forms.ToolStripSeparator();
+            this.HeaderId = new System.Windows.Forms.DataGridViewTextBoxColumn();
+            this.HeaderTitle = new System.Windows.Forms.DataGridViewTextBoxColumn();
+            this.HeaderCategory = new System.Windows.Forms.DataGridViewTextBoxColumn();
+            this.UpdUser = new System.Windows.Forms.DataGridViewTextBoxColumn();
+            this.UpdDt = new System.Windows.Forms.DataGridViewTextBoxColumn();
+            this.HeaderIsDeleted = new System.Windows.Forms.DataGridViewTextBoxColumn();
             this.DetailId = new System.Windows.Forms.DataGridViewTextBoxColumn();
             this.DetailRevNo = new System.Windows.Forms.DataGridViewTextBoxColumn();
             this.DetailDescription = new System.Windows.Forms.DataGridViewTextBoxColumn();
@@ -76,10 +85,7 @@
             this.DetailUpdDate = new System.Windows.Forms.DataGridViewTextBoxColumn();
             this.AttCnt = new System.Windows.Forms.DataGridViewTextBoxColumn();
             this.DetailOwnersCnt = new System.Windows.Forms.DataGridViewTextBoxColumn();
-            this.cmsDetail = new System.Windows.Forms.ContextMenuStrip(this.components);
-            this.MIeditDetail = new System.Windows.Forms.ToolStripMenuItem();
-            this.MIattachments = new System.Windows.Forms.ToolStripMenuItem();
-            this.MIDetailRevisions = new System.Windows.Forms.ToolStripMenuItem();
+            this.DetailIsDeleted = new System.Windows.Forms.DataGridViewTextBoxColumn();
             ((System.ComponentModel.ISupportInitialize)(this.dgvHeaders)).BeginInit();
             this.cmsHeader.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)(this.dgvAudits)).BeginInit();
@@ -109,7 +115,8 @@
             this.HeaderTitle,
             this.HeaderCategory,
             this.UpdUser,
-            this.UpdDt});
+            this.UpdDt,
+            this.HeaderIsDeleted});
             this.dgvHeaders.ContextMenuStrip = this.cmsHeader;
             dataGridViewCellStyle2.Alignment = System.Windows.Forms.DataGridViewContentAlignment.MiddleLeft;
             dataGridViewCellStyle2.BackColor = System.Drawing.SystemColors.Window;
@@ -139,50 +146,18 @@
             this.dgvHeaders.SortCompare += new System.Windows.Forms.DataGridViewSortCompareEventHandler(this.dgvHeaders_SortCompare);
             this.dgvHeaders.MouseDown += new System.Windows.Forms.MouseEventHandler(this.dgvHeaders_MouseDown);
             // 
-            // HeaderId
-            // 
-            this.HeaderId.HeaderText = "Id";
-            this.HeaderId.Name = "HeaderId";
-            this.HeaderId.ReadOnly = true;
-            this.HeaderId.Visible = false;
-            // 
-            // HeaderTitle
-            // 
-            this.HeaderTitle.HeaderText = "Title";
-            this.HeaderTitle.Name = "HeaderTitle";
-            this.HeaderTitle.ReadOnly = true;
-            this.HeaderTitle.Width = 500;
-            // 
-            // HeaderCategory
-            // 
-            this.HeaderCategory.HeaderText = "Category";
-            this.HeaderCategory.Name = "HeaderCategory";
-            this.HeaderCategory.ReadOnly = true;
-            this.HeaderCategory.Width = 350;
-            // 
-            // UpdUser
-            // 
-            this.UpdUser.HeaderText = "Update User";
-            this.UpdUser.Name = "UpdUser";
-            this.UpdUser.ReadOnly = true;
-            // 
-            // UpdDt
-            // 
-            this.UpdDt.HeaderText = "Update Date";
-            this.UpdDt.Name = "UpdDt";
-            this.UpdDt.ReadOnly = true;
-            // 
             // cmsHeader
             // 
             this.cmsHeader.Items.AddRange(new System.Windows.Forms.ToolStripItem[] {
-            this.MIeditHeader});
+            this.MIeditHeader,
+            this.MIdeleteHeader});
             this.cmsHeader.Name = "cmsHeader";
-            this.cmsHeader.Size = new System.Drawing.Size(95, 26);
+            this.cmsHeader.Size = new System.Drawing.Size(108, 48);
             // 
             // MIeditHeader
             // 
             this.MIeditHeader.Name = "MIeditHeader";
-            this.MIeditHeader.Size = new System.Drawing.Size(94, 22);
+            this.MIeditHeader.Size = new System.Drawing.Size(107, 22);
             this.MIeditHeader.Text = "Edit";
             this.MIeditHeader.Click += new System.EventHandler(this.MIeditHeader_Click);
             // 
@@ -402,7 +377,8 @@
             this.DetailUpdUser,
             this.DetailUpdDate,
             this.AttCnt,
-            this.DetailOwnersCnt});
+            this.DetailOwnersCnt,
+            this.DetailIsDeleted});
             this.dgvDetails.ContextMenuStrip = this.cmsDetail;
             dataGridViewCellStyle8.Alignment = System.Windows.Forms.DataGridViewContentAlignment.MiddleLeft;
             dataGridViewCellStyle8.BackColor = System.Drawing.SystemColors.Window;
@@ -430,6 +406,103 @@
             this.dgvDetails.TabIndex = 53;
             this.dgvDetails.SortCompare += new System.Windows.Forms.DataGridViewSortCompareEventHandler(this.dgvDetails_SortCompare);
             this.dgvDetails.MouseDown += new System.Windows.Forms.MouseEventHandler(this.dgvDetails_MouseDown);
+            // 
+            // cmsDetail
+            // 
+            this.cmsDetail.Items.AddRange(new System.Windows.Forms.ToolStripItem[] {
+            this.MIeditDetail,
+            this.MIdeleteDetail,
+            this.toolStripSeparator1,
+            this.MIattachments,
+            this.toolStripSeparator2,
+            this.MIDetailRevisions});
+            this.cmsDetail.Name = "cmsHeader";
+            this.cmsDetail.Size = new System.Drawing.Size(143, 104);
+            // 
+            // MIeditDetail
+            // 
+            this.MIeditDetail.Name = "MIeditDetail";
+            this.MIeditDetail.Size = new System.Drawing.Size(142, 22);
+            this.MIeditDetail.Text = "Edit";
+            this.MIeditDetail.Click += new System.EventHandler(this.MIeditDetail_Click);
+            // 
+            // MIattachments
+            // 
+            this.MIattachments.Name = "MIattachments";
+            this.MIattachments.Size = new System.Drawing.Size(142, 22);
+            this.MIattachments.Text = "Attachments";
+            this.MIattachments.Click += new System.EventHandler(this.MIattachments_Click);
+            // 
+            // MIDetailRevisions
+            // 
+            this.MIDetailRevisions.Name = "MIDetailRevisions";
+            this.MIDetailRevisions.Size = new System.Drawing.Size(142, 22);
+            this.MIDetailRevisions.Text = "Revisions";
+            this.MIDetailRevisions.Visible = false;
+            this.MIDetailRevisions.Click += new System.EventHandler(this.MIDetailRevisions_Click);
+            // 
+            // MIdeleteHeader
+            // 
+            this.MIdeleteHeader.Name = "MIdeleteHeader";
+            this.MIdeleteHeader.Size = new System.Drawing.Size(107, 22);
+            this.MIdeleteHeader.Text = "Delete";
+            this.MIdeleteHeader.Click += new System.EventHandler(this.MIdeleteHeader_Click);
+            // 
+            // MIdeleteDetail
+            // 
+            this.MIdeleteDetail.Name = "MIdeleteDetail";
+            this.MIdeleteDetail.Size = new System.Drawing.Size(142, 22);
+            this.MIdeleteDetail.Text = "Delete";
+            this.MIdeleteDetail.Click += new System.EventHandler(this.MIdeleteDetail_Click);
+            // 
+            // toolStripSeparator1
+            // 
+            this.toolStripSeparator1.Name = "toolStripSeparator1";
+            this.toolStripSeparator1.Size = new System.Drawing.Size(139, 6);
+            // 
+            // toolStripSeparator2
+            // 
+            this.toolStripSeparator2.Name = "toolStripSeparator2";
+            this.toolStripSeparator2.Size = new System.Drawing.Size(139, 6);
+            // 
+            // HeaderId
+            // 
+            this.HeaderId.HeaderText = "Id";
+            this.HeaderId.Name = "HeaderId";
+            this.HeaderId.ReadOnly = true;
+            this.HeaderId.Visible = false;
+            // 
+            // HeaderTitle
+            // 
+            this.HeaderTitle.HeaderText = "Title";
+            this.HeaderTitle.Name = "HeaderTitle";
+            this.HeaderTitle.ReadOnly = true;
+            this.HeaderTitle.Width = 500;
+            // 
+            // HeaderCategory
+            // 
+            this.HeaderCategory.HeaderText = "Category";
+            this.HeaderCategory.Name = "HeaderCategory";
+            this.HeaderCategory.ReadOnly = true;
+            this.HeaderCategory.Width = 350;
+            // 
+            // UpdUser
+            // 
+            this.UpdUser.HeaderText = "Update User";
+            this.UpdUser.Name = "UpdUser";
+            this.UpdUser.ReadOnly = true;
+            // 
+            // UpdDt
+            // 
+            this.UpdDt.HeaderText = "Update Date";
+            this.UpdDt.Name = "UpdDt";
+            this.UpdDt.ReadOnly = true;
+            // 
+            // HeaderIsDeleted
+            // 
+            this.HeaderIsDeleted.HeaderText = "Deleted";
+            this.HeaderIsDeleted.Name = "HeaderIsDeleted";
+            this.HeaderIsDeleted.ReadOnly = true;
             // 
             // DetailId
             // 
@@ -493,36 +566,11 @@
             this.DetailOwnersCnt.Name = "DetailOwnersCnt";
             this.DetailOwnersCnt.ReadOnly = true;
             // 
-            // cmsDetail
+            // DetailIsDeleted
             // 
-            this.cmsDetail.Items.AddRange(new System.Windows.Forms.ToolStripItem[] {
-            this.MIeditDetail,
-            this.MIattachments,
-            this.MIDetailRevisions});
-            this.cmsDetail.Name = "cmsHeader";
-            this.cmsDetail.Size = new System.Drawing.Size(143, 70);
-            // 
-            // MIeditDetail
-            // 
-            this.MIeditDetail.Name = "MIeditDetail";
-            this.MIeditDetail.Size = new System.Drawing.Size(142, 22);
-            this.MIeditDetail.Text = "Edit";
-            this.MIeditDetail.Click += new System.EventHandler(this.MIeditDetail_Click);
-            // 
-            // MIattachments
-            // 
-            this.MIattachments.Name = "MIattachments";
-            this.MIattachments.Size = new System.Drawing.Size(142, 22);
-            this.MIattachments.Text = "Attachments";
-            this.MIattachments.Click += new System.EventHandler(this.MIattachments_Click);
-            // 
-            // MIDetailRevisions
-            // 
-            this.MIDetailRevisions.Name = "MIDetailRevisions";
-            this.MIDetailRevisions.Size = new System.Drawing.Size(142, 22);
-            this.MIDetailRevisions.Text = "Revisions";
-            this.MIDetailRevisions.Visible = false;
-            this.MIDetailRevisions.Click += new System.EventHandler(this.MIDetailRevisions_Click);
+            this.DetailIsDeleted.HeaderText = "Deleted";
+            this.DetailIsDeleted.Name = "DetailIsDeleted";
+            this.DetailIsDeleted.ReadOnly = true;
             // 
             // FIShowHeaders
             // 
@@ -558,11 +606,6 @@
         private System.Windows.Forms.Label lblHeaders;
         private System.Windows.Forms.Button btnNewHeader;
         private System.Windows.Forms.DataGridView dgvAudits;
-        private System.Windows.Forms.DataGridViewTextBoxColumn HeaderId;
-        private System.Windows.Forms.DataGridViewTextBoxColumn HeaderTitle;
-        private System.Windows.Forms.DataGridViewTextBoxColumn HeaderCategory;
-        private System.Windows.Forms.DataGridViewTextBoxColumn UpdUser;
-        private System.Windows.Forms.DataGridViewTextBoxColumn UpdDt;
         private System.Windows.Forms.Label lblDetails;
         private System.Windows.Forms.Button btnNewDetail;
         private System.Windows.Forms.DataGridView dgvDetails;
@@ -584,6 +627,16 @@
         private System.Windows.Forms.DataGridViewTextBoxColumn Supervisor;
         private System.Windows.Forms.DataGridViewTextBoxColumn Rating;
         private System.Windows.Forms.DataGridViewCheckBoxColumn IsCompleted;
+        private System.Windows.Forms.ToolStripMenuItem MIdeleteHeader;
+        private System.Windows.Forms.ToolStripMenuItem MIdeleteDetail;
+        private System.Windows.Forms.ToolStripSeparator toolStripSeparator1;
+        private System.Windows.Forms.ToolStripSeparator toolStripSeparator2;
+        private System.Windows.Forms.DataGridViewTextBoxColumn HeaderId;
+        private System.Windows.Forms.DataGridViewTextBoxColumn HeaderTitle;
+        private System.Windows.Forms.DataGridViewTextBoxColumn HeaderCategory;
+        private System.Windows.Forms.DataGridViewTextBoxColumn UpdUser;
+        private System.Windows.Forms.DataGridViewTextBoxColumn UpdDt;
+        private System.Windows.Forms.DataGridViewTextBoxColumn HeaderIsDeleted;
         private System.Windows.Forms.DataGridViewTextBoxColumn DetailId;
         private System.Windows.Forms.DataGridViewTextBoxColumn DetailRevNo;
         private System.Windows.Forms.DataGridViewTextBoxColumn DetailDescription;
@@ -594,5 +647,6 @@
         private System.Windows.Forms.DataGridViewTextBoxColumn DetailUpdDate;
         private System.Windows.Forms.DataGridViewTextBoxColumn AttCnt;
         private System.Windows.Forms.DataGridViewTextBoxColumn DetailOwnersCnt;
+        private System.Windows.Forms.DataGridViewTextBoxColumn DetailIsDeleted;
     }
 }
