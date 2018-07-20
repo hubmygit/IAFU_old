@@ -75,7 +75,8 @@ namespace IAFollowUp
                 "[FIHeaderId], [InsUserId], [InsDt], [UpdUserId], [UpdDt], [ActionDt], " +
                 "CONVERT(varchar(500), DECRYPTBYPASSPHRASE(@passPhrase , [ActionReq])) as [ActionReq], [ActionCode], [RevNo], " +
                 "(SELECT count(*) FROM [dbo].[FIDetail_Attachments] T WHERE d.id = T.FIDetailID and d.RevNo = T.RevNo) as AttCnt, " +
-                "(SELECT count(*) FROM [dbo].[FIDetail_Owners] T WHERE d.id = T.FIDetailID and d.RevNo = T.RevNo) as OwnersCnt " +
+                "(SELECT count(*) FROM [dbo].[FIDetail_Owners] T WHERE d.id = T.FIDetailID and d.RevNo = T.RevNo) as OwnersCnt, " +
+                "isnull([IsDeleted], 'FALSE') as IsDeleted " + 
                 "FROM [dbo].[FIDetail] d WHERE Id = " + Id.ToString() + 
 
                 " UNION ALL " +
@@ -85,7 +86,8 @@ namespace IAFollowUp
                 "[FIHeaderId], [InsUserId], [InsDt], [UpdUserId], [UpdDt], [ActionDt], " +
                 "CONVERT(varchar(500), DECRYPTBYPASSPHRASE(@passPhrase, [ActionReq])) as [ActionReq], [ActionCode], [RevNo], " +
 	            "(SELECT count(*) FROM [dbo].[FIDetail_Attachments] T WHERE r.[FIDetailId] = T.FIDetailID and r.RevNo = T.RevNo) as AttCnt, " +
-                "(SELECT count(*) FROM [dbo].[FIDetail_Owners] T WHERE r.[FIDetailId] = T.FIDetailID and r.RevNo = T.RevNo) as OwnersCnt " +
+                "(SELECT count(*) FROM [dbo].[FIDetail_Owners] T WHERE r.[FIDetailId] = T.FIDetailID and r.RevNo = T.RevNo) as OwnersCnt, " +
+                "'FALSE' as IsDeleted " + 
                 "FROM [dbo].[FIDetailRev] r WHERE [FIDetailId] = " + Id.ToString() +
 
                 "ORDER BY RevNo DESC ";
@@ -123,7 +125,9 @@ namespace IAFollowUp
 
                         RevNo = Convert.ToInt32(reader["RevNo"].ToString()),
 
-                        AttCnt = Convert.ToInt32(reader["AttCnt"].ToString())
+                        AttCnt = Convert.ToInt32(reader["AttCnt"].ToString()),
+
+                        IsDeleted = Convert.ToBoolean(reader["IsDeleted"].ToString())
                     });
                 }
                 reader.Close();
@@ -156,6 +160,7 @@ namespace IAFollowUp
                 dgvDictList.Add(new dgvDictionary() { dbfield = thisRecord.AttCnt, dgvColumnHeader = "AttCnt" });
                 dgvDictList.Add(new dgvDictionary() { dbfield = thisRecord.ActionCode, dgvColumnHeader = "DetailActionCode" });
                 dgvDictList.Add(new dgvDictionary() { dbfield = thisRecord.OwnersCnt, dgvColumnHeader = "OwnersCnt" });
+                dgvDictList.Add(new dgvDictionary() { dbfield = thisRecord.IsDeleted, dgvColumnHeader = "DetailIsDeleted" });
 
                 object[] obj = new object[dgv.Columns.Count];
 

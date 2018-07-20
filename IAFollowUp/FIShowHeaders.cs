@@ -28,6 +28,8 @@ namespace IAFollowUp
         public List<FIHeader> Audit_Headers = new List<FIHeader>();
         public List<FIDetail> Header_Details = new List<FIDetail>();
 
+        public bool AdminAccess = false;
+
         private void MIeditHeader_Click(object sender, EventArgs e)
         {
             if (dgvHeaders.SelectedRows.Count > 0)
@@ -43,6 +45,12 @@ namespace IAFollowUp
                 if (frmHeaderEdit.success)
                 {
                     Audit_Headers = SelectHeaders(glAudit.Id);
+
+                    if (AdminAccess == false)
+                    {
+                        Audit_Headers = Audit_Headers.Where(i => i.IsDeleted == false).ToList();
+                    }
+
                     FillHeadersDataGridView(dgvHeaders, Audit_Headers);
                 }
             }
@@ -64,6 +72,12 @@ namespace IAFollowUp
                 if (frmDetailEdit.success)
                 {
                     Header_Details = SelectDetails(selectedHeader.Id);
+
+                    if (AdminAccess == false)
+                    {
+                        Header_Details = Header_Details.Where(i => i.IsDeleted == false).ToList();
+                    }
+
                     FillDetailsDataGridView(dgvDetails, Header_Details);
                 }
             }
@@ -79,7 +93,7 @@ namespace IAFollowUp
                               "[FIHeaderId],[InsUserId],[InsDt], [UpdUserId], [UpdDt], " +
                               "(SELECT count(*) FROM [dbo].[FIDetail_Attachments] T WHERE a.id = T.FIDetailID and A.RevNo = T.RevNo) as AttCnt, " +
                               "(SELECT count(*) FROM [dbo].[FIDetail_Owners] T WHERE a.id = T.FIDetailID and A.RevNo = T.RevNo) as OwnersCnt, " +
-                              "isnull([IsDeleted], 0) as IsDeleted " + 
+                              "isnull([IsDeleted], 'FALSE') as IsDeleted " + 
                               "FROM [dbo].[FIDetail] a " +
                               "WHERE [FIHeaderId] = @HeaderId " +
                               "ORDER BY [InsDt] ";
@@ -277,7 +291,7 @@ namespace IAFollowUp
             SqlConnection sqlConn = new SqlConnection(SqlDBInfo.connectionString);
             string SelectSt = "SELECT [Id], [AuditId], " +
                               "CONVERT(varchar(500), DECRYPTBYPASSPHRASE( @passPhrase , [Title])) as Title, " +
-                              "[FICategoryId],[InsUserId],[InsDt], [UpdUserId], [UpdDt], isnull([IsDeleted], 0) as IsDeleted " +
+                              "[FICategoryId],[InsUserId],[InsDt], [UpdUserId], [UpdDt], isnull([IsDeleted], 'FALSE') as IsDeleted " +
                               "FROM [dbo].[FIHeader] " +
                               "WHERE [AuditId] = @AuditId " +
                               "ORDER BY [InsDt] ";
@@ -328,6 +342,16 @@ namespace IAFollowUp
 
             List<FIHeader> Audit_HeadersList = SelectHeaders(glAudit.Id);
 
+            if (AdminAccess == false)
+            {
+                Audit_HeadersList = Audit_HeadersList.Where(i => i.IsDeleted == false).ToList();
+            }
+            else
+            {
+                dgvHeaders.Columns["HeaderIsDeleted"].Visible = true;
+                dgvDetails.Columns["DetailIsDeleted"].Visible = true;
+            }
+            
             if (glAudit.IsCompleted || glAudit.IsDeleted)
             {
                 if (Audit_HeadersList.Count > 0)
@@ -350,17 +374,23 @@ namespace IAFollowUp
 
         private void btnNew_Click(object sender, EventArgs e)
         {
-                //int AuditId = Convert.ToInt32(dgvAudits.SelectedRows[0].Cells["Id"].Value.ToString());
-                //Audit selectedAudit = auditList.Where(i => i.Id == AuditId).First();
+            //int AuditId = Convert.ToInt32(dgvAudits.SelectedRows[0].Cells["Id"].Value.ToString());
+            //Audit selectedAudit = auditList.Where(i => i.Id == AuditId).First();
 
-                FIHeaderEdit frmHeaderEdit = new FIHeaderEdit(glAudit);
-                frmHeaderEdit.ShowDialog();
+            FIHeaderEdit frmHeaderEdit = new FIHeaderEdit(glAudit);
+            frmHeaderEdit.ShowDialog();
 
-                if (frmHeaderEdit.success)
+            if (frmHeaderEdit.success)
+            {
+                Audit_Headers = SelectHeaders(glAudit.Id);
+
+                if (AdminAccess == false)
                 {
-                    Audit_Headers = SelectHeaders(glAudit.Id);
-                    FillHeadersDataGridView(dgvHeaders, Audit_Headers);
+                    Audit_Headers = Audit_Headers.Where(i => i.IsDeleted == false).ToList();
                 }
+
+                FillHeadersDataGridView(dgvHeaders, Audit_Headers);
+            }
         }
 
         public static void FillHeadersDataGridView(DataGridView dgv, List<FIHeader> HeaderList)
@@ -439,6 +469,12 @@ namespace IAFollowUp
                 int HeaderId = Convert.ToInt32(dgvHeaders.SelectedRows[0].Cells["HeaderId"].Value.ToString());
 
                 Header_Details = SelectDetails(HeaderId);
+
+                if (AdminAccess == false)
+                {
+                    Header_Details = Header_Details.Where(i => i.IsDeleted == false).ToList();
+                }
+
                 FillDetailsDataGridView(dgvDetails, Header_Details);
             }
         }
@@ -479,6 +515,12 @@ namespace IAFollowUp
                 if (frmDetailEdit.success)
                 {
                     Header_Details = SelectDetails(selectedHeader.Id);
+
+                    if (AdminAccess == false)
+                    {
+                        Header_Details = Header_Details.Where(i => i.IsDeleted == false).ToList();
+                    }
+
                     FillDetailsDataGridView(dgvDetails, Header_Details);
                 }
             }
@@ -651,7 +693,7 @@ namespace IAFollowUp
         {
             if (dgvHeaders.SelectedRows.Count > 0)
             {
-                if (dgvHeaders.SelectedRows[0].Cells["IsDeleted"].Value.ToString() == "True")
+                if (dgvHeaders.SelectedRows[0].Cells["HeaderIsDeleted"].Value.ToString() == "True")
                 {
                     MessageBox.Show("The F/I header has already been deleted!");
                     return;
@@ -676,18 +718,29 @@ namespace IAFollowUp
                         //}
                         //else
                         //{
+
                         MessageBox.Show("The Deletion was successful!");
+
                         //}
 
-                        Audit_Headers.RemoveAt(Audit_Headers.FindIndex(w => w.Id == id));
-                        dgvHeaders.Rows.RemoveAt(dgvHeaders.SelectedRows[0].Index);
+                        if (AdminAccess)
+                        {
+                            Audit_Headers = SelectHeaders(glAudit.Id);
+                            FillHeadersDataGridView(dgvHeaders, Audit_Headers);
+                        }
+                        else
+                        {
+                            Audit_Headers.RemoveAt(Audit_Headers.FindIndex(w => w.Id == id));
+                            dgvHeaders.Rows.RemoveAt(dgvHeaders.SelectedRows[0].Index);
 
-                        Header_Details.RemoveAt(Header_Details.FindIndex(w => w.FIHeaderId == id));
-                        dgvDetails.Rows.Clear();
+                            Header_Details.RemoveAt(Header_Details.FindIndex(w => w.FIHeaderId == id));
+                            dgvDetails.Rows.Clear();
+                        }
 
-                        //delete header and clear details grid too!!!
-                        //to delete ston admin den tha prepei na trwei tin eggrafi, aplws na markarei to flag IsDeleted
-                        //check: to deksi klik sta headers emfanizei ta details??
+                        //-dgvaudits.IsDeleted na emfanizetai ston admin
+                        //-to delete ston admin den tha prepei na trwei tin eggrafi, aplws na markarei to flag IsDeleted
+                        //-bug exception ???
+                        //-na ginei hide to IsDeleted sto dgv kai show mono ston admin (frmAuditorAuditView_Rev.dgvAuditView.Columns["IsDeleted"].Visible = true;)
                     }
                     else
                     {
@@ -699,7 +752,60 @@ namespace IAFollowUp
 
         private void MIdeleteDetail_Click(object sender, EventArgs e)
         {
-            //...
+            if (dgvDetails.SelectedRows.Count > 0)
+            {
+                if (dgvDetails.SelectedRows[0].Cells["DetailIsDeleted"].Value.ToString() == "True")
+                {
+                    MessageBox.Show("The F/I Detail has already been deleted!");
+                    return;
+                }
+
+                DialogResult dialogResult = MessageBox.Show("Are you sure you want to permanently delete this record?", "F/I Detail Deletion", MessageBoxButtons.YesNo);
+
+                if (dialogResult == DialogResult.Yes)
+                {
+                    int id = Convert.ToInt32(dgvDetails.SelectedRows[0].Cells["DetailId"].Value.ToString());
+
+                    if (DeleteFIDetail(id))
+                    {
+                        //int rev = Header_Details[Header_Details.FindIndex(w => w.Id == id)].RevNo;
+
+                        //if (Header_Details[Header_Details.FindIndex(w => w.Id == id)].AttCnt > 0)
+                        //{
+                        //    if (new InsertNewAudit().InsertIntoTable_Att(id, rev, UserInfo.userDetails.Id) == false)//????????
+                        //    {
+                        //        MessageBox.Show("The Deletion of attachments failed!");
+                        //    }
+                        //}
+                        //else
+                        //{
+
+                        MessageBox.Show("The Deletion was successful!");
+
+                        //}
+
+                        if (AdminAccess)
+                        {
+                            //if (dgvHeaders.SelectedRows.Count > 0)
+                            //{
+                            int HeaderId = Convert.ToInt32(dgvHeaders.SelectedRows[0].Cells["HeaderId"].Value.ToString());
+                            Header_Details = SelectDetails(HeaderId);
+                            FillDetailsDataGridView(dgvDetails, Header_Details);
+                            //}
+                        }
+                        else
+                        {
+                            Header_Details.RemoveAt(Header_Details.FindIndex(w => w.Id == id));
+                            dgvDetails.Rows.RemoveAt(dgvDetails.SelectedRows[0].Index);
+                        }
+
+                    }
+                    else
+                    {
+                        MessageBox.Show("The Deletion was not successful!");
+                    }
+                }
+            }
         }
     }
 }

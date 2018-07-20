@@ -42,6 +42,7 @@
             this.dgvHeaders = new System.Windows.Forms.DataGridView();
             this.cmsHeader = new System.Windows.Forms.ContextMenuStrip(this.components);
             this.MIeditHeader = new System.Windows.Forms.ToolStripMenuItem();
+            this.MIdeleteHeader = new System.Windows.Forms.ToolStripMenuItem();
             this.lblHeaders = new System.Windows.Forms.Label();
             this.btnNewHeader = new System.Windows.Forms.Button();
             this.dgvAudits = new System.Windows.Forms.DataGridView();
@@ -63,18 +64,17 @@
             this.dgvDetails = new System.Windows.Forms.DataGridView();
             this.cmsDetail = new System.Windows.Forms.ContextMenuStrip(this.components);
             this.MIeditDetail = new System.Windows.Forms.ToolStripMenuItem();
-            this.MIattachments = new System.Windows.Forms.ToolStripMenuItem();
-            this.MIDetailRevisions = new System.Windows.Forms.ToolStripMenuItem();
-            this.MIdeleteHeader = new System.Windows.Forms.ToolStripMenuItem();
             this.MIdeleteDetail = new System.Windows.Forms.ToolStripMenuItem();
             this.toolStripSeparator1 = new System.Windows.Forms.ToolStripSeparator();
+            this.MIattachments = new System.Windows.Forms.ToolStripMenuItem();
             this.toolStripSeparator2 = new System.Windows.Forms.ToolStripSeparator();
+            this.MIDetailRevisions = new System.Windows.Forms.ToolStripMenuItem();
             this.HeaderId = new System.Windows.Forms.DataGridViewTextBoxColumn();
             this.HeaderTitle = new System.Windows.Forms.DataGridViewTextBoxColumn();
             this.HeaderCategory = new System.Windows.Forms.DataGridViewTextBoxColumn();
             this.UpdUser = new System.Windows.Forms.DataGridViewTextBoxColumn();
             this.UpdDt = new System.Windows.Forms.DataGridViewTextBoxColumn();
-            this.HeaderIsDeleted = new System.Windows.Forms.DataGridViewTextBoxColumn();
+            this.HeaderIsDeleted = new System.Windows.Forms.DataGridViewCheckBoxColumn();
             this.DetailId = new System.Windows.Forms.DataGridViewTextBoxColumn();
             this.DetailRevNo = new System.Windows.Forms.DataGridViewTextBoxColumn();
             this.DetailDescription = new System.Windows.Forms.DataGridViewTextBoxColumn();
@@ -85,7 +85,7 @@
             this.DetailUpdDate = new System.Windows.Forms.DataGridViewTextBoxColumn();
             this.AttCnt = new System.Windows.Forms.DataGridViewTextBoxColumn();
             this.DetailOwnersCnt = new System.Windows.Forms.DataGridViewTextBoxColumn();
-            this.DetailIsDeleted = new System.Windows.Forms.DataGridViewTextBoxColumn();
+            this.DetailIsDeleted = new System.Windows.Forms.DataGridViewCheckBoxColumn();
             ((System.ComponentModel.ISupportInitialize)(this.dgvHeaders)).BeginInit();
             this.cmsHeader.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)(this.dgvAudits)).BeginInit();
@@ -160,6 +160,13 @@
             this.MIeditHeader.Size = new System.Drawing.Size(107, 22);
             this.MIeditHeader.Text = "Edit";
             this.MIeditHeader.Click += new System.EventHandler(this.MIeditHeader_Click);
+            // 
+            // MIdeleteHeader
+            // 
+            this.MIdeleteHeader.Name = "MIdeleteHeader";
+            this.MIdeleteHeader.Size = new System.Drawing.Size(107, 22);
+            this.MIdeleteHeader.Text = "Delete";
+            this.MIdeleteHeader.Click += new System.EventHandler(this.MIdeleteHeader_Click);
             // 
             // lblHeaders
             // 
@@ -426,28 +433,6 @@
             this.MIeditDetail.Text = "Edit";
             this.MIeditDetail.Click += new System.EventHandler(this.MIeditDetail_Click);
             // 
-            // MIattachments
-            // 
-            this.MIattachments.Name = "MIattachments";
-            this.MIattachments.Size = new System.Drawing.Size(142, 22);
-            this.MIattachments.Text = "Attachments";
-            this.MIattachments.Click += new System.EventHandler(this.MIattachments_Click);
-            // 
-            // MIDetailRevisions
-            // 
-            this.MIDetailRevisions.Name = "MIDetailRevisions";
-            this.MIDetailRevisions.Size = new System.Drawing.Size(142, 22);
-            this.MIDetailRevisions.Text = "Revisions";
-            this.MIDetailRevisions.Visible = false;
-            this.MIDetailRevisions.Click += new System.EventHandler(this.MIDetailRevisions_Click);
-            // 
-            // MIdeleteHeader
-            // 
-            this.MIdeleteHeader.Name = "MIdeleteHeader";
-            this.MIdeleteHeader.Size = new System.Drawing.Size(107, 22);
-            this.MIdeleteHeader.Text = "Delete";
-            this.MIdeleteHeader.Click += new System.EventHandler(this.MIdeleteHeader_Click);
-            // 
             // MIdeleteDetail
             // 
             this.MIdeleteDetail.Name = "MIdeleteDetail";
@@ -460,10 +445,25 @@
             this.toolStripSeparator1.Name = "toolStripSeparator1";
             this.toolStripSeparator1.Size = new System.Drawing.Size(139, 6);
             // 
+            // MIattachments
+            // 
+            this.MIattachments.Name = "MIattachments";
+            this.MIattachments.Size = new System.Drawing.Size(142, 22);
+            this.MIattachments.Text = "Attachments";
+            this.MIattachments.Click += new System.EventHandler(this.MIattachments_Click);
+            // 
             // toolStripSeparator2
             // 
             this.toolStripSeparator2.Name = "toolStripSeparator2";
             this.toolStripSeparator2.Size = new System.Drawing.Size(139, 6);
+            // 
+            // MIDetailRevisions
+            // 
+            this.MIDetailRevisions.Name = "MIDetailRevisions";
+            this.MIDetailRevisions.Size = new System.Drawing.Size(142, 22);
+            this.MIDetailRevisions.Text = "Revisions";
+            this.MIDetailRevisions.Visible = false;
+            this.MIDetailRevisions.Click += new System.EventHandler(this.MIDetailRevisions_Click);
             // 
             // HeaderId
             // 
@@ -503,6 +503,9 @@
             this.HeaderIsDeleted.HeaderText = "Deleted";
             this.HeaderIsDeleted.Name = "HeaderIsDeleted";
             this.HeaderIsDeleted.ReadOnly = true;
+            this.HeaderIsDeleted.Resizable = System.Windows.Forms.DataGridViewTriState.True;
+            this.HeaderIsDeleted.SortMode = System.Windows.Forms.DataGridViewColumnSortMode.Automatic;
+            this.HeaderIsDeleted.Visible = false;
             // 
             // DetailId
             // 
@@ -571,6 +574,9 @@
             this.DetailIsDeleted.HeaderText = "Deleted";
             this.DetailIsDeleted.Name = "DetailIsDeleted";
             this.DetailIsDeleted.ReadOnly = true;
+            this.DetailIsDeleted.Resizable = System.Windows.Forms.DataGridViewTriState.True;
+            this.DetailIsDeleted.SortMode = System.Windows.Forms.DataGridViewColumnSortMode.Automatic;
+            this.DetailIsDeleted.Visible = false;
             // 
             // FIShowHeaders
             // 
@@ -636,7 +642,7 @@
         private System.Windows.Forms.DataGridViewTextBoxColumn HeaderCategory;
         private System.Windows.Forms.DataGridViewTextBoxColumn UpdUser;
         private System.Windows.Forms.DataGridViewTextBoxColumn UpdDt;
-        private System.Windows.Forms.DataGridViewTextBoxColumn HeaderIsDeleted;
+        private System.Windows.Forms.DataGridViewCheckBoxColumn HeaderIsDeleted;
         private System.Windows.Forms.DataGridViewTextBoxColumn DetailId;
         private System.Windows.Forms.DataGridViewTextBoxColumn DetailRevNo;
         private System.Windows.Forms.DataGridViewTextBoxColumn DetailDescription;
@@ -647,6 +653,6 @@
         private System.Windows.Forms.DataGridViewTextBoxColumn DetailUpdDate;
         private System.Windows.Forms.DataGridViewTextBoxColumn AttCnt;
         private System.Windows.Forms.DataGridViewTextBoxColumn DetailOwnersCnt;
-        private System.Windows.Forms.DataGridViewTextBoxColumn DetailIsDeleted;
+        private System.Windows.Forms.DataGridViewCheckBoxColumn DetailIsDeleted;
     }
 }

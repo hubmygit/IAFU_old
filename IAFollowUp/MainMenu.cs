@@ -90,6 +90,9 @@ namespace IAFollowUp
                 Audit selAudit = frmAuditView.Header_Audit;
 
                 FIShowHeaders frmShowHeaders = new FIShowHeaders(selAudit);
+
+                //frmShowHeaders.AdminAccess = false;
+
                 frmShowHeaders.ShowDialog();
             }
         }
@@ -110,6 +113,9 @@ namespace IAFollowUp
                 Audit selAudit = frmAuditView.Header_Audit;
                 FIShowHeaders frmShowHeaders_Rev = new FIShowHeaders(selAudit);
                 frmShowHeaders_Rev.cmsDetail.Items["MIDetailRevisions"].Visible = true;
+
+                frmShowHeaders_Rev.AdminAccess = true;
+
                 frmShowHeaders_Rev.ShowDialog();
             }
         }

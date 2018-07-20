@@ -106,7 +106,7 @@ namespace IAFollowUp
                               "[Auditor1Id], [Auditor2Id], [SupervisorId], " +
                               "[IsCompleted], [AuditNumber], [IASentNumber], [RevNo], " +
                               "(SELECT count(*) FROM [dbo].[Audit_Attachments] T WHERE a.id = T.AuditID and A.RevNo = T.RevNo) as AttCnt, " + 
-                              "[AuditRatingId], isnull([IsDeleted], 0) as IsDeleted " +
+                              "[AuditRatingId], isnull([IsDeleted], 'FALSE') as IsDeleted " +
                               "FROM [dbo].[Audit] A " +
                               "ORDER BY Id "; //ToDo
             SqlCommand cmd = new SqlCommand(SelectSt, sqlConn);
@@ -410,6 +410,11 @@ namespace IAFollowUp
                 Audit thisAudit = auditList.Where(i => i.Id == thisId).First();
 
                 FIShowHeaders frmShowHeaders = new FIShowHeaders(thisAudit);
+                if (dgvAuditView.Columns["IsDeleted"].Visible)//admin menu
+                {
+                    frmShowHeaders.AdminAccess = true;
+                }
+                
                 frmShowHeaders.ShowDialog();
             }
         }
