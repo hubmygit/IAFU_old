@@ -348,6 +348,7 @@ namespace IAFollowUp
             }
             else
             {
+                dgvAudits.Columns["IsDeleted"].Visible = true;
                 dgvHeaders.Columns["HeaderIsDeleted"].Visible = true;
                 dgvDetails.Columns["DetailIsDeleted"].Visible = true;
             }
@@ -358,7 +359,7 @@ namespace IAFollowUp
                 {
                     btnNewHeader.Enabled = false;
                     btnNewDetail.Enabled = false;
-                    MIeditHeader.Enabled = false; 
+                    MIeditHeader.Enabled = false;
                 }
                 else
                 {

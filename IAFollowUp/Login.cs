@@ -8,7 +8,7 @@ using System.Linq;
 using System.Text;
 using System.Windows.Forms;
 
-using System.DirectoryServices.AccountManagement;
+//using System.DirectoryServices.AccountManagement;
 
 namespace IAFollowUp
 {
@@ -148,7 +148,7 @@ namespace IAFollowUp
 
             try
             {
-                WindowsUser = Environment.UserName;
+                WindowsUser = Environment.UserName; //get windows/domain logged in username
 
                 //EmailAddress = UserPrincipal.Current.EmailAddress;
                 if (EmailAddress == null) //if domain infos not found
@@ -471,6 +471,7 @@ namespace IAFollowUp
         public string FullName { get; set; }
         public string Email { get; set; }
         public DateTime InsDt { get; set; }
+        public bool HasActivePassword { get; set; }
     }
 
     public class PasswordHistory

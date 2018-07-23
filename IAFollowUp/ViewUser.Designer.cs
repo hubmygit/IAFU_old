@@ -34,15 +34,18 @@
             System.Windows.Forms.DataGridViewCellStyle dataGridViewCellStyle3 = new System.Windows.Forms.DataGridViewCellStyle();
             System.ComponentModel.ComponentResourceManager resources = new System.ComponentModel.ComponentResourceManager(typeof(ViewUser));
             this.dgvUserView = new System.Windows.Forms.DataGridView();
-            this.btnNew = new System.Windows.Forms.Button();
             this.cmsOnGrid = new System.Windows.Forms.ContextMenuStrip(this.components);
             this.MIupdate = new System.Windows.Forms.ToolStripMenuItem();
+            this.MIinitPass = new System.Windows.Forms.ToolStripMenuItem();
+            this.btnNew = new System.Windows.Forms.Button();
+            this.MIdisable = new System.Windows.Forms.ToolStripMenuItem();
             this.Id = new System.Windows.Forms.DataGridViewTextBoxColumn();
             this.UserName = new System.Windows.Forms.DataGridViewTextBoxColumn();
             this.FullName = new System.Windows.Forms.DataGridViewTextBoxColumn();
             this.Email = new System.Windows.Forms.DataGridViewTextBoxColumn();
             this.Role = new System.Windows.Forms.DataGridViewTextBoxColumn();
             this.InsDate = new System.Windows.Forms.DataGridViewTextBoxColumn();
+            this.HasActivePassword = new System.Windows.Forms.DataGridViewCheckBoxColumn();
             ((System.ComponentModel.ISupportInitialize)(this.dgvUserView)).BeginInit();
             this.cmsOnGrid.SuspendLayout();
             this.SuspendLayout();
@@ -71,7 +74,8 @@
             this.FullName,
             this.Email,
             this.Role,
-            this.InsDate});
+            this.InsDate,
+            this.HasActivePassword});
             this.dgvUserView.ContextMenuStrip = this.cmsOnGrid;
             dataGridViewCellStyle2.Alignment = System.Windows.Forms.DataGridViewContentAlignment.MiddleLeft;
             dataGridViewCellStyle2.BackColor = System.Drawing.SystemColors.Window;
@@ -94,9 +98,32 @@
             dataGridViewCellStyle3.WrapMode = System.Windows.Forms.DataGridViewTriState.True;
             this.dgvUserView.RowHeadersDefaultCellStyle = dataGridViewCellStyle3;
             this.dgvUserView.SelectionMode = System.Windows.Forms.DataGridViewSelectionMode.FullRowSelect;
-            this.dgvUserView.Size = new System.Drawing.Size(964, 393);
+            this.dgvUserView.Size = new System.Drawing.Size(1034, 393);
             this.dgvUserView.TabIndex = 14;
             this.dgvUserView.MouseDown += new System.Windows.Forms.MouseEventHandler(this.dgvUserView_MouseDown);
+            // 
+            // cmsOnGrid
+            // 
+            this.cmsOnGrid.Items.AddRange(new System.Windows.Forms.ToolStripItem[] {
+            this.MIupdate,
+            this.MIinitPass,
+            this.MIdisable});
+            this.cmsOnGrid.Name = "cmsOnGrid";
+            this.cmsOnGrid.Size = new System.Drawing.Size(171, 70);
+            // 
+            // MIupdate
+            // 
+            this.MIupdate.Name = "MIupdate";
+            this.MIupdate.Size = new System.Drawing.Size(170, 22);
+            this.MIupdate.Text = "Edit";
+            this.MIupdate.Click += new System.EventHandler(this.MIupdate_Click);
+            // 
+            // MIinitPass
+            // 
+            this.MIinitPass.Name = "MIinitPass";
+            this.MIinitPass.Size = new System.Drawing.Size(170, 22);
+            this.MIinitPass.Text = "Initialize Password";
+            this.MIinitPass.Click += new System.EventHandler(this.MIinitPass_Click);
             // 
             // btnNew
             // 
@@ -109,19 +136,12 @@
             this.btnNew.UseVisualStyleBackColor = true;
             this.btnNew.Click += new System.EventHandler(this.btnNew_Click);
             // 
-            // cmsOnGrid
+            // MIdisable
             // 
-            this.cmsOnGrid.Items.AddRange(new System.Windows.Forms.ToolStripItem[] {
-            this.MIupdate});
-            this.cmsOnGrid.Name = "cmsOnGrid";
-            this.cmsOnGrid.Size = new System.Drawing.Size(95, 26);
-            // 
-            // MIupdate
-            // 
-            this.MIupdate.Name = "MIupdate";
-            this.MIupdate.Size = new System.Drawing.Size(94, 22);
-            this.MIupdate.Text = "Edit";
-            this.MIupdate.Click += new System.EventHandler(this.MIupdate_Click);
+            this.MIdisable.Name = "MIdisable";
+            this.MIdisable.Size = new System.Drawing.Size(170, 22);
+            this.MIdisable.Text = "Disable";
+            this.MIdisable.Click += new System.EventHandler(this.MIdisable_Click);
             // 
             // Id
             // 
@@ -166,15 +186,22 @@
             this.InsDate.ReadOnly = true;
             this.InsDate.Width = 170;
             // 
+            // HasActivePassword
+            // 
+            this.HasActivePassword.HeaderText = "Active";
+            this.HasActivePassword.Name = "HasActivePassword";
+            this.HasActivePassword.ReadOnly = true;
+            this.HasActivePassword.Width = 80;
+            // 
             // ViewUser
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
-            this.ClientSize = new System.Drawing.Size(964, 442);
+            this.ClientSize = new System.Drawing.Size(1034, 442);
             this.Controls.Add(this.btnNew);
             this.Controls.Add(this.dgvUserView);
             this.Icon = ((System.Drawing.Icon)(resources.GetObject("$this.Icon")));
-            this.MinimumSize = new System.Drawing.Size(980, 480);
+            this.MinimumSize = new System.Drawing.Size(1050, 480);
             this.Name = "ViewUser";
             this.StartPosition = System.Windows.Forms.FormStartPosition.CenterParent;
             this.Text = "View User";
@@ -191,11 +218,14 @@
         private System.Windows.Forms.Button btnNew;
         public System.Windows.Forms.ContextMenuStrip cmsOnGrid;
         private System.Windows.Forms.ToolStripMenuItem MIupdate;
+        private System.Windows.Forms.ToolStripMenuItem MIinitPass;
+        private System.Windows.Forms.ToolStripMenuItem MIdisable;
         private System.Windows.Forms.DataGridViewTextBoxColumn Id;
         private System.Windows.Forms.DataGridViewTextBoxColumn UserName;
         private System.Windows.Forms.DataGridViewTextBoxColumn FullName;
         private System.Windows.Forms.DataGridViewTextBoxColumn Email;
         private System.Windows.Forms.DataGridViewTextBoxColumn Role;
         private System.Windows.Forms.DataGridViewTextBoxColumn InsDate;
+        private System.Windows.Forms.DataGridViewCheckBoxColumn HasActivePassword;
     }
 }

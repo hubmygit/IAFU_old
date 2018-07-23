@@ -30,7 +30,7 @@ namespace IAFollowUp
             AuditUpdId = audit.Id;
 
             txtTitle.Text = audit.Title;
-            dtpYear.Value = new DateTime (audit.Year, 1,1);
+            dtpYear.Value = new DateTime(audit.Year, 1, 1);
 
             cbCompanies.SelectedIndex = cbCompanies.FindStringExact(audit.Company.Name);
 

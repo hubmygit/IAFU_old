@@ -128,7 +128,38 @@ namespace IAFollowUp
             return ret;
         }
 
-        public bool insertInto_PasswordHistory_Table(int UserId, byte[] hashPass)//string Password)
+        public static bool update_PasswordHistory_TableAllRecsPerUser(int UsersId, bool IsCurrent)
+        {
+            bool ret = false;
+
+            SqlConnection sqlConn = new SqlConnection(SqlDBInfo.connectionString);
+
+            string UpdSt = "UPDATE [dbo].[PasswordHistory] SET IsCurrent = @IsCurrent WHERE UsersId = @UsersId";
+
+            try
+            {
+                sqlConn.Open();
+                SqlCommand cmd = new SqlCommand(UpdSt, sqlConn);
+
+                cmd.Parameters.AddWithValue("@UsersId", UsersId);
+                cmd.Parameters.AddWithValue("@IsCurrent", IsCurrent);
+
+                cmd.CommandType = CommandType.Text;
+                cmd.ExecuteNonQuery();
+
+                ret = true;
+            }
+            catch (Exception ex)
+            {
+                MessageBox.Show("The following error occurred: " + ex.Message);
+            }
+
+            sqlConn.Close();
+
+            return ret;
+        }
+
+        public static bool insertInto_PasswordHistory_Table(int UserId, byte[] hashPass)//string Password)
         {
             bool ret = false;
 
@@ -171,7 +202,7 @@ namespace IAFollowUp
             return ret;
         }
 
-        public byte[] Encrypt(string text)
+        public static byte[] Encrypt(string text)
         {
             byte[] ret = null;
 

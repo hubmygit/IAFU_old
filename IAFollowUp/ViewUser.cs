@@ -26,7 +26,8 @@ namespace IAFollowUp
 
             SqlConnection sqlConn = new SqlConnection(SqlDBInfo.connectionString);
             string SelectSt = "SELECT [Id], CONVERT(varchar(500), DECRYPTBYPASSPHRASE(@passPhrase, [UserName])) as UserName, CONVERT(varchar(500), DECRYPTBYPASSPHRASE(@passPhrase, [FullName])) as FullName,"+
-                " CONVERT(varchar(500), DECRYPTBYPASSPHRASE(@passPhrase, [Email])) as Email, [RolesId],[InsDt] " +
+                " CONVERT(varchar(500), DECRYPTBYPASSPHRASE(@passPhrase, [Email])) as Email, [RolesId], [InsDt], " + 
+                "CASE WHEN (select count(*) from [dbo].[PasswordHistory] WHERE UsersId = [dbo].[Users].[Id] AND IsCurrent = 1) > 0 THEN 'True' ELSE 'False' END as HasActivePassword " +
                               "FROM [dbo].[Users] " +
                               "ORDER BY FullName ";
             SqlCommand cmd = new SqlCommand(SelectSt, sqlConn);
@@ -46,7 +47,8 @@ namespace IAFollowUp
                         Email = reader["Email"].ToString(),
                         RolesId = Convert.ToInt32(reader["RolesId"].ToString()),
                         Role = new Role(Convert.ToInt32(reader["RolesId"].ToString())),
-                        InsDt = Convert.ToDateTime(reader["InsDt"].ToString())
+                        InsDt = Convert.ToDateTime(reader["InsDt"].ToString()),
+                        HasActivePassword = Convert.ToBoolean(reader["HasActivePassword"].ToString())
                     });
                 }
                 reader.Close();
@@ -73,6 +75,7 @@ namespace IAFollowUp
                 dgvDictList.Add(new dgvDictionary() { dbfield = thisRecord.Email, dgvColumnHeader = "Email" });
                 dgvDictList.Add(new dgvDictionary() { dbfield = thisRecord.Role.Name, dgvColumnHeader = "Role" });
                 dgvDictList.Add(new dgvDictionary() { dbfield = thisRecord.InsDt.ToString("dd.MM.yyyy HH:mm:ss"), dgvColumnHeader = "InsDate" });
+                dgvDictList.Add(new dgvDictionary() { dbfield = thisRecord.HasActivePassword, dgvColumnHeader = "HasActivePassword" });
 
                 object[] obj = new object[dgv.Columns.Count];
 
@@ -136,6 +139,72 @@ namespace IAFollowUp
         private void ViewUser_Load(object sender, EventArgs e)
         {
             FillDataGridView(dgvUserView, userList);
+        }
+
+        private void MIinitPass_Click(object sender, EventArgs e)
+        {
+            if (dgvUserView.SelectedRows.Count > 0)
+            {
+                DialogResult dialogResult = MessageBox.Show("Are you sure you want to Initialize Password for this User?", "Password Initialization", MessageBoxButtons.YesNo);
+                if (dialogResult != DialogResult.Yes)
+                {
+                    return;
+                }
+
+                int thisId = Convert.ToInt32(dgvUserView.SelectedRows[0].Cells["Id"].Value.ToString());
+                string initPass = CreateUser.GetRandomPassword();
+                byte[] HashPass = ChangePassword.Encrypt(initPass);
+
+                if (ChangePassword.update_PasswordHistory_TableAllRecsPerUser(thisId, false))
+                {
+                    if (ChangePassword.insertInto_PasswordHistory_Table(thisId, HashPass))
+                    {
+                        MessageBox.Show("Password Initialized successfully!");
+
+                        NewPassword frmNewPass = new NewPassword(initPass);
+                        frmNewPass.ShowDialog();
+
+                        userList = SelectedUser();
+                        FillDataGridView(dgvUserView, userList);
+                    }
+                    else
+                    {
+                        MessageBox.Show("Error while initializing password!");
+                    }
+                }
+                else
+                {
+                    MessageBox.Show("Error while initializing password!");
+                }
+
+
+            }
+        }
+
+        private void MIdisable_Click(object sender, EventArgs e)
+        {
+            if (dgvUserView.SelectedRows.Count > 0)
+            {
+                DialogResult dialogResult = MessageBox.Show("Are you sure you want to Disable (Block) this User?", "Block User", MessageBoxButtons.YesNo);
+                if (dialogResult != DialogResult.Yes)
+                {
+                    return;
+                }
+
+                int thisId = Convert.ToInt32(dgvUserView.SelectedRows[0].Cells["Id"].Value.ToString());
+
+                if (ChangePassword.update_PasswordHistory_TableAllRecsPerUser(thisId, false))
+                {
+                    MessageBox.Show("User disabled (blocked) successfully!");
+
+                    userList = SelectedUser();
+                    FillDataGridView(dgvUserView, userList);
+                }
+                else
+                {
+                    MessageBox.Show("An error occured while blocking user!");
+                }
+            }
         }
     }
 }
