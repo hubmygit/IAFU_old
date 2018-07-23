@@ -58,6 +58,12 @@ namespace IAFollowUp
                 return;
             }
 
+            if (txtNewPassword.Text == txtUserName.Text)
+            {
+                MessageBox.Show("New Password must be different than your Username!");
+                return;
+            }
+
             if (!IsStrongPass(txtNewPassword.Text)) //PassedCriteria
             {
                 MessageBox.Show("Your Password must contain an uppercase letter, a digit and a special character and must meet the minimum of 8 characters length!");

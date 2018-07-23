@@ -29,6 +29,8 @@ namespace IAFollowUp
         public User user = new User();
         public Role role = new Role();
 
+        public int failedLoginAttempts = 0;
+
         private void btnLogin_Click(object sender, EventArgs e)
         {
             RunOn_TxtUserName_Leave();
@@ -64,6 +66,15 @@ namespace IAFollowUp
             {
                 toolStripMess.ForeColor = Color.Red;
                 toolStripMess.Text = "Not authorized user!";
+
+                failedLoginAttempts++;
+                toolStripMess.Text += " [Attempt(s) " + failedLoginAttempts.ToString() + " of 5]";
+
+                if (failedLoginAttempts == 5)
+                {
+                    MessageBox.Show("You reached the maximum number of failed attempts to log in!");
+                    Close();
+                }
             }
         }
 
