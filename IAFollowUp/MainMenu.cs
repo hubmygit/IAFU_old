@@ -2,6 +2,7 @@
 using System.Collections.Generic;
 using System.ComponentModel;
 using System.Data;
+using System.Data.SqlClient;
 using System.Drawing;
 using System.Linq;
 using System.Text;
@@ -46,16 +47,21 @@ namespace IAFollowUp
 
         private void auditViewToolStripMenuItem_Click(object sender, EventArgs e)
         {
-            Auditor_AuditView frmAuditorAuditView = new Auditor_AuditView();
-            frmAuditorAuditView.auditList = frmAuditorAuditView.auditList.Where(i => i.IsDeleted == false).ToList();
-            frmAuditorAuditView.ShowDialog();
-
+            if (UserAction.IsLegal(Action.Audit_View))
+            {
+                Auditor_AuditView frmAuditorAuditView = new Auditor_AuditView();
+                frmAuditorAuditView.auditList = frmAuditorAuditView.auditList.Where(i => i.IsDeleted == false).ToList();
+                frmAuditorAuditView.ShowDialog();
+            }
         }
 
         private void insertNewAuditToolStripMenuItem_Click(object sender, EventArgs e)
         {
-            InsertNewAudit frmInsertNewAudit = new InsertNewAudit();
-            frmInsertNewAudit.ShowDialog();
+            if (UserAction.IsLegal(Action.Audit_Create))
+            {
+                InsertNewAudit frmInsertNewAudit = new InsertNewAudit();
+                frmInsertNewAudit.ShowDialog();
+            }
         }
 
         private void viewRevisionsToolStripMenuItem_Click(object sender, EventArgs e)
@@ -144,6 +150,176 @@ namespace IAFollowUp
             frmViewUser.ShowDialog();
         }
 
+    }
+
+    public enum Action
+    {
+        None,
+        Audit_Create,        
+        Audit_View,
+        Audit_Edit,
+        Audit_Delete,
+        Audit_Attach,
+
+        Header_Create,
+        Header_View,
+        Header_Edit,
+        Header_Delete,
+        Detail_Create,
+        Detail_View,
+        Detail_Edit,
+        Detail_Delete
+    }
+
+    public class UserAction
+    {
+        public static bool IsLegal(Action action, int? auditor1 = null, int? auditor2 = null, int? supervisor = null)
+        {
+            bool ret = false;
+            bool showMessage = true;
+
+            switch (action)
+            {
+                case Action.Audit_Create:
+                    {
+                        //Any auditor can create audit
+                        ret = true;
+                        break;
+                    }
+                case Action.Audit_View:
+                    {
+                        //Any auditor can view audits
+                        ret = true;
+                        break;
+                    }
+                case Action.Audit_Edit:
+                    {
+                        //Only Auditor1, 2, Supervisor can edit this audit
+                        if (UserInfo.userDetails.Id == auditor1 || UserInfo.userDetails.Id == auditor2 || UserInfo.userDetails.Id == supervisor)
+                        {
+                            ret = true;
+                        }
+                        else
+                        {
+                            ret = false;
+                        }                        
+                        break;
+                    }
+                case Action.Audit_Delete:
+                    {
+                        //Only Auditor1, 2, Supervisor can delete this audit
+                        if (UserInfo.userDetails.Id == auditor1 || UserInfo.userDetails.Id == auditor2 || UserInfo.userDetails.Id == supervisor)
+                        {
+                            ret = true;
+                        }
+                        else
+                        {
+                            ret = false;
+                        }
+                        break;
+                    }
+                case Action.Audit_Attach:
+                    {
+                        //Only Auditor1, 2, Supervisor can attach Audit Report
+                        if (UserInfo.userDetails.Id == auditor1 || UserInfo.userDetails.Id == auditor2 || UserInfo.userDetails.Id == supervisor)
+                        {
+                            ret = true;
+                        }
+                        else
+                        {
+                            ret = false;
+                            showMessage = false;
+                        }
+                        break;
+                    }
+
+                //case Action.Audit_Create:
+                //    {
+                //        break;
+                //    }
+                default:
+                    {
+                        //...
+                        ret = false;
+                        break;
+                    }
+            }
+
+            if (ret == false && showMessage == true)
+            {
+                MessageBox.Show("You are not authorized to perform this action!");
+            }
+
+            return ret;
+        }
+    }
+
+    public static class AppVer
+    {
+
+        public static bool IsLatestVersion() //Compare app version with db version (2 digits only)
+        {
+            bool ret = true;
+            string CurrentVersion = getCurrentAppVersion();
+            string LatestVersion = getLatestAppVersionFromDB();
+
+            string[] CurVer2Dig = CurrentVersion.Split('.');
+            string[] LatVer2Dig = LatestVersion.Split('.');
+
+            //if (CurrentVersion < LatestVersion)
+            if ((CurVer2Dig[0] + "." + CurVer2Dig[1]) != (LatVer2Dig[0] + "." + LatVer2Dig[1]))
+            {
+                ret = false;
+                MessageBox.Show("Your application version is older than the current version! \r\nIt is necessary to upgrade to continue.");
+            }
+            else if (CurrentVersion != LatestVersion)
+            {
+                MessageBox.Show("Your application version is older than the current version! \r\nPlease upgrade as soon as possible.");
+            }
+
+            return ret;
+        }
+
+        //public static int getCurrentAppVersion()
+        public static string getCurrentAppVersion()
+        {
+            //this is 'File Version' - for 'Assembly Version' use System.Reflection.Assembly.GetExecutingAssembly().GetName().Version.ToString() 
+            //int ret = 0;
+            //string appVer = Application.ProductVersion.Replace(".", "");
+            //bool succeeded = Int32.TryParse(appVer, out ret);
+
+            string ret = Application.ProductVersion;
+
+            return ret;
+        }
+
+        //public static int getLatestAppVersionFromDB()
+        public static string getLatestAppVersionFromDB()
+        {
+            //int ret = 0;
+            string ret = "";
+
+            SqlConnection sqlConn = new SqlConnection(SqlDBInfo.connectionString);
+            string SelectSt = "SELECT AppVersion FROM [dbo].[AppVersion] ";
+            SqlCommand cmd = new SqlCommand(SelectSt, sqlConn);
+            try
+            {
+                sqlConn.Open();
+                SqlDataReader reader = cmd.ExecuteReader();
+                while (reader.Read())
+                {
+                    //ret = Convert.ToInt32(reader["Num"].ToString());
+                    ret = reader["AppVersion"].ToString();
+                }
+                reader.Close();
+            }
+            catch (Exception ex)
+            {
+                MessageBox.Show("The following error occurred: " + ex.Message);
+            }
+
+            return ret;
+        }
     }
 
     public class UserAuthorization

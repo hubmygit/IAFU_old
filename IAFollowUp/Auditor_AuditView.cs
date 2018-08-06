@@ -320,7 +320,7 @@ namespace IAFollowUp
         }
 
         private void MIupdate_Click(object sender, EventArgs e)
-        {
+        {            
             //int Id = Convert.ToInt32(((DataGridView)((ToolStripMenuItem)sender).SourceControl).SelectedRows[0].Cells["Id"].Value.ToString());
             //Audit thisAudit = auditList.Where(i => i.Id == Id).First();
 
@@ -330,6 +330,11 @@ namespace IAFollowUp
                 int dgvIndex = dgvAuditView.SelectedRows[0].Index;
                 int Id = Convert.ToInt32(dgvAuditView.SelectedRows[0].Cells["Id"].Value.ToString());
                 Audit thisAudit = auditList.Where(i => i.Id == Id).First();
+
+                if (!UserAction.IsLegal(Action.Audit_Edit, thisAudit.Auditor1ID, thisAudit.Auditor2ID, thisAudit.SupervisorID))
+                {
+                    return;
+                }
 
                 InsertNewAudit frmUpdateAudit = new InsertNewAudit(thisAudit);
                 frmUpdateAudit.ShowDialog();
@@ -356,6 +361,12 @@ namespace IAFollowUp
                 if (dgvAuditView.SelectedRows[0].Cells["IsDeleted"].Value.ToString() == "True")
                 {
                     MessageBox.Show("The audit has already been deleted!");
+                    return;
+                }
+
+                Audit thisAudit = auditList.Where(i => i.Id == Convert.ToInt32(dgvAuditView.SelectedRows[0].Cells["Id"].Value.ToString())).First();
+                if (!UserAction.IsLegal(Action.Audit_Delete, thisAudit.Auditor1ID, thisAudit.Auditor2ID, thisAudit.SupervisorID))
+                {
                     return;
                 }
 
@@ -435,6 +446,16 @@ namespace IAFollowUp
                     attachedFiles.btnRemoveFile.Enabled = false;
                     attachedFiles.btnSave.Enabled = false;
                 }
+
+                Audit thisAudit = auditList.Where(i => i.Id == auditId).First();
+                if (!UserAction.IsLegal(Action.Audit_Attach, thisAudit.Auditor1ID, thisAudit.Auditor2ID, thisAudit.SupervisorID))
+                {
+                    attachedFiles.btnAddFiles.Enabled = false;
+                    attachedFiles.btnRemoveAll.Enabled = false;
+                    attachedFiles.btnRemoveFile.Enabled = false;
+                    attachedFiles.btnSave.Enabled = false;
+                }
+
                 attachedFiles.ShowDialog();
 
                 int dgvIndex = dgvAuditView.SelectedRows[0].Index;

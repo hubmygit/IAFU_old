@@ -16,6 +16,9 @@ namespace IAFollowUp
             Application.EnableVisualStyles();
             Application.SetCompatibleTextRenderingDefault(false);
 
+            if (!AppVer.IsLatestVersion()) //check version
+                return;
+
             Login frmLogin = new Login();
             frmLogin.ShowDialog();
 
