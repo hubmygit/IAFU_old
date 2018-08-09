@@ -160,6 +160,7 @@ namespace IAFollowUp
         Audit_Edit,
         Audit_Delete,
         Audit_Attach,
+        Audit_Finalize,
 
         Header_Create,
         Header_View,
@@ -229,6 +230,19 @@ namespace IAFollowUp
                         {
                             ret = false;
                             showMessage = false;
+                        }
+                        break;
+                    }
+                case Action.Audit_Finalize:
+                    {
+                        //Only Auditor1, 2, Supervisor can finalize this audit
+                        if (UserInfo.userDetails.Id == auditor1 || UserInfo.userDetails.Id == auditor2 || UserInfo.userDetails.Id == supervisor)
+                        {
+                            ret = true;
+                        }
+                        else
+                        {
+                            ret = false;
                         }
                         break;
                     }

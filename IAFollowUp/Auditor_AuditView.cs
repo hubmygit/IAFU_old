@@ -485,6 +485,12 @@ namespace IAFollowUp
 
             int id = Convert.ToInt32(dgvAuditView.SelectedRows[0].Cells["Id"].Value.ToString());
 
+            Audit thisAudit = auditList.Where(i => i.Id == id).First();
+            if (!UserAction.IsLegal(Action.Audit_Delete, thisAudit.Auditor1ID, thisAudit.Auditor2ID, thisAudit.SupervisorID))
+            {
+                return;
+            }
+
             if (UpdateAuditCompleted(id))
             {
                 auditList[auditList.FindIndex(w => w.Id == id)].IsCompleted = true;
