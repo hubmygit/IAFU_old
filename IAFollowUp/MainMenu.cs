@@ -82,7 +82,7 @@ namespace IAFollowUp
             frmAuditView.auditList = frmAuditView.auditList.Where(i => i.IsDeleted == false).ToList();
 
             frmAuditView.toolStripMessage.Visible = true;
-            frmAuditView.chbCompleted.CheckState = CheckState.Unchecked;
+            //frmAuditView.chbCompleted.CheckState = CheckState.Unchecked;
             frmAuditView.dgvAuditView.ContextMenuStrip = null;
 
             frmAuditView.dgvAuditView.CellDoubleClick += new DataGridViewCellEventHandler(frmAuditView.dgvAuditView_CellDoubleClick);
@@ -94,6 +94,12 @@ namespace IAFollowUp
             if (dRes == DialogResult.OK)
             {
                 Audit selAudit = frmAuditView.Header_Audit;
+
+                //Audit->Headers->Details
+                //if (!UserAction.IsLegal(Action.Header_View, selAudit.Auditor1ID, selAudit.Auditor2ID, selAudit.SupervisorID, ))
+                //{
+                //    return;
+                //}                
 
                 FIShowHeaders frmShowHeaders = new FIShowHeaders(selAudit);
 
@@ -174,7 +180,7 @@ namespace IAFollowUp
 
     public class UserAction
     {
-        public static bool IsLegal(Action action, int? auditor1 = null, int? auditor2 = null, int? supervisor = null)
+        public static bool IsLegal(Action action, int? auditor1 = null, int? auditor2 = null, int? supervisor = null, bool? isPublished = null)
         {
             bool ret = false;
             bool showMessage = true;
@@ -196,7 +202,7 @@ namespace IAFollowUp
                 case Action.Audit_Edit:
                     {
                         //Only Auditor1, 2, Supervisor can edit this audit
-                        if (UserInfo.userDetails.Id == auditor1 || UserInfo.userDetails.Id == auditor2 || UserInfo.userDetails.Id == supervisor)
+                        if (UserInfo.userDetails.Id == auditor1 || UserInfo.userDetails.Id == auditor2 || UserInfo.userDetails.Id == supervisor) // || UserInfo.roleDetails.IsAdmin
                         {
                             ret = true;
                         }
@@ -209,7 +215,7 @@ namespace IAFollowUp
                 case Action.Audit_Delete:
                     {
                         //Only Auditor1, 2, Supervisor can delete this audit
-                        if (UserInfo.userDetails.Id == auditor1 || UserInfo.userDetails.Id == auditor2 || UserInfo.userDetails.Id == supervisor)
+                        if (UserInfo.userDetails.Id == auditor1 || UserInfo.userDetails.Id == auditor2 || UserInfo.userDetails.Id == supervisor) // || UserInfo.roleDetails.IsAdmin
                         {
                             ret = true;
                         }
@@ -222,7 +228,7 @@ namespace IAFollowUp
                 case Action.Audit_Attach:
                     {
                         //Only Auditor1, 2, Supervisor can attach Audit Report
-                        if (UserInfo.userDetails.Id == auditor1 || UserInfo.userDetails.Id == auditor2 || UserInfo.userDetails.Id == supervisor)
+                        if (UserInfo.userDetails.Id == auditor1 || UserInfo.userDetails.Id == auditor2 || UserInfo.userDetails.Id == supervisor) // || UserInfo.roleDetails.IsAdmin
                         {
                             ret = true;
                         }
@@ -236,7 +242,34 @@ namespace IAFollowUp
                 case Action.Audit_Finalize:
                     {
                         //Only Auditor1, 2, Supervisor can finalize this audit
-                        if (UserInfo.userDetails.Id == auditor1 || UserInfo.userDetails.Id == auditor2 || UserInfo.userDetails.Id == supervisor)
+                        if (UserInfo.userDetails.Id == auditor1 || UserInfo.userDetails.Id == auditor2 || UserInfo.userDetails.Id == supervisor) // || UserInfo.roleDetails.IsAdmin
+                        {
+                            ret = true;
+                        }
+                        else
+                        {
+                            ret = false;
+                        }
+                        break;
+                    }
+
+                case Action.Header_Create:
+                    {
+                        //Only Auditor1, 2, Supervisor can create new header referring to this audit
+                        if (UserInfo.userDetails.Id == auditor1 || UserInfo.userDetails.Id == auditor2 || UserInfo.userDetails.Id == supervisor) // || UserInfo.roleDetails.IsAdmin
+                        {
+                            ret = true;
+                        }
+                        else
+                        {
+                            ret = false;
+                        }
+                        break;
+                    }
+                case Action.Header_View:
+                    {
+                        //Only Auditor1, 2, Supervisor - unpublished && All - published, can view new header referring to this audit
+                        if (UserInfo.userDetails.Id == auditor1 || UserInfo.userDetails.Id == auditor2 || UserInfo.userDetails.Id == supervisor || isPublished == true) // || UserInfo.roleDetails.IsAdmin
                         {
                             ret = true;
                         }

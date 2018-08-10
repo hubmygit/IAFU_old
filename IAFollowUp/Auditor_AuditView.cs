@@ -354,6 +354,32 @@ namespace IAFollowUp
             }
         }
 
+        public int getHeadersCntForThisAudit(int givenAuditId)
+        {
+            int ret = 0;
+            SqlConnection sqlConn = new SqlConnection(SqlDBInfo.connectionString);
+            string SelectSt = "SELECT count(*) AS cnt " +
+                              "FROM [dbo].[FiHeader] " +
+                              "WHERE AuditId = " + givenAuditId.ToString();
+            SqlCommand cmd = new SqlCommand(SelectSt, sqlConn);
+            try
+            {
+                sqlConn.Open();
+                SqlDataReader reader = cmd.ExecuteReader();
+                while (reader.Read())
+                {
+                    ret = Convert.ToInt32(reader["cnt"].ToString());
+                }
+                reader.Close();
+                sqlConn.Close();
+            }
+            catch (Exception ex)
+            {
+                MessageBox.Show("The following error occurred: " + ex.Message);
+            }
+            return ret;
+        }
+
         private void MIdelete_Click(object sender, EventArgs e)
         {
             if (dgvAuditView.SelectedRows.Count > 0)
@@ -367,6 +393,13 @@ namespace IAFollowUp
                 Audit thisAudit = auditList.Where(i => i.Id == Convert.ToInt32(dgvAuditView.SelectedRows[0].Cells["Id"].Value.ToString())).First();
                 if (!UserAction.IsLegal(Action.Audit_Delete, thisAudit.Auditor1ID, thisAudit.Auditor2ID, thisAudit.SupervisorID))
                 {
+                    return;
+                }
+
+                //Is there any FiHeader referring to this Audit
+                if (getHeadersCntForThisAudit(thisAudit.Id) > 0)
+                {
+                    MessageBox.Show("The audit has Findings/Improvements referring to this Audit!");
                     return;
                 }
 
@@ -486,7 +519,7 @@ namespace IAFollowUp
             int id = Convert.ToInt32(dgvAuditView.SelectedRows[0].Cells["Id"].Value.ToString());
 
             Audit thisAudit = auditList.Where(i => i.Id == id).First();
-            if (!UserAction.IsLegal(Action.Audit_Delete, thisAudit.Auditor1ID, thisAudit.Auditor2ID, thisAudit.SupervisorID))
+            if (!UserAction.IsLegal(Action.Audit_Finalize, thisAudit.Auditor1ID, thisAudit.Auditor2ID, thisAudit.SupervisorID))
             {
                 return;
             }
@@ -952,12 +985,12 @@ namespace IAFollowUp
         public int InsUserId { get; set; }
         public Users InsUser { get; set; }
         public DateTime InsDt { get; set; }
-
         public int UpdUserId { get; set; }
         public Users UpdUser { get; set; }
         public DateTime UpdDt { get; set; }
-
         public bool IsDeleted { get; set; }
+        
+        public bool IsPublished { get; set; }
 
         public FIHeader()
         {

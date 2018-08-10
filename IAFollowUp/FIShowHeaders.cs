@@ -376,7 +376,12 @@ namespace IAFollowUp
         private void btnNew_Click(object sender, EventArgs e)
         {
             //int AuditId = Convert.ToInt32(dgvAudits.SelectedRows[0].Cells["Id"].Value.ToString());
-            //Audit selectedAudit = auditList.Where(i => i.Id == AuditId).First();
+            //Audit thisAudit = auditList.Where(i => i.Id == AuditId).First();
+
+            if (!UserAction.IsLegal(Action.Header_Create, glAudit.Auditor1ID, glAudit.Auditor2ID, glAudit.SupervisorID))
+            {
+                return;
+            }
 
             FIHeaderEdit frmHeaderEdit = new FIHeaderEdit(glAudit);
             frmHeaderEdit.ShowDialog();
