@@ -15,7 +15,6 @@ namespace IAFollowUp
         public MainMenu()
         {
             InitializeComponent();
-            
         }
 
         public MainMenu(User LogInUser, Role LogInRole)
