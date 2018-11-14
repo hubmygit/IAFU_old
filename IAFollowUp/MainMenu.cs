@@ -25,8 +25,7 @@ namespace IAFollowUp
             role = LogInRole;
             
             UserAuth.ArrangeMenuItems(role, menuStrip);
-
-
+            
             tsStatusLblUser.Text = "User: " + UserInfo.userDetails.UserName + " - " + UserInfo.userDetails.FullName;
         }
 
