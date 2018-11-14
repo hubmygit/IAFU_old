@@ -150,6 +150,8 @@ namespace IAFollowUp
             {
                 WindowsUser = Environment.UserName; //get windows/domain logged in username
 
+                //System.DirectoryServices.AccountManagement.UserPrincipal.Current.IsAccountLockedOut();
+                
                 //EmailAddress = UserPrincipal.Current.EmailAddress;
                 if (EmailAddress == null) //if domain infos not found
                 {
@@ -387,7 +389,7 @@ namespace IAFollowUp
         {
             //default values
             string server = "DELIGEEL\\SQLEXPRESS";
-            string database = "IAFU";
+            string database = "IAFU_old";
             string username = "sa";
             string password = "motoroil";
             connectionString = "Persist Security Info=False; User ID=" + username + "; Password=" + password + "; Initial Catalog=" + database + "; Server=" + server;
